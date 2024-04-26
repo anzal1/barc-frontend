@@ -8,7 +8,7 @@ export const Navbar = ({
   path: string
 }) => {
   return (
-    <div className="flex justify-between items-center h-28 p-5 text-white bg-gradient-to-r from-white to-[#468CCC]">
+    <div className="flex justify-between items-center h-28 p-5 text-white bg-gradient-to-r from-white to-[#468CCC] sticky top-0">
       <img src="/assets/emblem.svg" className="w-60 h-16" alt="logo" />
       <div>
         {extras.map((extra, index) => (
