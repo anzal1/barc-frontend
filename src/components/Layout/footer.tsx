@@ -1,7 +1,14 @@
 import React from 'react'
 
-export const Footer = ({ isPathVisible }: { isPathVisible: boolean }) => {
+export const Footer = ({
+  footerContent
+}: {
+  footerContent: React.ReactNode
+}) => {
   return (
-    <div className="flex justify-center items-center h-16 text-white bg-gradient-to-r from-[#75CDFF] to-[#466BCC] sticky bottom-0"></div>
+    <footer className="flex justify-center items-center h-20 text-white bg-gradient-to-r from-[#75CDFF] to-[#466BCC]">
+      {footerContent}
+      <div className="flex justify-center items-center h-20 text-white bg-gradient-to-r from-[#75CDFF] to-[#466BCC] w-full"></div>
+    </footer>
   )
 }
