@@ -15,20 +15,20 @@ export const Dashboard = () => {
   }
 
   return (
-    <div className="flex justify-start items-start h-full w-full bg-white  px-6 py-8 gap-8 ">
-      <div className="flex flex-col gap-8 px-8 items-start justify-start w-[calc(100%-1078px)] h-[80vh]">
-        <div className="flex flex-col items-center justify-center bg-[#EEEEEE] shadow-lg w-full rounded-[20px] gap-8 h-[300px]">
-          <h2 className="text-4xl font-semibold ">Server</h2>
+    <div className="flex justify-start items-start h-full w-full bg-white  px-6 py-8 gap-4">
+      <div className="flex flex-col gap-4 items-start justify-start w-[calc(100%-1078px)] h-[80vh]">
+        <div className="flex flex-col items-center justify-center py-2 bg-[#EEEEEE] shadow-lg w-full rounded-[20px] gap-8 max-h-[208px]">
+          <h2 className="text-2xl font-semibold ">Server</h2>
           <div className="flex gap-4 w-full justify-center items-center relative">
             <img
               src="/assets/circles.png"
               alt="circles"
-              className="w-40 h-40"
+              className="w-32 h-32"
             />
             <img
               src="/assets/server.png"
               alt="server"
-              className="absolute z-50 h-28 w-28"
+              className="absolute z-50 h-24 w-24"
             />
           </div>
         </div>
@@ -45,10 +45,10 @@ export const Dashboard = () => {
               <p className="">Device Name: Device Name</p>
             </div>
             <div className="flex flex-col gap-2 w-full">
-              <button className="bg-white text-[#1C9FF6] px-4 py-2 rounded-[10px] w-full border-2 border-[#1C9FF6] text-2xl h-16">
+              <button className="bg-white text-[#1C9FF6] px-4 py-2 rounded-[10px] w-full border-2 border-[#1C9FF6] text-xl h-16">
                 Acknowledge
               </button>
-              <button className="bg-[#1C9FF6] text-white px-4 py-2 rounded-[10px] w-full text-2xl h-16">
+              <button className="bg-[#1C9FF6] text-white px-4 py-2 rounded-[10px] w-full text-xl h-16">
                 Show Live Activity
               </button>
             </div>
