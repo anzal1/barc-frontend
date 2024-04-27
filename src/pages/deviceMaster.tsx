@@ -3,7 +3,7 @@ import { CustomCard } from '../components/Card/card'
 import Modal from '../components/Modal/modal'
 
 export const DeviceMasterPage = () => {
-  const [showList, setShowList] = useState(false)
+  const [showList, setShowList] = useState(true)
   const [open, setOpen] = useState(false)
 
   const handleCancel = () => {
@@ -23,13 +23,13 @@ export const DeviceMasterPage = () => {
             <div className="flex gap-6">
               <img
                 src="/assets/list.svg"
-                className="w-10 h-10"
+                className="w-10 h-10 cursor-pointer"
                 alt="list"
                 onClick={handleShowList}
               />
               <img
                 src="/assets/cancel.svg"
-                className="w-10 h-10"
+                className="w-10 h-10 cursor-pointer"
                 alt="cancel"
                 onClick={handleCancel}
               />
@@ -48,7 +48,7 @@ export const DeviceMasterPage = () => {
             />
           </div>
           <div className="flex flex-col gap-1 items-start justify-start">
-            <label htmlFor="Serial Number">Serrial Number</label>
+            <label htmlFor="Serial Number">Serial Number</label>
             <input
               type="text"
               id="serialNumber"
@@ -125,7 +125,6 @@ export const DeviceMasterPage = () => {
       </CustomCard>
 
       <Modal open={open} onClose={() => setOpen(false)}>
-        {/* show one image five times */}
         <div className="grid grid-cols-5 gap-4  rounded-lg p-4 shadow-xl shadow-[#00000061]">
           {Array.from({ length: 15 }).map((_, index) => (
             <div className="relative">
