@@ -102,7 +102,7 @@ const DeviceMasterList = () => {
         { key: 'imgLocation', title: 'Img Location' },
         {
           key: 'actions',
-          title: '',
+          title: 'Action',
           render: (currentRow) => (
             <div className="flex items-center justify-center gap-4">
               <button onClick={() => handleEdit(currentRow)}>Edit</button>

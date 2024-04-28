@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { CustomCard } from '../components/Card/card'
 import Modal from '../components/Modal/modal'
+import TextInput from '../components/Input'
 
 export const DeviceMasterPage = () => {
   const [showList, setShowList] = useState(true)
@@ -38,86 +39,30 @@ export const DeviceMasterPage = () => {
         }
       >
         <form className="mx-auto grid grid-cols-2 gap-x-8 gap-y-8 max-w-4xl">
-          <div className="flex flex-col gap-1 items-start justify-start">
-            <label htmlFor="Device Name">Device Name</label>
-            <input
-              type="text"
-              id="deviceName"
-              name="deviceName"
-              className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg p-4 shadow-xl shadow-[#00000061]"
-            />
-          </div>
-          <div className="flex flex-col gap-1 items-start justify-start">
-            <label htmlFor="Serial Number">Serial Number</label>
-            <input
-              type="text"
-              id="serialNumber"
-              name="serialNumber"
-              className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg p-4 shadow-xl shadow-[#00000061]"
-            />
-          </div>{' '}
-          <div className="flex flex-col gap-1 items-start justify-start">
-            <label htmlFor="Device Ip">Device Ip</label>
-            <input
-              type="text"
-              id="deviceIp"
-              name="deviceIp"
-              className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg p-4 shadow-xl shadow-[#00000061]"
-            />
-          </div>{' '}
-          <div className="flex flex-col gap-1 items-start justify-start">
-            <label htmlFor="Device Location">Device Location</label>
-            <input
-              type="text"
-              id="deviceLocation"
-              name="deviceLocation"
-              className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg p-4 shadow-xl shadow-[#00000061]"
-            />
-          </div>{' '}
-          <div className="flex flex-col gap-1 items-start justify-start">
-            <label htmlFor="RSTP Link">RSTP Link</label>
-            <input
-              type="text"
-              id="rstpLink"
-              name="rstpLink"
-              className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg p-4 shadow-xl shadow-[#00000061]"
-            />
-          </div>{' '}
-          <div className="flex flex-col gap-1 items-start justify-start">
-            <label htmlFor="Device Port">Device Port</label>
-            <input
-              type="text"
-              id="devicePort"
-              name="devicePort"
-              className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg p-4 shadow-xl shadow-[#00000061]"
-            />
-          </div>{' '}
-          <div className="flex flex-col gap-1 items-start justify-start">
-            <label htmlFor="Device Status">Device Status</label>
-            <input
-              type="text"
-              id="deviceStatus"
-              name="deviceStatus"
-              placeholder="Device Status is read only"
-              className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg p-4 shadow-xl shadow-[#00000061]"
-            />
-          </div>
+          <TextInput name="deviceName" label="Device Name" />
+          <TextInput name="serialNumber" label="Serial Number" />
+          <TextInput name="deviceIp" label="Device IP" />
+          <TextInput name="deviceLocation" label="Device Location" />
+          <TextInput name="rstpLink" label="RSTP Link" />
+          <TextInput name="devicePort" label="Device Port" />
+          <TextInput name="deviceStatus" label="Device Status" />
+
           <div className="flex flex-col  gap-1">
             <label htmlFor="Set Image Location">Set Image Location</label>
             <div className="flex  gap-4">
               <input
                 type="text"
                 id="xValue"
-                name="xValue"
+                name=""
                 placeholder="X Value"
-                className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg p-4 shadow-xl shadow-[#00000061]"
+                className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg p-4 shadow-md shadow-[#00000061]"
               />
               <input
                 type="text"
                 id="yValue"
                 name="yValue"
                 placeholder="Y Value"
-                className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg p-4 shadow-xl shadow-[#00000061]"
+                className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg p-4 shadow-md shadow-[#00000061]"
               />
             </div>
           </div>
