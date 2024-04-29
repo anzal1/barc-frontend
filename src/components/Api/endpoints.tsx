@@ -19,17 +19,18 @@ export const loginUser = ({
   User_Name: string
   Password: string
 }): Promise<unknown> =>
-  apiClient('/api/login/CheckUsercredentials', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'storefront-token': `${localStorage.getItem('storeToken')}`
-    },
-    body: JSON.stringify({
-      User_Name,
-      Password
-    })
-  })
+  apiClient(
+    '/api/login/CheckUsercredentials?User_Name=' +
+      User_Name +
+      '&Password=' +
+      Password,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  )
 
 export const createJWT = ({
   User_Name,
@@ -38,14 +39,12 @@ export const createJWT = ({
   User_Name: string
   Password: string
 }): Promise<unknown> =>
-  apiClient('/api/login/JWTToken', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'storefront-token': `${localStorage.getItem('storeToken')}`
-    },
-    body: JSON.stringify({
-      User_Name,
-      Password
-    })
-  })
+  apiClient(
+    '/api/login/JWTToken?User_Name=' + User_Name + '&Password=' + Password,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  )
