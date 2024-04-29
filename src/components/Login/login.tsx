@@ -47,7 +47,8 @@ export const Login = () => {
               navigate('/')
             },
             onError(error: any) {
-              console.log(error)
+              toast.error('An error occured!')
+              console.log(error.message)
             }
           })
         } else {
