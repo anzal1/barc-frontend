@@ -40,7 +40,7 @@ export const createJWT = ({
   Password: string
 }): Promise<unknown> =>
   apiClient(
-    '/api/login/JWTToken?User_Name=' + User_Name + '&Password=' + Password,
+    '/api/login/JWTToken?Username=' + User_Name + '&Password=' + Password,
     {
       method: 'POST',
       headers: {
