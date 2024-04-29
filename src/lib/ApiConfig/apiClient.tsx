@@ -54,7 +54,7 @@ const getApiClient =
       .catch(errorHandler)
 
 export const apiClient = getApiClient({
-  baseURL: '', // Add your base url here
+  baseURL: import.meta.env.VITE_API_BASE_URL as string,
   sucessHandler: defaultSuccessHandler,
   errorHandler: defaultErrorHandler
 })

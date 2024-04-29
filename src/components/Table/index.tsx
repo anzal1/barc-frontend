@@ -72,7 +72,7 @@ const Table = <T = TableDefaultDocType,>(props: TableProps<T>) => {
                   >
                     {column.render
                       ? column.render(row, props.data, rowIndex)
-                      : row[column.key]}
+                      : row[column?.key as keyof T]}
                   </td>
                 ))}
               </tr>
