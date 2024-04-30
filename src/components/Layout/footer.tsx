@@ -6,9 +6,10 @@ export const Footer = ({
   footerContent: React.ReactNode
 }) => {
   return (
-    <footer className="flex justify-center items-center h-20 text-white bg-gradient-to-r from-[#75CDFF] to-[#466BCC]">
-      {footerContent}
-      <div className="flex justify-center items-center h-20 text-white bg-gradient-to-r from-[#75CDFF] to-[#466BCC] w-full"></div>
+    <footer>
+      <div className="bg-gradient-to-r from-[#75CDFF] to-[#466BCC] flex justify-end items-center px-10 h-20 text-bold text-xl  w-full">
+        {footerContent}
+      </div>
     </footer>
   )
 }
