@@ -12,13 +12,15 @@ For employee save and update
 For device master
 */
 
+export type LoginBody = {
+  User_Name: string
+  Password: string
+}
+
 export const loginUser = ({
   User_Name,
   Password
-}: {
-  User_Name: string
-  Password: string
-}): Promise<unknown> =>
+}: LoginBody): Promise<unknown> =>
   apiClient(
     '/api/login/CheckUsercredentials?User_Name=' +
       User_Name +
@@ -35,10 +37,7 @@ export const loginUser = ({
 export const createJWT = ({
   User_Name,
   Password
-}: {
-  User_Name: string
-  Password: string
-}): Promise<unknown> =>
+}: LoginBody): Promise<unknown> =>
   apiClient(
     '/api/login/JWTToken?Username=' + User_Name + '&Password=' + Password,
     {
@@ -48,3 +47,25 @@ export const createJWT = ({
       }
     }
   )
+
+export type CreateDeviceMasterBody = {
+  deviceName?: string
+  serialNumber?: string
+  deviceIp?: string
+  deviceLocation?: string
+  rstpLink?: string
+  devicePort?: string
+  deviceStatus?: string
+  xValue?: string
+  yValue?: string
+}
+export const createDeviceMaster = (
+  body: CreateDeviceMasterBody
+): Promise<unknown> =>
+  apiClient('/api/DeviceMaster/SaveDeviceMaster', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  })

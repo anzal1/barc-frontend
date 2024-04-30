@@ -1,9 +1,10 @@
 import * as ENDPOINTS from './endpoints'
-import { useQuery, useMutation } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 
 export const QUERY_KEYS = {
   loginUser: 'loginUser',
-  createJwt: 'createJwt'
+  createJwt: 'createJwt',
+  createDeviceMaster: 'createDeviceMaster'
 }
 
 export const useLoginUserMutation = () => {
@@ -17,5 +18,12 @@ export const useCreateJWTMutation = () => {
   return useMutation({
     mutationKey: [QUERY_KEYS.createJwt],
     mutationFn: ENDPOINTS.createJWT
+  })
+}
+
+export const useCreateDeviceMasterMutation = () => {
+  return useMutation({
+    mutationKey: [QUERY_KEYS.createDeviceMaster],
+    mutationFn: ENDPOINTS.createDeviceMaster
   })
 }

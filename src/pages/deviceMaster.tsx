@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
-import { CustomCard } from '../components/Card/card'
-import Modal from '../components/Modal/modal'
+
 import TextInput from '../components/Input'
+import Modal from '../components/Modal/modal'
+import { CustomCard } from '../components/Card/card'
 
 export const DeviceMasterPage = () => {
   const [showList, setShowList] = useState(true)
   const [open, setOpen] = useState(false)
+  // const {} =
 
   const handleCancel = () => {
     console.log('cancel')
@@ -13,6 +15,17 @@ export const DeviceMasterPage = () => {
 
   const handleShowList = () => {
     setShowList(!showList)
+  }
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const formData = Object.fromEntries(
+      new FormData(e.target as HTMLFormElement).entries()
+    )
+
+    console.log(formData)
+    // handle form data: send to api to register device
   }
 
   return (
@@ -38,7 +51,10 @@ export const DeviceMasterPage = () => {
           </div>
         }
       >
-        <form className="mx-auto grid grid-cols-2 gap-x-8 gap-y-8 max-w-4xl">
+        <form
+          className="mx-auto grid grid-cols-2 gap-x-8 gap-y-8 max-w-4xl"
+          onSubmit={handleSubmit}
+        >
           <TextInput name="deviceName" label="Device Name" />
           <TextInput name="serialNumber" label="Serial Number" />
           <TextInput name="deviceIp" label="Device IP" />
@@ -53,7 +69,7 @@ export const DeviceMasterPage = () => {
               <input
                 type="text"
                 id="xValue"
-                name=""
+                name="xValue"
                 placeholder="X Value"
                 className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg p-4 shadow-md shadow-[#00000061]"
               />
@@ -65,6 +81,17 @@ export const DeviceMasterPage = () => {
                 className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg p-4 shadow-md shadow-[#00000061]"
               />
             </div>
+          </div>
+          <div className="flex gap-4 items-center">
+            <button className="px-8 py-[10px] rounded-lg font-bold border-2 border-[#1C9FF6] shadow-md shadow-[#00000061]">
+              Reset
+            </button>
+            <button
+              type="submit"
+              className="px-8 py-3 bg-[#1C9FF6] rounded-lg text-white font-bold shadow-md shadow-[#00000061]"
+            >
+              Save
+            </button>
           </div>
         </form>
       </CustomCard>
