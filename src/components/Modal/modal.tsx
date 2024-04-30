@@ -1,28 +1,35 @@
+import { twMerge } from 'tailwind-merge'
+
 export default function Modal({
   open,
+  type = 'fixed',
   onClose,
-  children
+  children,
+  modalStyle = ''
 }: {
+  type: 'fixed' | 'absolute' | 'relative'
   open: boolean
   onClose: () => void
   children: React.ReactNode
+  modalStyle?: string
 }) {
   return (
     // backdrop
     <div
       onClick={onClose}
-      className={`
-        fixed inset-0 flex justify-center items-center transition-colors w-full h-full
-        ${open ? 'visible bg-black/70' : 'invisible'}
-      `}
+      className={twMerge(`
+        ${type} inset-0 flex justify-center items-center transition-colors w-full h-full rounded-xl
+        ${open ? 'visible bg-black/50' : 'invisible'}
+      `)}
     >
       {/* modal */}
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`
-         rounded-xl shadow p-6 transition-all h-full w-full py-24 px-12 
-          ${open ? 'scale-100 opacity-100' : 'scale-125 opacity-0'}
-        `}
+        className={twMerge(`
+         rounded-xl shadow p-6 transition-all h-full w-full 
+          
+          ${modalStyle}
+        `)}
       >
         {children}
       </div>
