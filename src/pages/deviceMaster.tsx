@@ -1,14 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import TextInput from '../components/Input'
-import Modal from '../components/Modal/modal'
+
 import { CustomCard } from '../components/Card/card'
 import Layout from '../components/Layout/layout'
 import { NavType } from '../enums/navtype'
 import { useNavigate } from 'react-router-dom'
 
 export const DeviceMasterPage = () => {
-  const [open, setOpen] = useState(false)
   const navigate = useNavigate()
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -90,23 +89,6 @@ export const DeviceMasterPage = () => {
             </div>
           </form>
         </CustomCard>
-
-        <Modal open={open} onClose={() => setOpen(false)}>
-          <div className="grid grid-cols-5 gap-4  rounded-lg p-4 shadow-xl shadow-[#00000061]">
-            {Array.from({ length: 15 }).map((_, index) => (
-              <div className="relative">
-                <img
-                  src="/assets/image.png"
-                  alt="image"
-                  className="w-full h-full"
-                />
-                <div className="absolute -top-5 -right-5">
-                  <img src="/assets/cancel.svg" alt="cancel" />
-                </div>
-              </div>
-            ))}
-          </div>
-        </Modal>
       </div>
     </Layout>
   )
