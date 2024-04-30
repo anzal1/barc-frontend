@@ -78,7 +78,7 @@ export const Dashboard = () => {
         </div>
       </div>
       <div
-        className="h-[776px]  w-[1078px]  rounded-[20px] p-0 relative"
+        className="h-[776px]  w-[1078px]  rounded-[20px] p-0 overflow-hidden relative"
         style={{
           background: `url('/assets/map.png')`,
           backgroundSize: 'cover',
@@ -88,7 +88,9 @@ export const Dashboard = () => {
       >
         {data?.map((point) => (
           <img
+            key={point.x}
             onClick={() => {
+              console.log(point)
               setCurrentPoint(point)
               setOpen(!open)
             }}
@@ -96,9 +98,8 @@ export const Dashboard = () => {
             alt="circle"
             className="absolute cursor-pointer animate-pulse"
             style={{
-              left: `${point.x}px`,
               top: `${point.y}px`,
-              fill: point.color
+              left: `${point.x}px`
             }}
           />
         ))}
@@ -106,8 +107,12 @@ export const Dashboard = () => {
           <div
             className="flex flex-col gap-6 max-w-xs relative bg-white border-1-[#1C9FF6] border-2 rounded-[10px] p-4 shadow-lg"
             style={{
-              top: `${currentPoint.y - 5}px`,
-              left: `${currentPoint.x - 5}px`
+              top: `${
+                currentPoint.y > 500 ? currentPoint.y - 225 : currentPoint.y
+              }px`,
+              left: `${
+                currentPoint.x > 700 ? currentPoint.x - 300 : currentPoint.x
+              }px`
             }}
           >
             <img

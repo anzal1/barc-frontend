@@ -109,7 +109,14 @@ const EmployeeMasterPage = () => {
               />
             </div>
             <div className="flex gap-4 items-center mt-16">
-              <button className="px-8 py-[10px] rounded-lg font-bold border-2 border-[#1C9FF6] shadow-md shadow-[#00000061]">
+              <button
+                className="px-8 py-[10px] rounded-lg font-bold border-2 border-[#1C9FF6] shadow-md shadow-[#00000061]"
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  ;(e.target as HTMLButtonElement).form?.reset()
+                }}
+              >
                 Reset
               </button>
               <button
