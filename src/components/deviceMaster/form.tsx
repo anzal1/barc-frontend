@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 
 export type DeviceMasterFormProps = {
   editData?: CreateDeviceMasterBody
+  extraButton?: React.ReactNode
 }
 
 const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
@@ -30,7 +31,7 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
     } as CreateDeviceMasterBody
 
     createEditDeviceMasterFn(
-      { data, isEdit: false },
+      { data, isEdit: !!props.editData },
       {
         onSuccess(data: any) {
           toast.success('Device Master created successfully!')
@@ -44,108 +45,113 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
     )
   }
 
+  const handleReset = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    ;(e.target as HTMLButtonElement).form?.reset()
+  }
+
   return (
-    <form
-      className="mx-auto grid grid-cols-2 gap-x-8 gap-y-8 max-w-4xl"
-      onSubmit={handleSubmit}
-    >
-      <TextInput
-        type="number"
-        disabled={isPending}
-        value={props.editData?.DeviceID}
-        required
-        name="DeviceID"
-        label="Device ID"
-      />
-      <TextInput
-        disabled={isPending}
-        value={props.editData?.DeviceNumber}
-        required
-        name="DeviceNumber"
-        label="Device Number"
-      />
-      <TextInput
-        disabled={isPending}
-        value={props.editData?.DeviceName}
-        required
-        name="DeviceName"
-        label="Device Name"
-      />
-      <TextInput
-        disabled={isPending}
-        value={props.editData?.Location}
-        required
-        name="Location"
-        label="Device Location"
-      />
-      <TextInput
-        type="number"
-        disabled={isPending}
-        value={props.editData?.BranchID}
-        required
-        name="BranchID"
-        label="Branch ID"
-      />
-      <TextInput
-        disabled={isPending}
-        value={props.editData?.DeviceIp}
-        required
-        name="DeviceIp"
-        label="Device IP"
-      />
-      <TextInput
-        type="number"
-        disabled={isPending}
-        value={props.editData?.SerialNo}
-        required
-        name="SerialNo"
-        label="Serial Number"
-      />
-      <TextInput
-        type="number"
-        disabled={isPending}
-        value={props.editData?.PortNo}
-        required
-        name="PortNo"
-        label="Port Number"
-      />
-      <TextInput
-        type="number"
-        disabled={isPending}
-        value={props.editData?.MacID}
-        required
-        name="MacID"
-        label="Mac ID"
-      />
-      <TextInput
-        disabled={isPending}
-        value={props.editData?.UserID}
-        required
-        name="UserID"
-        label="User ID"
-      />
-      <TextInput
-        disabled={isPending}
-        value={props.editData?.BranchName}
-        required
-        name="BranchName"
-        label="Branch Name"
-      />
-      <TextInput
-        type="number"
-        disabled={isPending}
-        value={props.editData?.RTSP}
-        required
-        name="RTSP"
-        label="RTSP"
-      />
-      <TextInput
-        disabled={isPending}
-        value={props.editData?.status}
-        required
-        name="status"
-        label="Device Status"
-      />
+    <form className="mx-auto max-w-4xl" onSubmit={handleSubmit}>
+      <div className="grid grid-cols-2 gap-x-8 gap-y-8 mb-4">
+        <TextInput
+          type="number"
+          disabled={isPending}
+          value={props.editData?.DeviceID}
+          required
+          name="DeviceID"
+          label="Device ID"
+        />
+        <TextInput
+          disabled={isPending}
+          value={props.editData?.DeviceNumber}
+          required
+          name="DeviceNumber"
+          label="Device Number"
+        />
+        <TextInput
+          disabled={isPending}
+          value={props.editData?.DeviceName}
+          required
+          name="DeviceName"
+          label="Device Name"
+        />
+        <TextInput
+          disabled={isPending}
+          value={props.editData?.Location}
+          required
+          name="Location"
+          label="Device Location"
+        />
+        <TextInput
+          type="number"
+          disabled={isPending}
+          value={props.editData?.BranchID}
+          required
+          name="BranchID"
+          label="Branch ID"
+        />
+        <TextInput
+          disabled={isPending}
+          value={props.editData?.DeviceIp}
+          required
+          name="DeviceIp"
+          label="Device IP"
+        />
+        <TextInput
+          type="number"
+          disabled={isPending}
+          value={props.editData?.SerialNo}
+          required
+          name="SerialNo"
+          label="Serial Number"
+        />
+        <TextInput
+          type="number"
+          disabled={isPending}
+          value={props.editData?.PortNo}
+          required
+          name="PortNo"
+          label="Port Number"
+        />
+        <TextInput
+          type="number"
+          disabled={isPending}
+          value={props.editData?.MacID}
+          required
+          name="MacID"
+          label="Mac ID"
+        />
+        <TextInput
+          disabled={isPending}
+          value={props.editData?.UserID}
+          required
+          name="UserID"
+          label="User ID"
+        />
+        <TextInput
+          disabled={isPending}
+          value={props.editData?.BranchName}
+          required
+          name="BranchName"
+          label="Branch Name"
+        />
+        <TextInput
+          type="number"
+          disabled={isPending}
+          value={props.editData?.RTSP}
+          required
+          name="RTSP"
+          label="RTSP"
+        />
+        <TextInput
+          disabled={isPending}
+          value={props.editData?.status}
+          required
+          name="status"
+          label="Device Status"
+        />
+      </div>
 
       {/* <div className="flex flex-col  gap-1">
               <label htmlFor="Set Image Location">Set Image Location</label>
@@ -168,25 +174,24 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
             </div> */}
       <br />
 
-      <div className="flex gap-4 items-center">
-        <button
-          disabled={isPending}
-          className="px-8 py-[10px] rounded-lg font-bold border-2 border-[#1C9FF6] shadow-md shadow-[#00000061] cursor-pointer"
-          onClick={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-            ;(e.target as HTMLButtonElement).form?.reset()
-          }}
-        >
-          Reset
-        </button>
-        <button
-          disabled={isPending}
-          type="submit"
-          className="px-8 py-3 bg-[#1C9FF6] rounded-lg text-white font-bold shadow-md shadow-[#00000061] cursor-pointer"
-        >
-          Save
-        </button>
+      <div className="flex gap-4 items-center justify-between">
+        <div className="flex gap-4 items-center">
+          <button
+            disabled={isPending}
+            className="px-8 py-[10px] rounded-lg font-bold border-2 border-[#1C9FF6] shadow-md shadow-[#00000061] cursor-pointer"
+            onClick={handleReset}
+          >
+            Reset
+          </button>
+          <button
+            disabled={isPending}
+            type="submit"
+            className="px-8 py-3 bg-[#1C9FF6] rounded-lg text-white font-bold shadow-md shadow-[#00000061] cursor-pointer"
+          >
+            Save
+          </button>
+        </div>
+        <div className="flex gap-4 items-center">{props.extraButton}</div>
       </div>
     </form>
   )

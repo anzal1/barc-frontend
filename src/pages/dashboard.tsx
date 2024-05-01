@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom'
 
 export const DashboardPage = () => {
   const navigate = useNavigate()
-  const [showList, setShowList] = useState(false)
   const [showAvatar, setShowAvatar] = useState(false)
 
   return (

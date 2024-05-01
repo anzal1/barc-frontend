@@ -30,14 +30,14 @@ export const useCreateOrEditDeviceMasterMutation = () => {
   })
 }
 
-export const deleteDeviceMasterMutation = () => {
+export const useDeleteDeviceMasterMutation = () => {
   return useMutation({
     mutationKey: [QUERY_KEYS.deleteDeviceMaster],
     mutationFn: ENDPOINTS.deleteDeviceMaster
   })
 }
 
-export const getDeviceMasterListQuery = () => {
+export const useGetDeviceMasterListQuery = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.getDeviceMasterList],
     queryFn: ENDPOINTS.getDeviceMasterList

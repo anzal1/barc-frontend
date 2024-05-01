@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import Modal from '../Modal/modal'
 
-const colors = ['red', 'orange', 'green']
+// const colors = ['red', 'orange', 'green']
+
 const data = [
   { x: 337, y: 513, color: 'red' },
   { x: 78, y: 516, color: 'green' },
@@ -24,6 +25,7 @@ const data = [
   { x: 579, y: 65, color: 'green' },
   { x: 986, y: 183, color: 'orange' }
 ]
+
 export const Dashboard = () => {
   const [open, setOpen] = useState(false)
   const [imageModal, setImageModal] = useState(false)

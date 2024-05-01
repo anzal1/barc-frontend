@@ -13,21 +13,19 @@ export default function Modal({
   children: React.ReactNode
   modalStyle?: string
 }) {
+  if (!open) return null
+
   return (
-    // backdrop
     <div
       onClick={onClose}
       className={twMerge(`
-        ${type} inset-0 flex justify-center items-center transition-colors w-full h-full rounded-xl
-        ${open ? 'visible bg-black/50' : 'invisible'}
+        ${type} inset-0 flex justify-center items-center transition-colors w-full h-full rounded-xl bg-black/50
       `)}
     >
-      {/* modal */}
       <div
         onClick={(e) => e.stopPropagation()}
         className={twMerge(`
          rounded-xl shadow p-6 transition-all h-full w-full 
-          
           ${modalStyle}
         `)}
       >

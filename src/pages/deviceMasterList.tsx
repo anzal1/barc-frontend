@@ -3,30 +3,58 @@ import { CustomCard } from '../components/Card/card'
 import Layout from '../components/Layout/layout'
 import Table from '../components/Table'
 import { NavType } from '../enums/navtype'
-import { getDeviceMasterListQuery } from '../components/Api'
+import { useGetDeviceMasterListQuery } from '../components/Api'
+import { CreateDeviceMasterBody } from '../components/Api/endpoints'
+import React, { useState } from 'react'
+import DeviceMasterForm from '../components/deviceMaster/form'
+import Modal from '../components/Modal/modal'
 
 type DeviceMasterType = {
+  branchID: number
+  branchName: string
+  deviceID: number
+  deviceIp: string
   deviceName: string
-  serialNumber: string
-  deviceIP: string
-  deviceLocation: string
-  rtspLink: string
-  devicePort: number
-  deviceStatus: string
-  imgLocation: string
+  deviceNumber: string
+  location: string
+  macID: string
+  portNo: string
+  rtsp: any
+  serialNo: any
+  status: any
+  userID: any
+  x_value: string | number
+  y_value: string | number
 }
 
 const DeviceMasterList = () => {
-  const { data, isPending } = getDeviceMasterListQuery()
-  console.log(data)
-  // /Device/GetDeviceDetails?branchid=1
+  const { data, isPending } = useGetDeviceMasterListQuery()
+  const [deleteDeviceId, setDeleteDeviceId] = useState<number | null>(null)
+  const [editData, setEditData] = React.useState<CreateDeviceMasterBody | null>(
+    null
+  )
 
   const handleEdit = (currentRow: DeviceMasterType) => {
-    console.log('handleEdit called', currentRow)
+    const editData: CreateDeviceMasterBody = {
+      BranchID: currentRow.branchID,
+      BranchName: currentRow.branchName,
+      DeviceID: currentRow.deviceID,
+      DeviceIp: currentRow.deviceIp,
+      DeviceName: currentRow.deviceName,
+      DeviceNumber: currentRow.deviceName,
+      Location: currentRow.location,
+      MacID: currentRow.macID,
+      PortNo: currentRow.portNo,
+      RTSP: currentRow.rtsp,
+      SerialNo: currentRow.serialNo,
+      status: currentRow.status,
+      UserID: currentRow.userID
+    }
+    setEditData(editData)
   }
 
   const handleDelete = (currentRow: DeviceMasterType) => {
-    console.log('handleDelete called', currentRow)
+    //
   }
 
   const navigate = useNavigate()
@@ -49,45 +77,72 @@ const DeviceMasterList = () => {
             </div>
           }
         >
+          <Modal
+            open={!!deleteDeviceId}
+            onClose={() => setDeleteDeviceId(null)}
+            type="fixed"
+            modalStyle="w-80 h-80"
+          >
+            <div className="flex flex-col gap-6 max-w-xs bg-white border-1-[#1C9FF6] border-2 rounded-[10px] p-4 shadow-lg">
+              {JSON.stringify({ deviceID: deleteDeviceId })}
+            </div>
+          </Modal>
+
           {!isPending ? (
-            <Table<DeviceMasterType>
-              columns={[
-                {
-                  key: 'Sl.No.',
-                  title: 'ID',
-                  render: (_, __, t) => `${t + 1}`
-                },
-                { key: 'deviceName', title: 'Device Name' },
-                { key: 'serialNumber', title: 'Serial Number' },
-                { key: 'deviceIP', title: 'Device IP' },
-                { key: 'deviceLocation', title: 'Device Location' },
-                { key: 'rtspLink', title: 'RSTP Link' },
-                { key: 'devicePort', title: 'Device Port' },
-                { key: 'deviceStatus', title: 'Device Status' },
-                { key: 'imgLocation', title: 'Img Location' },
-                {
-                  key: 'actions',
-                  title: 'Action',
-                  render: (currentRow) => (
-                    <div className="flex items-center justify-center gap-4">
-                      <img
-                        src="/assets/edit.svg"
-                        className="cursor-pointer"
-                        onClick={() => handleEdit(currentRow)}
-                        alt="edit"
-                      />
-                      <img
-                        className="cursor-pointer"
-                        onClick={() => handleDelete(currentRow)}
-                        src="/assets/delete.svg"
-                        alt="delete"
-                      />
-                    </div>
-                  )
+            editData ? (
+              <DeviceMasterForm
+                editData={editData}
+                extraButton={
+                  <button
+                    onClick={() => setEditData(null)}
+                    className="px-8 py-[10px] rounded-lg font-bold border-2 border-[#1C9FF6] shadow-md shadow-[#00000061] cursor-pointer"
+                  >
+                    Cancel
+                  </button>
                 }
-              ]}
-              data={data as any}
-            />
+              />
+            ) : (
+              <Table<DeviceMasterType>
+                columns={[
+                  {
+                    key: 'Sl.No.',
+                    title: 'ID',
+                    render: (_, __, t) => `${t + 1}`
+                  },
+                  { key: 'deviceName', title: 'Device Name' },
+                  { key: 'serialNo', title: 'Serial Number' },
+                  { key: 'branchID', title: 'Branch ID' },
+                  { key: 'deviceID', title: 'Device ID' },
+                  { key: 'deviceNumber', title: 'Device Number' },
+                  { key: 'location', title: 'Device Location' },
+                  { key: 'macID', title: 'MAC ID' },
+                  { key: 'rtsp', title: 'RSTP Link' },
+                  { key: 'portNo', title: 'Device Port' },
+                  { key: 'status', title: 'Device Status' },
+                  {
+                    key: 'actions',
+                    title: 'Action',
+                    render: (currentRow) => (
+                      <div className="flex items-center justify-center gap-4">
+                        <img
+                          src="/assets/edit.svg"
+                          className="cursor-pointer"
+                          onClick={() => handleEdit(currentRow)}
+                          alt="edit"
+                        />
+                        <img
+                          className="cursor-pointer"
+                          onClick={() => setDeleteDeviceId(currentRow.deviceID)}
+                          src="/assets/delete.svg"
+                          alt="delete"
+                        />
+                      </div>
+                    )
+                  }
+                ]}
+                data={data as any}
+              />
+            )
           ) : null}
         </CustomCard>
       </div>
