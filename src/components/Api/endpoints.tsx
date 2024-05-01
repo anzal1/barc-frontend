@@ -146,3 +146,21 @@ export const createOrEditEmployeeMaster = (body: {
     }
   )
 }
+
+export const getRoleDetails = (): Promise<unknown> =>
+  apiClient(`/api/Employee/GetRoleDeatils`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + localStorage.getItem('userToken')
+    }
+  })
+
+export const getRoleList = (): Promise<unknown> =>
+  apiClient(`/api/login/GetRoleList`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + localStorage.getItem('userToken')
+    }
+  })

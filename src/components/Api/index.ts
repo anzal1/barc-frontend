@@ -10,7 +10,10 @@ export const QUERY_KEYS = {
 
   getEmployeeMasterList: 'getEmployeeMasterList',
   createOrEditEmployeeMaster: 'createOrEditEmployeeMaster',
-  deleteEmployeeMaster: 'deleteEmployeeMaster'
+  deleteEmployeeMaster: 'deleteEmployeeMaster',
+
+  getRoleDetails: 'getRoleDetails',
+  getRoleList: 'getRoleList'
 }
 
 export const useLoginUserMutation = () => {
@@ -74,5 +77,19 @@ export const useCreateOrEditEmployeeMasterMutation = () => {
   return useMutation({
     mutationKey: [QUERY_KEYS.createOrEditEmployeeMaster],
     mutationFn: ENDPOINTS.createOrEditEmployeeMaster
+  })
+}
+
+export const useGetRoleDetailsMuation = () => {
+  return useMutation({
+    mutationKey: [QUERY_KEYS.getRoleDetails],
+    mutationFn: ENDPOINTS.getRoleDetails
+  })
+}
+
+export const useGetRoleListMutation = () => {
+  return useMutation({
+    mutationKey: [QUERY_KEYS.getRoleList],
+    mutationFn: ENDPOINTS.getRoleList
   })
 }
