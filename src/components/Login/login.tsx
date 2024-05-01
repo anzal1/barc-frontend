@@ -35,6 +35,7 @@ export const Login = () => {
           createJWTFn(loginData, {
             onSuccess(data: any) {
               localStorage.setItem('userToken', data?.token)
+              localStorage.setItem('user', JSON.stringify(data))
               setUserState((prev) => {
                 return {
                   ...prev,

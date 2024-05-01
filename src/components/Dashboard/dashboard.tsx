@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import Modal from '../Modal/modal'
 
-// const colors = ['red', 'orange', 'green']
-
 const data = [
   { x: 337, y: 513, color: 'red' },
   { x: 78, y: 516, color: 'green' },
@@ -92,13 +90,12 @@ export const Dashboard = () => {
           <img
             key={point.x}
             onClick={() => {
-              console.log(point)
               setCurrentPoint(point)
               setOpen(!open)
             }}
             src={`/assets/${point?.color}Dot.svg`}
             alt="circle"
-            className="absolute cursor-pointer animate-pulse"
+            className="absolute cursor-pointer"
             style={{
               top: `${point.y}px`,
               left: `${point.x}px`
