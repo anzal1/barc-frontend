@@ -49,23 +49,43 @@ export const createJWT = ({
   )
 
 export type CreateDeviceMasterBody = {
-  deviceName?: string
-  serialNumber?: string
-  deviceIp?: string
-  deviceLocation?: string
-  rstpLink?: string
-  devicePort?: string
-  deviceStatus?: string
-  xValue?: string
-  yValue?: string
+  DeviceID: number
+  DeviceNumber: string
+  DeviceName: string
+  Location: string
+  BranchID: number
+  DeviceIp: string
+  SerialNo: string
+  PortNo: string
+  MacID: string
+  UserID: string
+  BranchName: string
+  RTSP: string
+  status: string
 }
-export const createDeviceMaster = (
-  body: CreateDeviceMasterBody
-): Promise<unknown> =>
-  apiClient('/api/DeviceMaster/SaveDeviceMaster', {
+
+export const createOrEditDeviceMaster = (body: {
+  data: CreateDeviceMasterBody
+  isEdit: boolean
+}): Promise<unknown> =>
+  apiClient(
+    body.isEdit
+      ? '/api/Device/UpdateDeviceEntry'
+      : '/api/Device/InsertDeviceEntry',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body.data)
+    }
+  )
+
+export const deleteDeviceMaster = (deviceId: string | number) =>
+  apiClient('/api/Device/DeleteDeviceEntry', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify({ DeviceID: deviceId })
   })

@@ -17,9 +17,10 @@ const Layout = ({
   footerContent?: React.ReactNode
 }) => {
   return (
-    <div className="flex flex-col w-full h-screen bg-[#C1C1C1]">
+    <div className="flex flex-col w-full h-screen">
       <Navbar navType={navType} path={navPath} extras={extras} />
-      <main className="flex-1">{children}</main>
+
+      <main className="flex-1 bg-[#C1C1C1]">{children}</main>
       <Footer footerContent={footerContent} />
     </div>
   )

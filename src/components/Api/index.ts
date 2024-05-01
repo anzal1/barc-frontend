@@ -4,7 +4,8 @@ import { useMutation } from '@tanstack/react-query'
 export const QUERY_KEYS = {
   loginUser: 'loginUser',
   createJwt: 'createJwt',
-  createDeviceMaster: 'createDeviceMaster'
+  createOrEditDeviceMaster: 'createDeviceMaster',
+  deleteDeviceMaster: 'deleteDeviceMaster'
 }
 
 export const useLoginUserMutation = () => {
@@ -21,9 +22,16 @@ export const useCreateJWTMutation = () => {
   })
 }
 
-export const useCreateDeviceMasterMutation = () => {
+export const useCreateOrEditDeviceMasterMutation = () => {
   return useMutation({
-    mutationKey: [QUERY_KEYS.createDeviceMaster],
-    mutationFn: ENDPOINTS.createDeviceMaster
+    mutationKey: [QUERY_KEYS.createOrEditDeviceMaster],
+    mutationFn: ENDPOINTS.createOrEditDeviceMaster
+  })
+}
+
+export const deleteDeviceMasterMutation = () => {
+  return useMutation({
+    mutationKey: [QUERY_KEYS.deleteDeviceMaster],
+    mutationFn: ENDPOINTS.deleteDeviceMaster
   })
 }

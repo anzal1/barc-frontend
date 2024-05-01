@@ -3,7 +3,6 @@ import { CustomCard } from '../components/Card/card'
 import TextInput from '../components/Input'
 import { NavType } from '../enums/navtype'
 import Layout from '../components/Layout/layout'
-import { twMerge } from 'tailwind-merge'
 import { useNavigate } from 'react-router-dom'
 
 const EmployeeMasterPage = () => {
