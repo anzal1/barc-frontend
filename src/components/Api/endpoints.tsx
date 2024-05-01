@@ -81,7 +81,9 @@ export const createOrEditDeviceMaster = (body: {
     }
   )
 
-export const deleteDeviceMaster = (deviceId: string | number) =>
+export const deleteDeviceMaster = (
+  deviceId: string | number
+): Promise<unknown> =>
   apiClient('/api/Device/DeleteDeviceEntry', {
     method: 'POST',
     headers: {
@@ -89,3 +91,6 @@ export const deleteDeviceMaster = (deviceId: string | number) =>
     },
     body: JSON.stringify({ DeviceID: deviceId })
   })
+
+export const getDeviceMasterList = (): Promise<unknown> =>
+  apiClient(`/api/Device/GetDeviceDetails?branchid=1`, { method: 'GET' })

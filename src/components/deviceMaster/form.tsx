@@ -3,12 +3,14 @@ import toast from 'react-hot-toast'
 import TextInput from '../Input'
 import { CreateDeviceMasterBody } from '../Api/endpoints'
 import { useCreateOrEditDeviceMasterMutation } from '../Api'
+import { useNavigate } from 'react-router-dom'
 
 export type DeviceMasterFormProps = {
   editData?: CreateDeviceMasterBody
 }
 
 const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
+  const navigate = useNavigate()
   const { mutate: createEditDeviceMasterFn, isPending } =
     useCreateOrEditDeviceMasterMutation()
 
@@ -18,6 +20,8 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
     const formData = Object.fromEntries(
       new FormData(e.target as HTMLFormElement).entries()
     )
+
+    // TODO: handle sanitinzation of DeviceIp
 
     const data = {
       ...formData,
@@ -30,6 +34,7 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
       {
         onSuccess(data: any) {
           toast.success('Device Master created successfully!')
+          navigate('/device-master-list')
         },
         onError(error: any) {
           toast.error('An error occured!')
@@ -89,6 +94,7 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
         label="Device IP"
       />
       <TextInput
+        type="number"
         disabled={isPending}
         value={props.editData?.SerialNo}
         required
@@ -96,6 +102,7 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
         label="Serial Number"
       />
       <TextInput
+        type="number"
         disabled={isPending}
         value={props.editData?.PortNo}
         required
@@ -103,6 +110,7 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
         label="Port Number"
       />
       <TextInput
+        type="number"
         disabled={isPending}
         value={props.editData?.MacID}
         required
@@ -124,6 +132,7 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
         label="Branch Name"
       />
       <TextInput
+        type="number"
         disabled={isPending}
         value={props.editData?.RTSP}
         required
