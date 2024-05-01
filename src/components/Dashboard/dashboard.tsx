@@ -1,33 +1,63 @@
 import React, { useState } from 'react'
 import Modal from '../Modal/modal'
+import { useGetDeviceMasterListQuery } from '../Api'
 
-const data = [
-  { x: 337, y: 513, color: 'red' },
-  { x: 78, y: 516, color: 'green' },
-  { x: 333, y: 6, color: 'red' },
-  { x: 56, y: 350, color: 'orange' },
-  { x: 440, y: 155, color: 'red' },
-  { x: 367, y: 526, color: 'orange' },
-  { x: 1018, y: 351, color: 'green' },
-  { x: 963, y: 583, color: 'orange' },
-  { x: 575, y: 324, color: 'orange' },
-  { x: 536, y: 447, color: 'green' },
-  { x: 427, y: 683, color: 'orange' },
-  { x: 929, y: 126, color: 'orange' },
-  { x: 755, y: 722, color: 'orange' },
-  { x: 334, y: 567, color: 'red' },
-  { x: 448, y: 335, color: 'orange' },
-  { x: 728, y: 157, color: 'green' },
-  { x: 639, y: 80, color: 'green' },
-  { x: 940, y: 7, color: 'green' },
-  { x: 579, y: 65, color: 'green' },
-  { x: 986, y: 183, color: 'orange' }
-]
+// const data = [
+//   { x: 337, y: 513, color: 'red' },
+//   { x: 78, y: 516, color: 'green' },
+//   { x: 333, y: 6, color: 'red' },
+//   { x: 56, y: 350, color: 'orange' },
+//   { x: 440, y: 155, color: 'red' },
+//   { x: 367, y: 526, color: 'orange' },
+//   { x: 1018, y: 351, color: 'green' },
+//   { x: 963, y: 583, color: 'orange' },
+//   { x: 575, y: 324, color: 'orange' },
+//   { x: 536, y: 447, color: 'green' },
+//   { x: 427, y: 683, color: 'orange' },
+//   { x: 929, y: 126, color: 'orange' },
+//   { x: 755, y: 722, color: 'orange' },
+//   { x: 334, y: 567, color: 'red' },
+//   { x: 448, y: 335, color: 'orange' },
+//   { x: 728, y: 157, color: 'green' },
+//   { x: 639, y: 80, color: 'green' },
+//   { x: 940, y: 7, color: 'green' },
+//   { x: 579, y: 65, color: 'green' },
+//   { x: 986, y: 183, color: 'orange' }
+// ]
 
+type DeviceMasterType = {
+  branchID: number
+  branchName: string
+  deviceID: number
+  deviceIp: string
+  deviceName: string
+  deviceNumber: string
+  location: string
+  macID: string
+  portNo: string
+  rtsp: any
+  serialNo: any
+  status: any
+  userID: any
+  x_value: string | number
+  y_value: string | number
+}
 export const Dashboard = () => {
   const [open, setOpen] = useState(false)
   const [imageModal, setImageModal] = useState(false)
-  const [currentPoint, setCurrentPoint] = useState({ x: 0, y: 0, color: '' })
+  const [currentPoint, setCurrentPoint] = useState<DeviceMasterType>(
+    {} as DeviceMasterType
+  )
+
+  const {
+    data: deviceList,
+    isLoading
+  }: {
+    data: any
+    isLoading: boolean
+  } = useGetDeviceMasterListQuery()
+
+  if (isLoading) return <div>Loading...</div>
 
   return (
     <div className="flex justify-start items-start h-full w-full bg-white  px-6 py-8 gap-4">
@@ -52,12 +82,19 @@ export const Dashboard = () => {
           <div className="flex flex-col  gap-4 w-full justify-between items-center h-full ">
             <div className="flex flex-col items-start justify-start gap-4 w-full">
               <span className="text-2xl font-semibold">
-                Device Name: Device Name
+                Device Name: {currentPoint?.deviceName}
               </span>
-              <p className="text-lg">Device Name: Device Name</p>
-              <p className="">Device Name: Device Name</p>
-              <p className="">Device Name: Device Name</p>
-              <p className="">Device Name: Device Name</p>
+              <span className="text-2xl font-semibold">
+                Location: {currentPoint?.location}
+              </span>
+              <span className="text-xl">
+                Device IP: {currentPoint?.deviceIp}
+              </span>
+              <span className="text-xl">Port No: {currentPoint?.portNo}</span>
+              <span className="text-xl ">
+                Serial No: {currentPoint?.serialNo}
+              </span>
+              <span className="text-xl">Status: {currentPoint?.status}</span>
             </div>
             <div className="flex flex-col gap-2 w-full">
               <button className="bg-white text-[#1C9FF6] px-4 py-2 rounded-[10px] w-full border-2 border-[#1C9FF6] text-xl h-16">
@@ -86,19 +123,21 @@ export const Dashboard = () => {
           boxShadow: '0px 1px 18px 0px #00000061'
         }}
       >
-        {data?.map((point) => (
+        {deviceList?.map((point: DeviceMasterType) => (
           <img
-            key={point.x}
+            key={point.x_value}
             onClick={() => {
               setCurrentPoint(point)
               setOpen(!open)
             }}
-            src={`/assets/${point?.color}Dot.svg`}
+            src={`/assets/${
+              point.status?.toLowerCase() === 'active' ? 'green' : 'red'
+            }Dot.svg`}
             alt="circle"
             className="absolute cursor-pointer"
             style={{
-              top: `${point.y}px`,
-              left: `${point.x}px`
+              top: `${point.y_value}px`,
+              left: `${point.x_value}px`
             }}
           />
         ))}
@@ -107,10 +146,14 @@ export const Dashboard = () => {
             className="flex flex-col gap-6 max-w-xs relative bg-white border-1-[#1C9FF6] border-2 rounded-[10px] p-4 shadow-lg"
             style={{
               top: `${
-                currentPoint.y > 500 ? currentPoint.y - 225 : currentPoint.y
+                Number.parseInt(currentPoint?.y_value as string) > 500
+                  ? Number.parseInt(currentPoint?.y_value as string) - 225
+                  : Number.parseInt(currentPoint?.y_value as string)
               }px`,
               left: `${
-                currentPoint.x > 700 ? currentPoint.x - 300 : currentPoint.x
+                Number.parseInt(currentPoint?.x_value as string) > 700
+                  ? Number.parseInt(currentPoint?.x_value as string) - 300
+                  : Number.parseInt(currentPoint?.x_value as string)
               }px`
             }}
           >
@@ -121,8 +164,8 @@ export const Dashboard = () => {
               onClick={() => setOpen(false)}
             />
             <div>
-              <p>Device Name: Device Name</p>
-              <p>Location: Device Location</p>
+              <p>Device Name: {currentPoint?.deviceName}</p>
+              <p>Location: {currentPoint?.location}</p>
             </div>
             <div className="flex flex-col gap-2 w-full">
               <button className="bg-white text-[#1C9FF6]  rounded-[10px] w-full border-2 border-[#1C9FF6] text-xl h-10">
