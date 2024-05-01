@@ -42,7 +42,7 @@ const DeviceMasterList = () => {
   )
 
   const handleEdit = (currentRow: DeviceMasterType) => {
-    const editData: CreateDeviceMasterBody = {
+    const _editData: CreateDeviceMasterBody = {
       BranchID: currentRow.branchID,
       BranchName: currentRow.branchName,
       DeviceID: currentRow.deviceID,
@@ -55,9 +55,11 @@ const DeviceMasterList = () => {
       RTSP: currentRow.rtsp,
       SerialNo: currentRow.serialNo,
       status: currentRow.status,
-      UserID: currentRow.userID
+      UserID: currentRow.userID,
+      X_Value: currentRow.x_value as any,
+      Y_Value: currentRow.y_value as any
     }
-    setEditData(editData)
+    setEditData(_editData)
   }
 
   const handleDeleteDevice = (deviceId: number | null) => {
@@ -164,7 +166,7 @@ const DeviceMasterList = () => {
                     key: 'actions',
                     title: 'Action',
                     render: (currentRow) => (
-                      <div className="flex items-center justify-center gap-4">
+                      <div className="flex items-center justify-center gap-4 px-4">
                         <img
                           src="/assets/edit.svg"
                           className="cursor-pointer"

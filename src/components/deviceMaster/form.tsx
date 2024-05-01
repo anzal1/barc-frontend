@@ -27,9 +27,9 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
     const data = {
       ...formData,
       DeviceID: parseInt(formData.DeviceID as string),
-      BranchID: parseInt(formData.BranchID as string),
-      X_Value: parseInt(formData.X_Value as string),
-      Y_Value: parseInt(formData.Y_Value as string)
+      BranchID: parseInt(formData.BranchID as string)
+      // X_Value: parseInt(formData.X_Value as string),
+      // Y_Value: parseInt(formData.Y_Value as string)
     } as CreateDeviceMasterBody
 
     createEditDeviceMasterFn(
@@ -39,9 +39,8 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
           toast.success('Device Master created successfully!')
           navigate('/device-master-list')
         },
-        onError(error: any) {
+        onError() {
           toast.error('An error occured!')
-          console.log(error.message)
         }
       }
     )
@@ -198,6 +197,7 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
             Save
           </button>
         </div>
+
         <div className="flex gap-4 items-center">{props.extraButton}</div>
       </div>
     </form>

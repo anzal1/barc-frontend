@@ -6,7 +6,11 @@ export const QUERY_KEYS = {
   createJwt: 'createJwt',
   createOrEditDeviceMaster: 'createDeviceMaster',
   deleteDeviceMaster: 'deleteDeviceMaster',
-  getDeviceMasterList: 'getDeviceMasterList'
+  getDeviceMasterList: 'getDeviceMasterList',
+
+  getEmployeeMasterList: 'getEmployeeMasterList',
+  createOrEditEmployeeMaster: 'createOrEditEmployeeMaster',
+  deleteEmployeeMaster: 'deleteEmployeeMaster'
 }
 
 export const useLoginUserMutation = () => {
@@ -45,5 +49,30 @@ export const useGetDeviceMasterListQuery = () => {
       QUERY_KEYS.createOrEditDeviceMaster
     ],
     queryFn: ENDPOINTS.getDeviceMasterList
+  })
+}
+
+export const useGetEmployeeMasterListQuery = () => {
+  return useQuery({
+    queryKey: [
+      QUERY_KEYS.getEmployeeMasterList,
+      QUERY_KEYS.createOrEditEmployeeMaster,
+      QUERY_KEYS.deleteEmployeeMaster
+    ],
+    queryFn: ENDPOINTS.getEmployeeMasterList
+  })
+}
+
+export const useDeleteEmployeeMutation = () => {
+  return useMutation({
+    mutationKey: [QUERY_KEYS.deleteEmployeeMaster],
+    mutationFn: ENDPOINTS.deleteEmployee
+  })
+}
+
+export const useCreateOrEditEmployeeMasterMutation = () => {
+  return useMutation({
+    mutationKey: [QUERY_KEYS.createOrEditEmployeeMaster],
+    mutationFn: ENDPOINTS.createOrEditEmployeeMaster
   })
 }

@@ -96,3 +96,53 @@ export const deleteDeviceMaster = (
 
 export const getDeviceMasterList = (): Promise<unknown> =>
   apiClient(`/api/Device/GetDeviceDetails?branchid=1`, { method: 'GET' })
+
+export const getEmployeeMasterList = (): Promise<unknown> =>
+  apiClient(`/api/Employee/GetEmployeeDeatils`, { method: 'GET' })
+
+export const deleteEmployee = (employeeSrNo: number): Promise<unknown> => {
+  return apiClient('/api/Employee/RemoveEmployee', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ EMPSRNO: employeeSrNo, Command: 'Delete' })
+  })
+}
+
+export type CreateOrEditEmployeeMasterBody = {
+  Command: string
+  Emp_Name: string
+  ContactNo: number
+  Email: string
+  DeptID: number
+  DesigID: number
+  BranchID: number
+  Role_id: number
+  User_Name: string
+  Password: string
+  Emptype: string
+  EmptypID: number
+  ContrcatID: number
+  ApprovedAuth: number
+  EmpID: string
+  FingerID: number
+  ValidityDate: string
+}
+
+export const createOrEditEmployeeMaster = (body: {
+  data: CreateOrEditEmployeeMasterBody
+  isEdit: boolean
+}): Promise<unknown> => {
+  return apiClient(
+    body.isEdit
+      ? '/api/Employee/UpdateEmployeeDetails'
+      : '/api/Employee/InsertEmployeeEntry',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  )
+}

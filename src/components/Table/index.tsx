@@ -1,9 +1,7 @@
 import { twMerge } from 'tailwind-merge'
 
-export type TableDefaultDocType = any
-
 export type Column<T> = {
-  key: string
+  key: keyof T | Exclude<string, keyof T>
   title: string
   className?: string
   render?: (currentRow: T, allRows: T[], rowIndex: number) => React.ReactNode
@@ -16,7 +14,7 @@ export type TableProps<T> = {
   rowClassName?: string
 }
 
-const Table = <T = TableDefaultDocType,>(props: TableProps<T>) => {
+const Table = <T,>(props: TableProps<T>) => {
   return (
     <div className="max-h-[calc(100vh - 100px)] min-h-[70vh]  max-w-[calc(100vw - 32px)] bg-white px-2 rounded-b-xl pb-2 overflow-y-auto overflow-x-auto">
       <table className="border-spacing-y-2 border-separate w-full">
