@@ -59,7 +59,7 @@ const Table = <T,>(props: TableProps<T>) => {
                   <div className="flex flex-col items-center justify-center ">
                     {column.render
                       ? column.render(row, props.data, rowIndex)
-                      : row[column?.key as keyof T]}
+                      : (row[column?.key as keyof T] as React.ReactNode)}
                   </div>
                 </td>
               ))}
