@@ -39,7 +39,11 @@ export const useDeleteDeviceMasterMutation = () => {
 
 export const useGetDeviceMasterListQuery = () => {
   return useQuery({
-    queryKey: [QUERY_KEYS.getDeviceMasterList],
+    queryKey: [
+      QUERY_KEYS.getDeviceMasterList,
+      QUERY_KEYS.deleteDeviceMaster,
+      QUERY_KEYS.createOrEditDeviceMaster
+    ],
     queryFn: ENDPOINTS.getDeviceMasterList
   })
 }

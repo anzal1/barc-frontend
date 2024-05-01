@@ -27,13 +27,15 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
     const data = {
       ...formData,
       DeviceID: parseInt(formData.DeviceID as string),
-      BranchID: parseInt(formData.BranchID as string)
+      BranchID: parseInt(formData.BranchID as string),
+      X_Value: parseInt(formData.X_Value as string),
+      Y_Value: parseInt(formData.Y_Value as string)
     } as CreateDeviceMasterBody
 
     createEditDeviceMasterFn(
       { data, isEdit: !!props.editData },
       {
-        onSuccess(data: any) {
+        onSuccess() {
           toast.success('Device Master created successfully!')
           navigate('/device-master-list')
         },
@@ -151,27 +153,32 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
           name="status"
           label="Device Status"
         />
+
+        <div className="flex flex-col  gap-1">
+          <label htmlFor="Set Image Location">
+            Set Image Location <span className="text-red-500">*</span>
+          </label>
+          <div className="flex items-center gap-4">
+            <input
+              required
+              type="text"
+              id="X_Value"
+              name="X_Value"
+              placeholder="X Value"
+              className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg p-4 shadow-md shadow-[#00000061]"
+            />
+            <input
+              required
+              type="text"
+              id="Y_Value"
+              name="Y_Value"
+              placeholder="Y Value"
+              className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg p-4 shadow-md shadow-[#00000061]"
+            />
+          </div>
+        </div>
       </div>
 
-      {/* <div className="flex flex-col  gap-1">
-              <label htmlFor="Set Image Location">Set Image Location</label>
-              <div className="flex  gap-4">
-                <input
-                  type="text"
-                  id="xValue"
-                  name="xValue"
-                  placeholder="X Value"
-                  className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg p-4 shadow-md shadow-[#00000061]"
-                />
-                <input
-                  type="text"
-                  id="yValue"
-                  name="yValue"
-                  placeholder="Y Value"
-                  className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg p-4 shadow-md shadow-[#00000061]"
-                />
-              </div>
-            </div> */}
       <br />
 
       <div className="flex gap-4 items-center justify-between">

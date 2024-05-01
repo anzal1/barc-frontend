@@ -62,6 +62,8 @@ export type CreateDeviceMasterBody = {
   BranchName: string
   RTSP: string
   status: string
+  X_Value: number
+  Y_Value: number
 }
 
 export const createOrEditDeviceMaster = (body: {

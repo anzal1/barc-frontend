@@ -3,11 +3,15 @@ import { CustomCard } from '../components/Card/card'
 import Layout from '../components/Layout/layout'
 import Table from '../components/Table'
 import { NavType } from '../enums/navtype'
-import { useGetDeviceMasterListQuery } from '../components/Api'
+import {
+  useDeleteDeviceMasterMutation,
+  useGetDeviceMasterListQuery
+} from '../components/Api'
 import { CreateDeviceMasterBody } from '../components/Api/endpoints'
 import React, { useState } from 'react'
 import DeviceMasterForm from '../components/deviceMaster/form'
 import Modal from '../components/Modal/modal'
+import toast from 'react-hot-toast'
 
 type DeviceMasterType = {
   branchID: number
@@ -28,7 +32,10 @@ type DeviceMasterType = {
 }
 
 const DeviceMasterList = () => {
-  const { data, isPending } = useGetDeviceMasterListQuery()
+  const { data, isPending: getDeviceMasterPending } =
+    useGetDeviceMasterListQuery()
+  const { isPending: isDeleteDevicePending, mutate: deleteDeviceFn } =
+    useDeleteDeviceMasterMutation()
   const [deleteDeviceId, setDeleteDeviceId] = useState<number | null>(null)
   const [editData, setEditData] = React.useState<CreateDeviceMasterBody | null>(
     null
@@ -53,8 +60,23 @@ const DeviceMasterList = () => {
     setEditData(editData)
   }
 
-  const handleDelete = (currentRow: DeviceMasterType) => {
-    //
+  const handleDeleteDevice = (deviceId: number | null) => {
+    if (!deviceId) {
+      toast.error('No device selected')
+      return
+    }
+
+    deleteDeviceFn(deviceId, {
+      onSuccess() {
+        toast.success('Device deleted successfully')
+      },
+      onError() {
+        toast.error('Failed to delete device')
+      },
+      onSettled() {
+        setDeleteDeviceId(null)
+      }
+    })
   }
 
   const navigate = useNavigate()
@@ -78,17 +100,36 @@ const DeviceMasterList = () => {
           }
         >
           <Modal
-            open={!!deleteDeviceId}
-            onClose={() => setDeleteDeviceId(null)}
             type="fixed"
-            modalStyle="w-80 h-80"
+            open={!!deleteDeviceId}
+            modalStyle="w-[500px] h-auto"
+            onClose={() => setDeleteDeviceId(null)}
           >
-            <div className="flex flex-col gap-6 max-w-xs bg-white border-1-[#1C9FF6] border-2 rounded-[10px] p-4 shadow-lg">
-              {JSON.stringify({ deviceID: deleteDeviceId })}
+            <div className="flex w-full flex-col bg-white border-1-[#1C9FF6] border-2 rounded-[10px] p-4 shadow-lg">
+              <h3 className="font-bold text-lg">
+                Are you sure, you want to delete the device {deleteDeviceId}
+              </h3>
+
+              <div className="flex items-center justify-between mt-8">
+                <button
+                  disabled={isDeleteDevicePending}
+                  onClick={() => setDeleteDeviceId(null)}
+                  className="px-6 py-2 rounded-lg font-bold border-2 border-[#1C9FF6] shadow-md shadow-[#00000061] cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  disabled={isDeleteDevicePending}
+                  onClick={() => handleDeleteDevice(deleteDeviceId)}
+                  className="px-6 py-2 rounded-lg font-bold bg-red-500 shadow-md shadow-[#00000061] cursor-pointer"
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           </Modal>
 
-          {!isPending ? (
+          {!getDeviceMasterPending ? (
             editData ? (
               <DeviceMasterForm
                 editData={editData}
@@ -143,7 +184,9 @@ const DeviceMasterList = () => {
                 data={data as any}
               />
             )
-          ) : null}
+          ) : (
+            <div className="flex items-center justify-center">Loading ...</div>
+          )}
         </CustomCard>
       </div>
     </Layout>
