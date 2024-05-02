@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Modal from '../Modal/modal'
 import { useRecoilValue } from 'recoil'
 import { userState } from '../Atoms/user'
+import { Link } from 'react-router-dom'
 
 export const AvatarTooltip = () => {
   const [open, setOpen] = useState(false)
@@ -32,6 +33,22 @@ export const AvatarTooltip = () => {
             <p className="text-xl font-bold">{user?.name}</p>
             <p className="text-sm text-[#1C9FF6]">{user?.role?.role_Name}</p>
           </div>
+          {/* add routes here */}
+          <Link
+            to="/device-reports"
+            className="flex gap-2 items-center w-full cursor-pointer"
+          >
+            <img src="/assets/report.svg" alt="device-reports" />
+            <p className="text-[#1C9FF6] text-xl">Device Reports</p>
+          </Link>
+
+          <Link
+            to="/employee-master"
+            className="flex gap-2 items-center w-full cursor-pointer"
+          >
+            <img src="/assets/employee.svg" alt="employee-master" />
+            <p className="text-[#1C9FF6] text-xl">Employee Master</p>
+          </Link>
           <div className="flex flex-col gap-2 w-full">
             <button
               onClick={handleLogout}
