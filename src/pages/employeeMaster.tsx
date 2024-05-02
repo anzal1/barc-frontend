@@ -17,7 +17,7 @@ const EmployeeMasterPage = () => {
         <CustomCard
           header={
             <div className="flex  justify-between items-center h-full w-full ">
-              <h1>Device Master</h1>
+              <h1>Employee Master</h1>
               <div className="flex gap-6">
                 <img
                   src={list}

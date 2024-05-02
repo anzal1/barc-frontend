@@ -2,7 +2,10 @@ import React, { useState } from 'react'
 import TextInput from '../Input'
 import { CreateOrEditEmployeeMasterBody } from '../Api/endpoints'
 import { useNavigate } from 'react-router-dom'
-import { useCreateOrEditEmployeeMasterMutation } from '../Api'
+import {
+  useCreateOrEditEmployeeMasterMutation,
+  useGetRoleDetailsQuery
+} from '../Api'
 import toast from 'react-hot-toast'
 
 import eye from '../../assets/eye.svg'
@@ -17,6 +20,13 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
   const { mutate: createOrEditMutationFn, isPending } =
     useCreateOrEditEmployeeMasterMutation()
   const [showPassword, setShowPassword] = useState(false)
+  const {
+    data: roleDetails,
+    isLoading: isGetRoleDetailsLoading
+  }: {
+    data: any
+    isLoading: boolean
+  } = useGetRoleDetailsQuery()
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -60,12 +70,30 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
           required
         />
         <TextInput disabled={isPending} name="email" label="Email" required />
-        <TextInput
+
+        {/* <TextInput
           disabled={isPending}
           name="employeeRole"
           label="Employee Role"
           required
-        />
+        /> */}
+
+        <div className="flex flex-col gap-1 items-start justify-start">
+          <label htmlFor="Select Role">Select Role</label>
+          <select
+            required
+            disabled={isPending || isGetRoleDetailsLoading}
+            name="employeeRole"
+            className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg shadow-md shadow-[#00000061]"
+          >
+            <option value="">Select Role</option>
+            {roleDetails?.map((role: any) => (
+              <option key={role.role_ID} value={role.role_Name}>
+                {role.role_Name}
+              </option>
+            ))}
+          </select>
+        </div>
 
         <div className="flex flex-col gap-1">
           <label htmlFor="workingStatus">
