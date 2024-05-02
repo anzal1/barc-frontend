@@ -5,6 +5,8 @@ import toast from 'react-hot-toast'
 import { useSetRecoilState } from 'recoil'
 import { userState } from '../Atoms/user'
 
+import eye from '../../assets/eye.svg'
+
 export const Login = () => {
   const [formValues, setFormValues] = useState({
     username: '',
@@ -94,7 +96,7 @@ export const Login = () => {
           />
           <img
             onClick={() => setShowPassword(!showPassword)}
-            src="/assets/eye.svg"
+            src={eye}
             className="w-6 h-6  absolute top-5 right-2 cursor-pointer"
             alt="eye"
           />

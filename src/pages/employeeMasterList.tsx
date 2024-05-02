@@ -13,6 +13,10 @@ import toast from 'react-hot-toast'
 import { CreateOrEditEmployeeMasterBody } from '../components/Api/endpoints'
 import EmployeeMasterForm from '../components/employeeMaster/form'
 
+import cancel from '../assets/cancel.svg'
+import edit from '../assets/edit.svg'
+import deleteIcon from '../assets/delete.svg'
+
 type EmployeeMasterType = {
   command: any
   empsrno: number
@@ -102,7 +106,7 @@ export const EmployeeMasterListPage = () => {
               <h1>Employee Master List</h1>
               <div className="flex gap-6">
                 <img
-                  src="/assets/cancel.svg"
+                  src={cancel}
                   className="w-10 h-10 cursor-pointer"
                   alt="cancel"
                   onClick={() => navigate('/device-master')}
@@ -186,7 +190,7 @@ export const EmployeeMasterListPage = () => {
                     render: (currentRow) => (
                       <div className="flex items-center justify-center gap-4">
                         <img
-                          src="/assets/edit.svg"
+                          src={edit}
                           className="cursor-pointer"
                           onClick={() => handleEdit(currentRow)}
                           alt="edit"
@@ -196,7 +200,7 @@ export const EmployeeMasterListPage = () => {
                           onClick={() =>
                             setDeleteEmployeeId(currentRow.empsrno)
                           }
-                          src="/assets/delete.svg"
+                          src={deleteIcon}
                           alt="delete"
                         />
                       </div>

@@ -4,6 +4,11 @@ import { useRecoilValue } from 'recoil'
 import { userState } from '../Atoms/user'
 import { Link } from 'react-router-dom'
 
+import avatar from '../../assets/avatar.svg'
+import cancel from '../../assets/cancel.svg'
+import report from '../../assets/report.svg'
+import employee from '../../assets/employee.svg'
+
 export const AvatarTooltip = () => {
   const [open, setOpen] = useState(false)
   const user: any = useRecoilValue(userState)
@@ -18,13 +23,13 @@ export const AvatarTooltip = () => {
     <div className="relative">
       <img
         className="cursor-pointer w-12 h-12"
-        src="/assets/avatar.svg"
+        src={avatar}
         onClick={() => setOpen(!open)}
       />
       <Modal open={open} onClose={() => setOpen(false)} type="absolute">
         <div className="flex flex-col gap-6 w-[300px] right-[300px] top-9 relative bg-white border-1-[#1C9FF6] border-2 rounded-[10px] p-4 shadow-lg">
           <img
-            src="/assets/cancel.svg"
+            src={cancel}
             alt="close"
             className="absolute top-2 right-2 cursor-pointer w-6 h-6 filter invert"
             onClick={() => setOpen(false)}
@@ -38,7 +43,7 @@ export const AvatarTooltip = () => {
             to="/device-reports"
             className="flex gap-2 items-center w-full cursor-pointer"
           >
-            <img src="/assets/report.svg" alt="device-reports" />
+            <img src={report} alt="device-reports" />
             <p className="text-[#1C9FF6] text-xl">Device Reports</p>
           </Link>
 
@@ -46,7 +51,7 @@ export const AvatarTooltip = () => {
             to="/employee-master"
             className="flex gap-2 items-center w-full cursor-pointer"
           >
-            <img src="/assets/employee.svg" alt="employee-master" />
+            <img src={employee} alt="employee-master" />
             <p className="text-[#1C9FF6] text-xl">Employee Master</p>
           </Link>
           <div className="flex flex-col gap-2 w-full">

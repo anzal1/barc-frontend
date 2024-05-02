@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom'
 import { useCreateOrEditEmployeeMasterMutation } from '../Api'
 import toast from 'react-hot-toast'
 
+import eye from '../../assets/eye.svg'
+
 export type EmployeeMasterFormProps = {
   editData?: CreateOrEditEmployeeMasterBody
   extraButton?: React.ReactNode
@@ -118,7 +120,7 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
           />
           <img
             onClick={() => setShowPassword(!showPassword)}
-            src="/assets/eye.svg"
+            src={eye}
             className="w-6 h-6  absolute top-10 right-2 cursor-pointer"
             alt="eye"
           />

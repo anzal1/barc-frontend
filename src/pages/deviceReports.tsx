@@ -4,6 +4,8 @@ import { NavType } from '../enums/navtype'
 import { CustomCard } from '../components/Card/card'
 import { useNavigate } from 'react-router-dom'
 
+import cancel from '../assets/cancel.svg'
+
 export const DeviceReports = () => {
   const navigate = useNavigate()
   const [startDate, setStartDate] = React.useState<string>('')
@@ -23,7 +25,7 @@ export const DeviceReports = () => {
               <h1>Device Reports</h1>
               <div className="flex gap-6">
                 <img
-                  src="/assets/cancel.svg"
+                  src={cancel}
                   className="w-10 h-10 cursor-pointer"
                   alt="cancel"
                   onClick={() => navigate('/')}

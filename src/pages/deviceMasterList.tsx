@@ -13,6 +13,10 @@ import DeviceMasterForm from '../components/deviceMaster/form'
 import Modal from '../components/Modal/modal'
 import toast from 'react-hot-toast'
 
+import cancel from '../assets/cancel.svg'
+import edit from '../assets/edit.svg'
+import deleteIcon from '../assets/delete.svg'
+
 type DeviceMasterType = {
   branchID: number
   branchName: string
@@ -92,7 +96,7 @@ const DeviceMasterList = () => {
               <h1>Device Master List</h1>
               <div className="flex gap-6">
                 <img
-                  src="/assets/cancel.svg"
+                  src={cancel}
                   className="w-10 h-10 cursor-pointer"
                   alt="cancel"
                   onClick={() => navigate('/device-master')}
@@ -168,7 +172,7 @@ const DeviceMasterList = () => {
                     render: (currentRow) => (
                       <div className="flex items-center justify-center gap-4 px-4">
                         <img
-                          src="/assets/edit.svg"
+                          src={edit}
                           className="cursor-pointer"
                           onClick={() => handleEdit(currentRow)}
                           alt="edit"
@@ -176,7 +180,7 @@ const DeviceMasterList = () => {
                         <img
                           className="cursor-pointer"
                           onClick={() => setDeleteDeviceId(currentRow.deviceID)}
-                          src="/assets/delete.svg"
+                          src={deleteIcon}
                           alt="delete"
                         />
                       </div>
