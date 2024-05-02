@@ -80,10 +80,10 @@ export const useCreateOrEditEmployeeMasterMutation = () => {
   })
 }
 
-export const useGetRoleDetailsMuation = () => {
-  return useMutation({
-    mutationKey: [QUERY_KEYS.getRoleDetails],
-    mutationFn: ENDPOINTS.getRoleDetails
+export const useGetRoleDetailsQuery = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.getRoleDetails],
+    queryFn: ENDPOINTS.getRoleDetails
   })
 }
 
