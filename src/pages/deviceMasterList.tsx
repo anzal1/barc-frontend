@@ -56,8 +56,8 @@ const DeviceMasterList = () => {
       SerialNo: currentRow.serialNo,
       status: currentRow.status,
       UserID: currentRow.userID,
-      X_Value: currentRow.x_value as any,
-      Y_Value: currentRow.y_value as any
+      X_Value: Number.parseFloat(currentRow.x_value as string) as any,
+      Y_Value: Number.parseFloat(currentRow.y_value as string) as any
     }
     setEditData(_editData)
   }

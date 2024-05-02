@@ -27,9 +27,9 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
     const data = {
       ...formData,
       DeviceID: parseInt(formData.DeviceID as string),
-      BranchID: parseInt(formData.BranchID as string)
-      // X_Value: parseInt(formData.X_Value as string),
-      // Y_Value: parseInt(formData.Y_Value as string)
+      BranchID: parseInt(formData.BranchID as string),
+      X_Value: parseFloat(formData.X_Value as string),
+      Y_Value: parseFloat(formData.Y_Value as string)
     } as CreateDeviceMasterBody
 
     createEditDeviceMasterFn(
