@@ -5,6 +5,9 @@ import Layout from '../components/Layout/layout'
 import { useNavigate } from 'react-router-dom'
 import EmployeeMasterForm from '../components/employeeMaster/form'
 
+import list from '../assets/list.svg'
+import cancel from '../assets/cancel.svg'
+
 const EmployeeMasterPage = () => {
   const navigate = useNavigate()
 
@@ -17,13 +20,13 @@ const EmployeeMasterPage = () => {
               <h1>Device Master</h1>
               <div className="flex gap-6">
                 <img
-                  src="/assets/list.svg"
+                  src={list}
                   className="w-10 h-10 cursor-pointer"
                   alt="list"
                   onClick={() => navigate('/employee-master-list')}
                 />
                 <img
-                  src="/assets/cancel.svg"
+                  src={cancel}
                   className="w-10 h-10 cursor-pointer"
                   alt="cancel"
                   onClick={() => navigate('/')}

@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavType } from '../../enums/navtype'
 import { Link } from 'react-router-dom'
+import emblem from '../../assets/emblem.svg'
 
 export const Navbar = ({
   extras,
@@ -23,7 +24,7 @@ export const Navbar = ({
     >
       <div className="flex items-center gap-4 cursor-pointer">
         <Link to={'/'}>
-          <img src="/assets/emblem.svg" className="w-60 h-16" alt="logo" />
+          <img src={emblem} className="w-60 h-16" alt="logo" />
         </Link>
         {path && (
           <>

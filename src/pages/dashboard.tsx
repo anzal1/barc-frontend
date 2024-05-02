@@ -5,6 +5,8 @@ import { NavType } from '../enums/navtype'
 import { useNavigate } from 'react-router-dom'
 import { AvatarTooltip } from '../components/Avatar/avatar'
 
+import navList from '../assets/navList.svg'
+
 export const DashboardPage = () => {
   const navigate = useNavigate()
 
@@ -15,8 +17,8 @@ export const DashboardPage = () => {
       extras={[
         <img
           className="cursor-pointer w-12 h-12"
-          src="/assets/navList.svg"
-          onClick={() => navigate('/device-master-list')}
+          src={navList}
+          onClick={() => navigate('/device-master')}
         />,
         <AvatarTooltip />
       ]}

@@ -2,6 +2,14 @@ import React, { useState } from 'react'
 import Modal from '../Modal/modal'
 import { useGetDeviceMasterListQuery } from '../Api'
 
+import circles from '../../assets/circles.png'
+import server from '../../assets/server.png'
+import greenDot from '../../assets/greenDot.svg'
+import redDot from '../../assets/redDot.svg'
+import cancel from '../../assets/cancel.svg'
+import videoImage from '../../assets/image.png'
+import map from '../../assets/map.png'
+
 // const data = [
 //   { x: 337, y: 513, color: 'red' },
 //   { x: 78, y: 516, color: 'green' },
@@ -65,13 +73,9 @@ export const Dashboard = () => {
         <div className="flex flex-col items-center justify-center py-2 bg-[#EEEEEE] shadow-lg w-full rounded-[20px] gap-8 max-h-[208px]">
           <h2 className="text-2xl font-semibold ">Server</h2>
           <div className="flex gap-4 w-full justify-center items-center relative">
+            <img src={circles} alt="circles" className="w-32 h-32" />
             <img
-              src="/assets/circles.png"
-              alt="circles"
-              className="w-32 h-32"
-            />
-            <img
-              src="/assets/server.png"
+              src={server}
               alt="server"
               className="absolute z-50 h-24 w-24"
             />
@@ -117,7 +121,7 @@ export const Dashboard = () => {
       <div
         className="h-[776px]  w-[1078px]  rounded-[20px] p-0 overflow-hidden relative"
         style={{
-          background: `url('/assets/map.png')`,
+          background: `url('${map}')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           boxShadow: '0px 1px 18px 0px #00000061'
@@ -131,9 +135,7 @@ export const Dashboard = () => {
                 setCurrentPoint(point)
                 setOpen(!open)
               }}
-              src={`/assets/${
-                point.status?.toLowerCase() === 'active' ? 'green' : 'red'
-              }Dot.svg`}
+              src={point.status === 'Active' ? greenDot : redDot}
               alt="circle"
               className="absolute cursor-pointer"
               style={{
@@ -142,6 +144,7 @@ export const Dashboard = () => {
               }}
             />
             <p
+              key={point.x_value}
               className="absolute text-black text-xs font-semibold"
               style={{
                 top: `${Number.parseFloat(point.y_value as string) + 20}px`,
@@ -169,7 +172,7 @@ export const Dashboard = () => {
             }}
           >
             <img
-              src="/assets/cancel.svg"
+              src={cancel}
               alt="close"
               className="absolute top-2 right-2 cursor-pointer w-6 h-6 filter invert"
               onClick={() => setOpen(false)}
@@ -205,11 +208,7 @@ export const Dashboard = () => {
         <div className="grid grid-cols-5 gap-4  rounded-lg p-4 shadow-xl shadow-[#00000061] mt-16">
           {Array.from({ length: 15 }).map((_, index) => (
             <div className="relative z-[9999]">
-              <img
-                src="/assets/image.png"
-                alt="image"
-                className="w-full h-full"
-              />
+              <img src={videoImage} alt="image" className="w-full h-full" />
               <div className="absolute -top-5 -right-5">
                 <img
                   onClick={() => setImageModal(false)}
