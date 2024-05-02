@@ -124,36 +124,47 @@ export const Dashboard = () => {
         }}
       >
         {deviceList?.map((point: DeviceMasterType) => (
-          <img
-            key={point.x_value}
-            onClick={() => {
-              setCurrentPoint(point)
-              setOpen(!open)
-            }}
-            src={`/assets/${
-              point.status?.toLowerCase() === 'active' ? 'green' : 'red'
-            }Dot.svg`}
-            alt="circle"
-            className="absolute cursor-pointer"
-            style={{
-              top: `${point.y_value}px`,
-              left: `${point.x_value}px`
-            }}
-          />
+          <>
+            <img
+              key={point.x_value}
+              onClick={() => {
+                setCurrentPoint(point)
+                setOpen(!open)
+              }}
+              src={`/assets/${
+                point.status?.toLowerCase() === 'active' ? 'green' : 'red'
+              }Dot.svg`}
+              alt="circle"
+              className="absolute cursor-pointer"
+              style={{
+                top: `${Number.parseFloat(point.y_value as string)}px`,
+                left: `${Number.parseFloat(point.x_value as string)}px`
+              }}
+            />
+            <p
+              className="absolute text-black text-xs font-semibold"
+              style={{
+                top: `${Number.parseFloat(point.y_value as string) + 20}px`,
+                left: `${Number.parseFloat(point.x_value as string) + 20}px`
+              }}
+            >
+              X : {point.x_value} , Y : {point.y_value}
+            </p>
+          </>
         ))}
         <Modal open={open} onClose={() => setOpen(false)} type="absolute">
           <div
             className="flex flex-col gap-6 max-w-xs relative bg-white border-1-[#1C9FF6] border-2 rounded-[10px] p-4 shadow-lg"
             style={{
               top: `${
-                Number.parseInt(currentPoint?.y_value as string) > 500
-                  ? Number.parseInt(currentPoint?.y_value as string) - 225
-                  : Number.parseInt(currentPoint?.y_value as string)
+                Number.parseFloat(currentPoint?.y_value as string) > 500
+                  ? Number.parseFloat(currentPoint?.y_value as string) - 225
+                  : Number.parseFloat(currentPoint?.y_value as string)
               }px`,
               left: `${
-                Number.parseInt(currentPoint?.x_value as string) > 700
-                  ? Number.parseInt(currentPoint?.x_value as string) - 300
-                  : Number.parseInt(currentPoint?.x_value as string)
+                Number.parseFloat(currentPoint?.x_value as string) > 700
+                  ? Number.parseFloat(currentPoint?.x_value as string) - 300
+                  : Number.parseFloat(currentPoint?.x_value as string)
               }px`
             }}
           >
