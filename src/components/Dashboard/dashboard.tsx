@@ -56,6 +56,8 @@ export const Dashboard = () => {
   const [currentPoint, setCurrentPoint] = useState<DeviceMasterType>(
     {} as DeviceMasterType
   )
+  const [mapClick, setMapClick] = useState({ x: 0, y: 0 })
+  const [coordinateOpen, setCoordinateOpen] = useState(false)
 
   const {
     data: deviceList,
@@ -66,6 +68,16 @@ export const Dashboard = () => {
   } = useGetDeviceMasterListQuery()
 
   if (isLoading) return <div>Loading...</div>
+
+  const handleMapClick = (event: any) => {
+    const bounds: any = document?.getElementById('map')?.getBoundingClientRect()
+    // consider bottom left as origin now take out the x and y
+    const x = event.clientX - bounds?.left
+    const y = event.clientY - bounds?.top
+
+    setMapClick({ x, y })
+    setCoordinateOpen(true)
+  }
 
   return (
     <div className="flex justify-start items-start h-full w-full bg-white  px-6 py-8 gap-4">
@@ -119,6 +131,8 @@ export const Dashboard = () => {
         </div>
       </div>
       <div
+        id="map"
+        onClick={handleMapClick}
         className="h-[776px]  w-[1078px]  rounded-[20px] p-0 overflow-hidden relative"
         style={{
           background: `url('${map}')`,
@@ -138,17 +152,18 @@ export const Dashboard = () => {
               src={point.status === 'Active' ? greenDot : redDot}
               alt="circle"
               className="absolute cursor-pointer"
+              // this image should have its center at the x and y
               style={{
-                top: `${Number.parseFloat(point.y_value as string)}px`,
-                left: `${Number.parseFloat(point.x_value as string)}px`
+                top: `${Number.parseFloat(point.y_value as string) - 10}px`,
+                left: `${Number.parseFloat(point.x_value as string) - 10}px`
               }}
             />
             <p
               key={point.x_value}
               className="absolute text-black text-xs font-semibold"
               style={{
-                top: `${Number.parseFloat(point.y_value as string) + 20}px`,
-                left: `${Number.parseFloat(point.x_value as string) + 20}px`
+                top: `${Number.parseFloat(point.y_value as string) + 10}px`,
+                left: `${Number.parseFloat(point.x_value as string) + 10}px`
               }}
             >
               X : {point.x_value} , Y : {point.y_value}
@@ -161,12 +176,12 @@ export const Dashboard = () => {
             style={{
               top: `${
                 Number.parseFloat(currentPoint?.y_value as string) > 500
-                  ? Number.parseFloat(currentPoint?.y_value as string) - 225
+                  ? Number.parseFloat(currentPoint?.y_value as string) - 400
                   : Number.parseFloat(currentPoint?.y_value as string)
               }px`,
               left: `${
                 Number.parseFloat(currentPoint?.x_value as string) > 700
-                  ? Number.parseFloat(currentPoint?.x_value as string) - 300
+                  ? Number.parseFloat(currentPoint?.x_value as string) - 400
                   : Number.parseFloat(currentPoint?.x_value as string)
               }px`
             }}
@@ -195,6 +210,31 @@ export const Dashboard = () => {
               >
                 Show Live Activity
               </button>
+            </div>
+          </div>
+        </Modal>
+
+        <Modal
+          open={coordinateOpen}
+          onClose={() => setCoordinateOpen(false)}
+          type="absolute"
+        >
+          <div
+            className="flex flex-col gap-6 max-w-xs relative bg-white border-1-[#1C9FF6] border-2 rounded-[10px] p-4 shadow-lg"
+            style={{
+              top: `${mapClick?.y > 500 ? mapClick?.y - 400 : mapClick?.y}px`,
+              left: `${mapClick?.x > 700 ? mapClick?.x - 400 : mapClick?.x}px`
+            }}
+          >
+            <img
+              src={cancel}
+              alt="close"
+              className="absolute top-2 right-2 cursor-pointer w-6 h-6 filter invert"
+              onClick={() => setCoordinateOpen(false)}
+            />
+            <div className="flex flex-col gap-2 w-full font-bold">
+              <p>X: {mapClick?.x}</p>
+              <p>Y: {mapClick?.y}</p>
             </div>
           </div>
         </Modal>
