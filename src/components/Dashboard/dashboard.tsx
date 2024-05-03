@@ -1,14 +1,22 @@
 import React, { useState } from 'react'
 import Modal from '../Modal/modal'
-import { useGetDeviceMasterListQuery } from '../Api'
+import {
+  useGetDeviceMasterListQuery,
+  useInsertAcknowledgementMutation
+} from '../Api'
 
 import circles from '../../assets/circles.png'
 import server from '../../assets/server.png'
 import greenDot from '../../assets/greenDot.svg'
 import redDot from '../../assets/redDot.svg'
+import orangeDot from '../../assets/orangeDot.svg'
 import cancel from '../../assets/cancel.svg'
 import videoImage from '../../assets/image.png'
 import map from '../../assets/map.png'
+import { InsertAcknowledgeBody } from '../Api/endpoints'
+import { userState } from '../Atoms/user'
+import { useRecoilValue } from 'recoil'
+import toast from 'react-hot-toast'
 
 // const data = [
 //   { x: 337, y: 513, color: 'red' },
@@ -32,6 +40,12 @@ import map from '../../assets/map.png'
 //   { x: 579, y: 65, color: 'green' },
 //   { x: 986, y: 183, color: 'orange' }
 // ]
+
+const colorStatusMapper = {
+  online: greenDot,
+  offline: orangeDot,
+  panic: redDot
+}
 
 type DeviceMasterType = {
   branchID: number
@@ -58,6 +72,12 @@ export const Dashboard = () => {
   )
   const [mapClick, setMapClick] = useState({ x: 0, y: 0 })
   const [coordinateOpen, setCoordinateOpen] = useState(false)
+  const {
+    mutate: insertAcknowledgementFn,
+    isPending: isInsertAcknowledgementPending
+  } = useInsertAcknowledgementMutation()
+
+  const user: any = useRecoilValue(userState)
 
   const {
     data: deviceList,
@@ -71,12 +91,28 @@ export const Dashboard = () => {
 
   const handleMapClick = (event: any) => {
     const bounds: any = document?.getElementById('map')?.getBoundingClientRect()
-    // consider bottom left as origin now take out the x and y
     const x = event.clientX - bounds?.left
     const y = event.clientY - bounds?.top
 
     setMapClick({ x, y })
     setCoordinateOpen(true)
+  }
+
+  const handleInsertAcknowledgement = () => {
+    const body = {
+      DeviceNumber: currentPoint?.deviceNumber,
+      status: 'online',
+      UserID: user?.role?.roleID.toString()
+    } as InsertAcknowledgeBody
+    insertAcknowledgementFn(body, {
+      onSuccess: (data: any) => {
+        if (data > 0) toast.success('Acknowledgement inserted')
+        else toast.error('Error inserting acknowledgement')
+      },
+      onError: () => {
+        toast.error('Error inserting acknowledgement')
+      }
+    })
   }
 
   return (
@@ -113,7 +149,13 @@ export const Dashboard = () => {
               <span className="text-xl">Status: {currentPoint?.status}</span>
             </div>
             <div className="flex flex-col gap-2 w-full">
-              <button className="bg-white text-[#1C9FF6] px-4 py-2 rounded-[10px] w-full border-2 border-[#1C9FF6] text-xl h-16">
+              <button
+                disabled={
+                  isInsertAcknowledgementPending || !currentPoint?.deviceNumber
+                }
+                onClick={handleInsertAcknowledgement}
+                className="bg-white text-[#1C9FF6] px-4 py-2 rounded-[10px] w-full border-2 border-[#1C9FF6] text-xl h-16"
+              >
                 Acknowledge
               </button>
               <button
@@ -149,7 +191,11 @@ export const Dashboard = () => {
                 setCurrentPoint(point)
                 setOpen(!open)
               }}
-              src={point.status === 'Active' ? greenDot : redDot}
+              src={
+                colorStatusMapper[
+                  point.status as keyof typeof colorStatusMapper
+                ] || greenDot
+              }
               alt="circle"
               className="absolute cursor-pointer"
               // this image should have its center at the x and y
@@ -197,7 +243,13 @@ export const Dashboard = () => {
               <p>Location: {currentPoint?.location}</p>
             </div>
             <div className="flex flex-col gap-2 w-full">
-              <button className="bg-white text-[#1C9FF6]  rounded-[10px] w-full border-2 border-[#1C9FF6] text-xl h-10">
+              <button
+                disabled={
+                  isInsertAcknowledgementPending || !currentPoint?.deviceNumber
+                }
+                onClick={handleInsertAcknowledgement}
+                className="bg-white text-[#1C9FF6]  rounded-[10px] w-full border-2 border-[#1C9FF6] text-xl h-10"
+              >
                 Acknowledge
               </button>
               <button
@@ -252,7 +304,7 @@ export const Dashboard = () => {
               <div className="absolute -top-5 -right-5">
                 <img
                   onClick={() => setImageModal(false)}
-                  src="/assets/cancel.svg"
+                  src={cancel}
                   alt="cancel"
                   className="cursor-pointer w-6 h-6 fill-current text-[#1C9FF6]"
                 />

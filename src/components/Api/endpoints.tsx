@@ -183,3 +183,21 @@ export const getReports = (params: getReportBody): Promise<unknown> =>
       }
     }
   )
+
+export type InsertAcknowledgeBody = {
+  DeviceNumber: string
+  status: string
+  UserID: string
+}
+
+export const insertAcknowledgement = (
+  body: InsertAcknowledgeBody
+): Promise<unknown> =>
+  apiClient('/api/Device/acknowledgementInsertDeviceStatus', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + localStorage.getItem('userToken')
+    },
+    body: JSON.stringify(body)
+  })

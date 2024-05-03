@@ -17,10 +17,9 @@ export const DeviceReportsForm = ({
     const formData = Object.fromEntries(
       new FormData(e.target as HTMLFormElement).entries()
     )
-
     const data = {
       ...formData,
-      userID: user?.role?.userID || 2
+      userID: user?.role?.roleID || 2
     } as unknown as getReportBody
 
     getReportFn(data, {
