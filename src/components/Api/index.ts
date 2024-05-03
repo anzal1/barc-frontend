@@ -15,7 +15,9 @@ export const QUERY_KEYS = {
   getRoleDetails: 'getRoleDetails',
   getRoleList: 'getRoleList',
 
-  getReport: 'getReport'
+  getReport: 'getReport',
+
+  insertAcknowledgement: 'insertAcknowledgement'
 }
 
 export const useLoginUserMutation = () => {
@@ -55,7 +57,7 @@ export const useGetDeviceMasterListQuery = () => {
       QUERY_KEYS.createOrEditDeviceMaster
     ],
     queryFn: ENDPOINTS.getDeviceMasterList,
-    refetchInterval: 1000 * 2 // 2 seconds
+    refetchInterval: 1000 // 1 seconds
   })
 }
 
@@ -102,5 +104,12 @@ export const useGetReportMutation = () => {
   return useMutation({
     mutationKey: [QUERY_KEYS.getReport],
     mutationFn: ENDPOINTS.getReports
+  })
+}
+
+export const useInsertAcknowledgementMutation = () => {
+  return useMutation({
+    mutationKey: [QUERY_KEYS.insertAcknowledgement],
+    mutationFn: ENDPOINTS.insertAcknowledgement
   })
 }

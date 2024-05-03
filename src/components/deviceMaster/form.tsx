@@ -4,6 +4,8 @@ import TextInput from '../Input'
 import { CreateDeviceMasterBody } from '../Api/endpoints'
 import { useCreateOrEditDeviceMasterMutation } from '../Api'
 import { useNavigate } from 'react-router-dom'
+import { useRecoilValue } from 'recoil'
+import { userState } from '../Atoms/user'
 
 export type DeviceMasterFormProps = {
   editData?: CreateDeviceMasterBody
@@ -14,6 +16,8 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
   const navigate = useNavigate()
   const { mutate: createEditDeviceMasterFn, isPending } =
     useCreateOrEditDeviceMasterMutation()
+
+  const user: any = useRecoilValue(userState)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -45,7 +49,8 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
 
     const data = {
       ...formData,
-      BranchID: parseInt(formData.BranchID as string),
+      UserID: user?.role?.roleID.toString() || '2',
+      BranchID: 1,
       X_Value: parseFloat(formData.X_Value as string),
       Y_Value: parseFloat(formData.Y_Value as string),
       DeviceID: 0
@@ -84,13 +89,13 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
             label="Device ID"
           />
         ) : null}
-        <TextInput
+        {/* <TextInput
           disabled={isPending}
           value={props.editData?.DeviceNumber}
           required
           name="DeviceNumber"
           label="Device Serial Number"
-        />
+        /> */}
         <TextInput
           disabled={isPending}
           value={props.editData?.DeviceName}
@@ -105,14 +110,14 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
           name="Location"
           label="Device Location"
         />
-        <TextInput
+        {/* <TextInput
           type="number"
           disabled={isPending}
           value={props.editData?.BranchID}
           required
           name="BranchID"
           label="Branch ID"
-        />
+        /> */}
         <TextInput
           disabled={isPending}
           value={props.editData?.DeviceIp}
@@ -144,13 +149,13 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
           name="MacID"
           label="Mac ID"
         />
-        <TextInput
+        {/* <TextInput
           disabled={isPending}
           value={props.editData?.UserID}
           required
           name="UserID"
           label="User ID"
-        />
+        /> */}
         <TextInput
           type="number"
           disabled={isPending}
@@ -159,13 +164,15 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
           name="RTSP"
           label="RTSP"
         />
-        <TextInput
-          disabled={isPending}
-          value={props.editData?.status}
-          required
-          name="status"
-          label="Device Status"
-        />
+        {props.editData && (
+          <TextInput
+            disabled={isPending || !!props.editData}
+            value={props.editData?.status}
+            required
+            name="status"
+            label="Device Status"
+          />
+        )}
 
         <div className="flex flex-col  gap-1">
           <label htmlFor="Set Image Location">
