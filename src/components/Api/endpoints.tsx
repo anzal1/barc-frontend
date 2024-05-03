@@ -164,3 +164,22 @@ export const getRoleList = (): Promise<unknown> =>
       Authorization: 'Bearer ' + localStorage.getItem('userToken')
     }
   })
+
+export type getReportBody = {
+  startDate: string
+  endDate: string
+  status: string
+  userID: string
+}
+
+export const getReports = (params: getReportBody): Promise<unknown> =>
+  apiClient(
+    `/api/Appointment/LogReport?fromd=${params.startDate}&tod=${params.endDate}&Status=${params.status}&UserID=${params.userID}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + localStorage.getItem('userToken')
+      }
+    }
+  )
