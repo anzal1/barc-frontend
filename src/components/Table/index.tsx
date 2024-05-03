@@ -38,33 +38,35 @@ const Table = <T,>(props: TableProps<T>) => {
         </thead>
 
         <tbody className="divide-y-8 divide-white rounded-md">
-          {props.data.map((row, rowIndex) => (
-            <tr
-              key={rowIndex}
-              className={twMerge(
-                'bg-gray-100 hover:bg-gray-200 ',
-                props.rowClassName
-              )}
-            >
-              {props.columns.map((column, columnIndex) => (
-                <td
-                  key={`${rowIndex}-${columnIndex}`}
-                  className={twMerge(
-                    'whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 ',
-                    columnIndex === 0 && 'rounded-l-md',
-                    columnIndex === props.columns.length - 1 && 'rounded-r-md',
-                    column.className
-                  )}
-                >
-                  <div className="flex flex-col items-center justify-center ">
-                    {column.render
-                      ? column.render(row, props.data, rowIndex)
-                      : (row[column?.key as keyof T] as React.ReactNode)}
-                  </div>
-                </td>
-              ))}
-            </tr>
-          ))}
+          {props.data &&
+            props.data.map((row, rowIndex) => (
+              <tr
+                key={rowIndex}
+                className={twMerge(
+                  'bg-gray-100 hover:bg-gray-200 ',
+                  props.rowClassName
+                )}
+              >
+                {props.columns.map((column, columnIndex) => (
+                  <td
+                    key={`${rowIndex}-${columnIndex}`}
+                    className={twMerge(
+                      'whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 ',
+                      columnIndex === 0 && 'rounded-l-md',
+                      columnIndex === props.columns.length - 1 &&
+                        'rounded-r-md',
+                      column.className
+                    )}
+                  >
+                    <div className="flex flex-col items-center justify-center ">
+                      {column.render
+                        ? column.render(row, props.data, rowIndex)
+                        : (row[column?.key as keyof T] as React.ReactNode)}
+                    </div>
+                  </td>
+                ))}
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>
