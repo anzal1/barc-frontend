@@ -22,14 +22,33 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
       new FormData(e.target as HTMLFormElement).entries()
     )
 
-    // TODO: handle sanitinzation of DeviceIp
+    // sanitinzation of DeviceIp
+    const deviceIp = formData.DeviceIp as string
+    if (!deviceIp) {
+      toast.error('Device IP is required!')
+      return
+    }
+
+    const ipParts = deviceIp.split('.')
+    if (ipParts.length !== 4) {
+      toast.error('Invalid IP address!')
+      return
+    }
+
+    for (const part of ipParts) {
+      const partNum = parseInt(part)
+      if (isNaN(partNum) || partNum < 0 || partNum > 255) {
+        toast.error('Invalid IP address!')
+        return
+      }
+    }
 
     const data = {
       ...formData,
-      DeviceID: parseInt(formData.DeviceID as string),
       BranchID: parseInt(formData.BranchID as string),
       X_Value: parseFloat(formData.X_Value as string),
-      Y_Value: parseFloat(formData.Y_Value as string)
+      Y_Value: parseFloat(formData.Y_Value as string),
+      DeviceID: 0
     } as CreateDeviceMasterBody
 
     createEditDeviceMasterFn(
@@ -55,20 +74,22 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
   return (
     <form className="mx-auto max-w-4xl" onSubmit={handleSubmit}>
       <div className="grid grid-cols-2 gap-x-8 gap-y-8 mb-4">
-        <TextInput
-          type="number"
-          disabled={isPending}
-          value={props.editData?.DeviceID}
-          required
-          name="DeviceID"
-          label="Device ID"
-        />
+        {props.editData ? (
+          <TextInput
+            type="number"
+            disabled={isPending}
+            value={props.editData?.DeviceID}
+            required
+            name="DeviceID"
+            label="Device ID"
+          />
+        ) : null}
         <TextInput
           disabled={isPending}
           value={props.editData?.DeviceNumber}
           required
           name="DeviceNumber"
-          label="Device Number"
+          label="Device Serial Number"
         />
         <TextInput
           disabled={isPending}
@@ -129,13 +150,6 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
           required
           name="UserID"
           label="User ID"
-        />
-        <TextInput
-          disabled={isPending}
-          value={props.editData?.BranchName}
-          required
-          name="BranchName"
-          label="Branch Name"
         />
         <TextInput
           type="number"

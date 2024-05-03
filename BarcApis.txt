@@ -1,0 +1,188 @@
+
+     APi :  Device/InsertDeviceEntry
+
+API parameters   :                
+{
+		"DeviceNumber":"1234554321",
+		"DeviceName":"maschine1",
+		"Location":"pune1",
+		"BranchID":1,
+		"DeviceIp":"192.168.10.153",
+		"SerialNo":"1233",
+		"PortNo":"22001",
+		"MacID":"21",
+		"UserID":"200012",
+		"RTSP":"12331",
+		"status":"Y",
+		"X_Value":123.123,
+		"Y_value":123.00
+}
+
+  APi Parameter   :                Maping Form Parametrs
+
+   DeviceName              :       DeviceName
+   SerialNo                :       DeviceNumber
+   DeviceIp                :       DeviceIp
+   location                :       DeviceLocation
+   rtsp                    :       ETSPLink
+   Status                  :       Device Status
+   X_Value                 :       x Value 
+   y_Value                 :       y value 
+
+================================================================
+
+   API:  Device/UpdateDeviceEntry
+
+{
+"DeviceID":14,
+"DeviceNumber":"123455432",
+"DeviceName":"2nd maschine",
+"Location":"pune",
+"BranchID":1,
+"DeviceIp":"192.168.10.155",
+"SerialNo":"123",
+"PortNo":"2200",
+"MacID":"2",
+"UserID":"20002",
+"RTSP":"1233",
+"status":"Y",
+"X_Value":"xx",
+"Y_value":"Yy"
+}
+
+  APi Parameter   :                Maping Form Parametrs
+
+   DeviceID                :       DeviceID
+   DeviceName              :       DeviceName
+   SerialNo                :       DeviceNumber
+   DeviceIp                :       DeviceIp
+   location                :       DeviceLocation
+   rtsp                    :       ETSPLink
+   Status                  :       Device Status
+   X_Value                 :       x Value 
+   y_Value                 :       y value 
+===========================================================================
+
+    API:   Device/DeleteDeviceEntry
+
+{
+"DeviceID":30,
+"UserID":"1234"
+}
+
+  APi Parameter   :                Maping Form Parametrs
+
+   DeviceID                :       DeviceID
+   UserID                  :       (take this from login pesron ID "empsrno")
+
+=================================================================================
+
+
+   API   :    Device/GetDeviceDetailsByID?DeviceID=25
+
+   This Api For gat device Deatils By there ID
+
+
+
+
+===================================================================================
+
+
+     APi :  Employee/InsertEmployeeEntry
+
+API parameters   :                
+{
+    "Command":"Insert",
+    "Emp_Name":"sagar s",
+    "ContactNo":1231231231,
+    "Email":"",
+    "DeptID":0,
+    "DesigID":0,
+    "BranchID":1,
+    "Role_id":2,
+    "User_Name":"Sagar1234",
+    "Password":"Sagar@1234",
+    "Emptype":"2",
+    "EmptypID":2,
+    "ContrcatID":1,
+    "ApprovedAuth":2,
+    "EmpID":"123",
+    "FingerID":0,
+    "ValidityDate":"1997-06-27",
+    "UserID":"1234"
+}
+
+  APi Parameter   :                Maping Form Parametrs
+  
+   Emp_Name                :       Full name
+   ContactNo               :       Contact number
+   Email                   :       Email
+   Role_id                 :       Employee role
+   (Hide) while insert     :       Working Status
+   User_Name               :       User name
+   Password                :       Password 
+
+
+===========================================================================
+
+
+ APi :  Employee/UpdateEmployeeDetails
+
+API parameters   :                
+{
+    "Command":"Update",
+    "Emp_Name":"sagar s",
+    "ContactNo":1111111111,
+    "Email":"",
+    "Role_id":2,
+    "User_Name":"Sagar1234",
+    "Password":"Sagar@1234",
+    "ValidityDate":"1997-06-27",
+    "Status":"Y",
+    "EMPSRNO":128,
+     "UserID":"1234"
+}
+
+  APi Parameter   :                Maping Form Parametrs
+
+   Emp_Name                :       Full name
+   ContactNo               :       Contact number
+   Email                   :       Email
+   Role_id                 :       Employee role
+   Status                  :       Working Status
+   User_Name               :       User name
+   Password                :       Password 
+   EMPSRNO                 :       (take from list)
+
+
+=====================================================================================
+  
+   APi :  Employee/RemoveEmployee
+
+
+{
+    "Command":"Delete",
+    "Emp_Name":"",
+    "ContactNo":0,
+    "Email":"",
+    "Role_id":0,
+    "User_Name":"",
+    "Password":"",
+    "EMPSRNO":128,
+    "UserID":"1234"
+}
+
+
+  APi Parameter   :                Maping Form Parametrs
+
+   EMPSRNO                 :       (take from list   "/Employee/GetEmployeeDeatils")
+   UserID                  :       (Login pesron ID)
+
+
+=======================================================================================
+
+    API :   /Employee/GetEmployeeDeatilsByEmpID?EMPSRNO=1
+
+
+    This Get Employee Data By There Empsrno
+                      
