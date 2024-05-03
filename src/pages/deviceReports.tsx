@@ -5,16 +5,11 @@ import { CustomCard } from '../components/Card/card'
 import { useNavigate } from 'react-router-dom'
 
 import cancel from '../assets/cancel.svg'
+import { DeviceReportsForm } from '../components/DeviceReports/deviceReportsForm'
 
 export const DeviceReports = () => {
   const navigate = useNavigate()
-  const [startDate, setStartDate] = React.useState<string>('')
-  const [endDate, setEndDate] = React.useState<string>('')
-  const [report, setReport] = React.useState<string>('')
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-  }
+  const [reports, setReports] = React.useState(null)
 
   return (
     <Layout navType={NavType.FILLED}>
@@ -34,59 +29,21 @@ export const DeviceReports = () => {
             </div>
           }
         >
-          <form
-            className="mx-auto grid grid-cols-1 gap-x-8 gap-y-8 max-w-sm "
-            onSubmit={handleSubmit}
-          >
-            <div className="flex flex-col gap-2 items-start">
-              <label htmlFor="startDate">Start Date</label>
-              <input
-                type="date"
-                id="startDate"
-                name="startDate"
-                value={startDate}
-                onChange={(e) => {
-                  setStartDate(e.target.value)
-                }}
-                className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg p-4 shadow-md shadow-[#00000061]"
-              />
-            </div>
-            <div className="flex flex-col gap-2 items-start">
-              <label htmlFor="startDate">End Date</label>
-              <input
-                type="date"
-                id="endDate"
-                name="endDate"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-                className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg p-4 shadow-md shadow-[#00000061]"
-              />
-            </div>
-            <div className="flex flex-col gap-2 items-start">
-              <label htmlFor="Select Report">Select Report</label>
-              <select
-                className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg shadow-md shadow-[#00000061]"
-                value={report}
-                onChange={(e) => setReport(e.target.value)}
+          {reports ? (
+            <div className="flex flex-col gap-4 items-start w-full h-full">
+              <p
+                className="text-blue-500 cursor-pointer"
+                onClick={() => setReports(null)}
               >
-                <option value="">Select a report</option>
-                <option value="inventory">Inventory</option>
-                <option value="logs">Logs</option>
-                <option value="maintenance">Maintenance</option>
-              </select>
+                Back to form
+              </p>
+              <pre className="w-full h-[50vh] overflow-y-scroll">
+                {JSON.stringify(reports, null, 2)}
+              </pre>
             </div>
-            <div className="flex gap-4 items-center">
-              <button className="px-8 py-[10px] rounded-lg font-bold border-2 border-[#1C9FF6] shadow-md shadow-[#00000061]">
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="px-8 py-3 bg-[#1C9FF6] rounded-lg text-white font-bold shadow-md shadow-[#00000061]"
-              >
-                View Report
-              </button>
-            </div>
-          </form>
+          ) : (
+            <DeviceReportsForm setReports={setReports} />
+          )}
         </CustomCard>
       </div>
     </Layout>

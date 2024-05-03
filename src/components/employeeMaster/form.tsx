@@ -87,11 +87,12 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
             className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg shadow-md shadow-[#00000061]"
           >
             <option value="">Select Role</option>
-            {roleDetails?.map((role: any) => (
-              <option key={role.role_ID} value={role.role_Name}>
-                {role.role_Name}
-              </option>
-            ))}
+            {roleDetails &&
+              roleDetails?.map((role: any) => (
+                <option key={role.role_ID} value={role.role_Name}>
+                  {role.role_Name}
+                </option>
+              ))}
           </select>
         </div>
 

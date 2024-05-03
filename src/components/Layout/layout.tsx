@@ -28,9 +28,9 @@ const Layout = ({
     if (user != null) {
       getRoleListFn(void 0, {
         onSuccess: (roleList: any) => {
-          const role = roleList.find(
-            (role: any) => role.user_Name === user.username
-          )
+          const role =
+            roleList &&
+            roleList.find((role: any) => role.user_Name === user.username)
           localStorage.setItem('role', JSON.stringify(role))
           setUser((prev) => {
             return {
