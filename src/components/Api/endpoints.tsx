@@ -147,8 +147,8 @@ export const createOrEditEmployeeMaster = (body: {
   )
 }
 
-export const getRoleDetails = (): Promise<unknown> =>
-  apiClient(`/api/Employee/GetRoleDeatils`, {
+export const getRoleDetails = (UserID: string): Promise<unknown> =>
+  apiClient(`/api/Employee/GetRoleDeatils?UserID=${UserID}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

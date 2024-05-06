@@ -9,6 +9,8 @@ import {
 import toast from 'react-hot-toast'
 
 import eye from '../../assets/eye.svg'
+import { useRecoilValue } from 'recoil'
+import { userState } from '../Atoms/user'
 
 export type EmployeeMasterFormProps = {
   editData?: CreateOrEditEmployeeMasterBody
@@ -20,13 +22,14 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
   const { mutate: createOrEditMutationFn, isPending } =
     useCreateOrEditEmployeeMasterMutation()
   const [showPassword, setShowPassword] = useState(false)
+  const user: any = useRecoilValue(userState)
   const {
     data: roleDetails,
     isLoading: isGetRoleDetailsLoading
   }: {
     data: any
     isLoading: boolean
-  } = useGetRoleDetailsQuery()
+  } = useGetRoleDetailsQuery(user?.role?.roleID || 5)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

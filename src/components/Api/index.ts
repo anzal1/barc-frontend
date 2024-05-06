@@ -86,10 +86,10 @@ export const useCreateOrEditEmployeeMasterMutation = () => {
   })
 }
 
-export const useGetRoleDetailsQuery = () => {
+export const useGetRoleDetailsQuery = (UserID: string) => {
   return useQuery({
     queryKey: [QUERY_KEYS.getRoleDetails],
-    queryFn: ENDPOINTS.getRoleDetails
+    queryFn: () => ENDPOINTS.getRoleDetails(UserID)
   })
 }
 
