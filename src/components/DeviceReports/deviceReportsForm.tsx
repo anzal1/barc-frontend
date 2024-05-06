@@ -61,9 +61,10 @@ export const DeviceReportsForm = ({
           className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg shadow-md shadow-[#00000061]"
         >
           <option value="">Select a report</option>
-          <option value="inventory">Inventory</option>
-          <option value="log">Logs</option>
-          <option value="maintenance">Maintenance</option>
+          {/* Panic,Acknowledged,Log */}
+          <option value="panic">Panic</option>
+          <option value="acknowledged">Acknowledged</option>
+          <option value="log">Log</option>
         </select>
       </div>
       <div className="flex gap-4 items-center">
