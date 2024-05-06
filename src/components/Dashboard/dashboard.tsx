@@ -94,6 +94,15 @@ export const Dashboard = () => {
     const x = event.clientX - bounds?.left
     const y = event.clientY - bounds?.top
 
+    const isNear = deviceList?.some(
+      (point: DeviceMasterType) =>
+        Math.pow(Number.parseFloat(point.x_value as string) - x, 2) +
+          Math.pow(Number.parseFloat(point.y_value as string) - y, 2) <
+        160
+    )
+
+    if (isNear) return
+
     setMapClick({ x, y })
     setCoordinateOpen(true)
   }
