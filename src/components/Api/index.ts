@@ -57,7 +57,7 @@ export const useGetDeviceMasterListQuery = () => {
       QUERY_KEYS.createOrEditDeviceMaster
     ],
     queryFn: ENDPOINTS.getDeviceMasterList,
-    refetchInterval: 1000 // 1 seconds
+    refetchInterval: 5000 // 1 seconds
   })
 }
 

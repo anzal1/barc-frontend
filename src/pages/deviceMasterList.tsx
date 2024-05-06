@@ -46,6 +46,8 @@ const DeviceMasterList = () => {
   )
 
   const handleEdit = (currentRow: DeviceMasterType) => {
+    console.log(currentRow)
+
     const _editData: CreateDeviceMasterBody = {
       BranchID: currentRow.branchID,
       BranchName: currentRow.branchName,
@@ -60,8 +62,8 @@ const DeviceMasterList = () => {
       SerialNo: currentRow.serialNo,
       status: currentRow.status,
       UserID: currentRow.userID,
-      X_Value: Number.parseFloat(currentRow.x_value as string) as any,
-      Y_Value: Number.parseFloat(currentRow.y_value as string) as any
+      X_Value: String(currentRow.x_value) as any,
+      Y_Value: String(currentRow.y_value) as any
     }
     setEditData(_editData)
   }
