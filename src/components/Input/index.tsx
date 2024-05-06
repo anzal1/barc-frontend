@@ -27,7 +27,9 @@ const TextInput = (props: InputProps) => {
         {...props}
         onInvalid={(e) => {
           setError(`${props.label} is required`)
-          ;(e.target as any).setCustomValidity(`${props.label} is required`)
+          ;(e.target as any).setCustomValidity(
+            `${props.label || props.name} is required`
+          )
         }}
         onBeforeInput={(e) => {
           setError('')

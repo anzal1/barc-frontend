@@ -25,6 +25,14 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
     const formData = Object.fromEntries(
       new FormData(e.target as HTMLFormElement).entries()
     )
+    if (
+      formData.status &&
+      (formData.status as string).toUpperCase() !== 'Y' &&
+      (formData.status as string).toUpperCase() !== 'N'
+    ) {
+      toast.error('Invalid device status! Device Status is either Y or N')
+      return
+    }
 
     // sanitinzation of DeviceIp
     const deviceIp = formData.DeviceIp as string
@@ -47,13 +55,26 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
       }
     }
 
+    if (isNaN(parseFloat(formData.X_Value as string))) {
+      toast.error('Invalid X Value! Must be a floating point number')
+      return
+    }
+
+    if (isNaN(parseFloat(formData.Y_Value as string))) {
+      toast.error('Invalid Y Value! Must be a floating point number')
+      return
+    }
+
     const data = {
       ...formData,
-      UserID: user?.role?.roleID.toString() || '2',
+      DeviceID: 0,
       BranchID: 1,
+      UserID: user?.role?.roleID.toString() || '2',
       X_Value: parseFloat(formData.X_Value as string),
       Y_Value: parseFloat(formData.Y_Value as string),
-      DeviceID: 0
+      ...(formData.status
+        ? { status: (formData.status as string).toUpperCase() }
+        : {})
     } as CreateDeviceMasterBody
 
     createEditDeviceMasterFn(
@@ -70,6 +91,8 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
     )
   }
 
+  console.log('props.editData', props.editData)
+
   const handleReset = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     e.stopPropagation()
@@ -83,7 +106,7 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
           <TextInput
             type="number"
             disabled={isPending}
-            value={props.editData?.DeviceID}
+            defaultValue={props.editData?.DeviceID}
             required
             name="DeviceID"
             label="Device ID"
@@ -91,21 +114,21 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
         ) : null}
         {/* <TextInput
           disabled={isPending}
-          value={props.editData?.DeviceNumber}
+          defaultValue={props.editData?.DeviceNumber}
           required
           name="DeviceNumber"
           label="Device Serial Number"
         /> */}
         <TextInput
           disabled={isPending}
-          value={props.editData?.DeviceName}
+          defaultValue={props.editData?.DeviceName}
           required
           name="DeviceName"
           label="Device Name"
         />
         <TextInput
           disabled={isPending}
-          value={props.editData?.Location}
+          defaultValue={props.editData?.Location}
           required
           name="Location"
           label="Device Location"
@@ -120,7 +143,7 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
         /> */}
         <TextInput
           disabled={isPending}
-          value={props.editData?.DeviceIp}
+          defaultValue={props.editData?.DeviceIp}
           required
           name="DeviceIp"
           label="Device IP"
@@ -128,7 +151,7 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
         <TextInput
           type="number"
           disabled={isPending}
-          value={props.editData?.SerialNo}
+          defaultValue={props.editData?.SerialNo}
           required
           name="SerialNo"
           label="Serial Number"
@@ -136,7 +159,7 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
         <TextInput
           type="number"
           disabled={isPending}
-          value={props.editData?.PortNo}
+          defaultValue={props.editData?.PortNo}
           required
           name="PortNo"
           label="Port Number"
@@ -144,7 +167,7 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
         <TextInput
           type="number"
           disabled={isPending}
-          value={props.editData?.MacID}
+          defaultValue={props.editData?.MacID}
           required
           name="MacID"
           label="Mac ID"
@@ -159,15 +182,15 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
         <TextInput
           type="number"
           disabled={isPending}
-          value={props.editData?.RTSP}
+          defaultValue={props.editData?.RTSP}
           required
           name="RTSP"
           label="RTSP"
         />
         {props.editData && (
           <TextInput
-            disabled={isPending || !!props.editData}
-            value={props.editData?.status}
+            disabled={isPending}
+            defaultValue={props.editData?.status}
             required
             name="status"
             label="Device Status"
@@ -182,6 +205,7 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
             <input
               required
               type="text"
+              defaultValue={props.editData?.X_Value}
               id="X_Value"
               name="X_Value"
               placeholder="X Value"
@@ -190,6 +214,7 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
             <input
               required
               type="text"
+              defaultValue={props.editData?.Y_Value}
               id="Y_Value"
               name="Y_Value"
               placeholder="Y Value"
