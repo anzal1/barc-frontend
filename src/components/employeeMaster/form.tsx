@@ -40,7 +40,8 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
 
     // TODO: handle data validation and sanitization here
     const data = {
-      ...formData
+      ...formData,
+      status: formData.workingStatus === 'active' ? 1 : 0
     } as unknown as CreateOrEditEmployeeMasterBody
 
     createOrEditMutationFn(

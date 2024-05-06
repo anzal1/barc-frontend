@@ -143,7 +143,8 @@ export const createOrEditEmployeeMaster = (body: {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      body: JSON.stringify(body.data)
     }
   )
 }
