@@ -109,7 +109,7 @@ export const EmployeeMasterListPage = () => {
                   src={cancel}
                   className="w-10 h-10 cursor-pointer"
                   alt="cancel"
-                  onClick={() => navigate('/device-master')}
+                  onClick={() => navigate('/employee-master')}
                 />
               </div>
             </div>
@@ -163,27 +163,11 @@ export const EmployeeMasterListPage = () => {
               <Table<EmployeeMasterType>
                 columns={[
                   { key: 'empsrno', title: 'Employee srno' },
-                  { key: 'command', title: 'Command' },
-                  { key: 'role_id', title: 'Role ID' },
-                  { key: 'emp_Name', title: 'Name' },
-                  { key: 'user_Name', title: 'Username' },
-                  { key: 'contactNo', title: 'Contact No' },
+                  { key: 'emp_Name', title: 'Full Name' },
+                  { key: 'contactNo', title: 'Contact Number' },
                   { key: 'email', title: 'Email' },
-                  { key: 'deptID', title: 'Department ID' },
-                  { key: 'deptName', title: 'Department Name' },
-                  { key: 'desigID', title: 'designation ID' },
-                  { key: 'designame', title: 'Designation Name' },
-                  { key: 'branchID', title: 'Branch ID' },
-                  { key: 'branchName', title: 'Branch Name' },
-                  { key: 'roleID', title: 'Role ID' },
-                  { key: 'status', title: 'Status' },
-                  { key: 'emptype', title: 'Employee Type' },
-                  { key: 'emptypID', title: 'Employee Type ID' },
-                  { key: 'contrcatID', title: 'Contrcat ID' },
-                  { key: 'approvedAuth', title: 'Approved Auth' },
-                  { key: 'empID', title: 'Employee ID' },
-                  { key: 'fingerID', title: 'Dinger ID' },
-                  { key: 'validityDate', title: 'Validity Date' },
+                  { key: 'role_id', title: 'Employee Role' },
+                  { key: 'user_Name', title: 'User name' },
                   {
                     key: 'actions',
                     title: 'Action',
