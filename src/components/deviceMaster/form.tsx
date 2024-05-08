@@ -181,7 +181,7 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
           label="User ID"
         /> */}
         <TextInput
-          type="number"
+          type="text"
           disabled={isPending}
           defaultValue={props.editData?.RTSP}
           required
