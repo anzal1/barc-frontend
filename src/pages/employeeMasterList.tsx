@@ -16,6 +16,8 @@ import EmployeeMasterForm from '../components/employeeMaster/form'
 import cancel from '../assets/cancel.svg'
 import edit from '../assets/edit.svg'
 import deleteIcon from '../assets/delete.svg'
+import { useRecoilValue } from 'recoil'
+import { userState } from '../components/Atoms/user'
 
 type EmployeeMasterType = {
   command: any
@@ -44,8 +46,9 @@ type EmployeeMasterType = {
 }
 
 export const EmployeeMasterListPage = () => {
+  const user: any = useRecoilValue(userState)
   const { data, isPending: employeeListPending } =
-    useGetEmployeeMasterListQuery()
+    useGetEmployeeMasterListQuery(user?.role?.roleID || '5')
   const { isPending: employeeDeletePending, mutate: deleteEmployeeFn } =
     useDeleteEmployeeMutation()
 

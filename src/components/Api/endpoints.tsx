@@ -98,8 +98,10 @@ export const deleteDeviceMaster = (
 export const getDeviceMasterList = (): Promise<unknown> =>
   apiClient(`/api/Device/GetDeviceDetails?branchid=1`, { method: 'GET' })
 
-export const getEmployeeMasterList = (): Promise<unknown> =>
-  apiClient(`/api/Employee/GetEmployeeDeatils`, { method: 'GET' })
+export const getEmployeeMasterList = (UserID: string): Promise<unknown> =>
+  apiClient(`/api/Employee/GetEmployeeDeatils?UserID=${UserID}`, {
+    method: 'GET'
+  })
 
 export const deleteEmployee = (employeeSrNo: number): Promise<unknown> => {
   return apiClient('/api/Employee/RemoveEmployee', {
