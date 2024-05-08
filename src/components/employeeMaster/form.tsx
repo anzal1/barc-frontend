@@ -38,7 +38,17 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
       new FormData(e.target as HTMLFormElement).entries()
     )
 
-    // TODO: handle data validation and sanitization here
+    if (!formData.contactNumber || formData.contactNumber.length !== 10) {
+      toast.error('Please enter a valid contact number')
+      return
+    }
+
+    const emailRegex = new RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,5})+$/)
+    if (!formData.email || !emailRegex.test(formData.email as string)) {
+      toast.error('Please enter a valid email')
+      return
+    }
+
     const data = {
       ...formData,
       status: formData.workingStatus === 'active' ? 1 : 0

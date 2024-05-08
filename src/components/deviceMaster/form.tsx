@@ -1,11 +1,12 @@
 import React from 'react'
 import toast from 'react-hot-toast'
+import { useRecoilValue } from 'recoil'
+import { useNavigate } from 'react-router-dom'
+
 import TextInput from '../Input'
+import { userState } from '../Atoms/user'
 import { CreateDeviceMasterBody } from '../Api/endpoints'
 import { useCreateOrEditDeviceMasterMutation } from '../Api'
-import { useNavigate } from 'react-router-dom'
-import { useRecoilValue } from 'recoil'
-import { userState } from '../Atoms/user'
 
 export type DeviceMasterFormProps = {
   editData?: CreateDeviceMasterBody
@@ -74,7 +75,7 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
       Y_Value: parseFloat(formData.Y_Value as string),
       ...(formData.status
         ? { status: (formData.status as string).toUpperCase() }
-        : {})
+        : { status: null })
     } as CreateDeviceMasterBody
 
     createEditDeviceMasterFn(
@@ -180,7 +181,7 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
           label="User ID"
         /> */}
         <TextInput
-          type="number"
+          type="text"
           disabled={isPending}
           defaultValue={props.editData?.RTSP}
           required
