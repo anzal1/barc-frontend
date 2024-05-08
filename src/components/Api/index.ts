@@ -61,14 +61,14 @@ export const useGetDeviceMasterListQuery = () => {
   })
 }
 
-export const useGetEmployeeMasterListQuery = () => {
+export const useGetEmployeeMasterListQuery = (UserID: string) => {
   return useQuery({
     queryKey: [
       QUERY_KEYS.getEmployeeMasterList,
       QUERY_KEYS.createOrEditEmployeeMaster,
       QUERY_KEYS.deleteEmployeeMaster
     ],
-    queryFn: ENDPOINTS.getEmployeeMasterList
+    queryFn: () => ENDPOINTS.getEmployeeMasterList(UserID)
   })
 }
 

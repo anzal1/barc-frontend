@@ -98,12 +98,14 @@ export const Dashboard = () => {
       (point: DeviceMasterType) =>
         Math.pow(Number.parseFloat(point.x_value as string) - x, 2) +
           Math.pow(Number.parseFloat(point.y_value as string) - y, 2) <
-        160
+        180
     )
 
     if (isNear) return
-
-    setMapClick({ x, y })
+    setMapClick({
+      x: Math.round(x * 100) / 100,
+      y: Math.round(y * 100) / 100
+    })
     setCoordinateOpen(true)
   }
 
