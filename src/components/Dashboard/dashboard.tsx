@@ -17,6 +17,7 @@ import { InsertAcknowledgeBody } from '../Api/endpoints'
 import { userState } from '../Atoms/user'
 import { useRecoilValue } from 'recoil'
 import toast from 'react-hot-toast'
+import StreamingCamera from '../StreamingCamera/streamingCamera'
 
 // const data = [
 //   { x: 337, y: 513, color: 'red' },
@@ -70,6 +71,7 @@ export const Dashboard = () => {
   const [currentPoint, setCurrentPoint] = useState<DeviceMasterType>(
     {} as DeviceMasterType
   )
+  console.log('currentPoint', currentPoint)
   const [mapClick, setMapClick] = useState({ x: 0, y: 0 })
   const [coordinateOpen, setCoordinateOpen] = useState(false)
   const {
@@ -79,13 +81,34 @@ export const Dashboard = () => {
 
   const user: any = useRecoilValue(userState)
 
+  const handleShowLiveActivity = () => {
+    // hit a get request on http://localhost:3000
+
+    const response = fetch(
+      'http://localhost:3000/getStream?rstpUrl=rtsp://admin:Dsspl@123@103.97.243.100:554/1/1',
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+    // console.log('response', response)
+
+    // if response is successfull
+
+    setOpen(false)
+    setCurrentPoint(currentPoint)
+    setImageModal(true)
+  }
+
   const {
     data: deviceList,
     isLoading
   }: {
     data: any
     isLoading: boolean
-  } = useGetDeviceMasterListQuery()
+  } = useGetDeviceMasterListQuery(user?.role?.roleID || '1234')
 
   if (isLoading) return <div>Loading...</div>
 
@@ -171,11 +194,7 @@ export const Dashboard = () => {
               </button>
               <button
                 className="bg-[#1C9FF6] text-white px-4 py-2 rounded-[10px] w-full text-xl h-16"
-                onClick={() => {
-                  setOpen(false)
-                  setCurrentPoint(currentPoint)
-                  setImageModal(true)
-                }}
+                onClick={handleShowLiveActivity}
               >
                 Show Live Activity
               </button>
@@ -194,39 +213,40 @@ export const Dashboard = () => {
           boxShadow: '0px 1px 18px 0px #00000061'
         }}
       >
-        {deviceList?.map((point: DeviceMasterType) => (
-          <>
-            <img
-              key={point.x_value}
-              onClick={() => {
-                setCurrentPoint(point)
-                setOpen(!open)
-              }}
-              src={
-                colorStatusMapper[
-                  point.status as keyof typeof colorStatusMapper
-                ] || greenDot
-              }
-              alt="circle"
-              className="absolute cursor-pointer"
-              // this image should have its center at the x and y
-              style={{
-                top: `${Number.parseFloat(point.y_value as string) - 10}px`,
-                left: `${Number.parseFloat(point.x_value as string) - 10}px`
-              }}
-            />
-            <p
-              key={point.x_value}
-              className="absolute text-black text-xs font-semibold"
-              style={{
-                top: `${Number.parseFloat(point.y_value as string) + 10}px`,
-                left: `${Number.parseFloat(point.x_value as string) + 10}px`
-              }}
-            >
-              X : {point.x_value} , Y : {point.y_value}
-            </p>
-          </>
-        ))}
+        {deviceList &&
+          deviceList?.map((point: DeviceMasterType) => (
+            <>
+              <img
+                key={point.x_value}
+                onClick={() => {
+                  setCurrentPoint(point)
+                  setOpen(!open)
+                }}
+                src={
+                  colorStatusMapper[
+                    point.status as keyof typeof colorStatusMapper
+                  ] || greenDot
+                }
+                alt="circle"
+                className="absolute cursor-pointer"
+                // this image should have its center at the x and y
+                style={{
+                  top: `${Number.parseFloat(point.y_value as string) - 10}px`,
+                  left: `${Number.parseFloat(point.x_value as string) - 10}px`
+                }}
+              />
+              <p
+                key={point.x_value}
+                className="absolute text-black text-xs font-semibold"
+                style={{
+                  top: `${Number.parseFloat(point.y_value as string) + 10}px`,
+                  left: `${Number.parseFloat(point.x_value as string) + 10}px`
+                }}
+              >
+                X : {point.x_value} , Y : {point.y_value}
+              </p>
+            </>
+          ))}
         <Modal open={open} onClose={() => setOpen(false)} type="absolute">
           <div
             className="flex flex-col gap-6 max-w-xs relative bg-white border-1-[#1C9FF6] border-2 rounded-[10px] p-4 shadow-lg"
@@ -265,11 +285,7 @@ export const Dashboard = () => {
               </button>
               <button
                 className="bg-[#1C9FF6] text-white rounded-[10px] w-full text-xl h-10"
-                onClick={() => {
-                  setOpen(false)
-                  setCurrentPoint(currentPoint)
-                  setImageModal(true)
-                }}
+                onClick={handleShowLiveActivity}
               >
                 Show Live Activity
               </button>
@@ -309,19 +325,20 @@ export const Dashboard = () => {
         modalStyle="py-24 px-12"
       >
         <div className="grid grid-cols-5 gap-4  rounded-lg p-4 shadow-xl shadow-[#00000061] mt-16">
-          {Array.from({ length: 15 }).map((_, index) => (
-            <div className="relative z-[9999]">
-              <img src={videoImage} alt="image" className="w-full h-full" />
-              <div className="absolute -top-5 -right-5">
-                <img
-                  onClick={() => setImageModal(false)}
-                  src={cancel}
-                  alt="cancel"
-                  className="cursor-pointer w-6 h-6 fill-current text-[#1C9FF6]"
-                />
-              </div>
+          {/* {Array.from({ length: 15 }).map((_, index) => (
+          ))} */}
+          <div className="relative z-[9999]">
+            <StreamingCamera />
+            {/* <img src={videoImage} alt="image" className="w-full h-full" /> */}
+            <div className="absolute -top-5 -right-5">
+              <img
+                onClick={() => setImageModal(false)}
+                src={cancel}
+                alt="cancel"
+                className="cursor-pointer w-6 h-6 fill-current text-[#1C9FF6]"
+              />
             </div>
-          ))}
+          </div>
         </div>
       </Modal>
     </div>

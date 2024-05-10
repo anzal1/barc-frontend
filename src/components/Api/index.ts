@@ -49,14 +49,14 @@ export const useDeleteDeviceMasterMutation = () => {
   })
 }
 
-export const useGetDeviceMasterListQuery = () => {
+export const useGetDeviceMasterListQuery = (UserID: string) => {
   return useQuery({
     queryKey: [
       QUERY_KEYS.getDeviceMasterList,
       QUERY_KEYS.deleteDeviceMaster,
       QUERY_KEYS.createOrEditDeviceMaster
     ],
-    queryFn: ENDPOINTS.getDeviceMasterList,
+    queryFn: () => ENDPOINTS.getDeviceMasterList(UserID),
     refetchInterval: 5000 // 1 seconds
   })
 }
