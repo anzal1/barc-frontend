@@ -95,8 +95,10 @@ export const deleteDeviceMaster = (
     body: JSON.stringify({ DeviceID: deviceId })
   })
 
-export const getDeviceMasterList = (): Promise<unknown> =>
-  apiClient(`/api/Device/GetDeviceDetails?branchid=1`, { method: 'GET' })
+export const getDeviceMasterList = (UserID: string): Promise<unknown> =>
+  apiClient(`/api/Device/GetDeviceDetails?branchid=1&UserID=${UserID}`, {
+    method: 'GET'
+  })
 
 export const getEmployeeMasterList = (UserID: string): Promise<unknown> =>
   apiClient(`/api/Employee/GetEmployeeDeatils?UserID=${UserID}`, {
