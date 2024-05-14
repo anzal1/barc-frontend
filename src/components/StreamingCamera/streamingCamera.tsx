@@ -18,7 +18,7 @@ const StreamingCamera = () => {
   return (
     <>
       {loading && <div>Loading...</div>}
-      <canvas className="h-full" ref={canvas} />
+      <canvas className="h-[600px] w-[1000px]" ref={canvas} />
     </>
   )
 }

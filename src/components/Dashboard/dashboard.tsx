@@ -83,17 +83,15 @@ export const Dashboard = () => {
 
   const handleShowLiveActivity = () => {
     // hit a get request on http://localhost:3000
-
-    const response = fetch(
-      'http://localhost:3000/getStream?rstpUrl=rtsp://admin:Dsspl@123@103.97.243.100:554/1/1',
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    )
-
+    // const response = fetch(
+    //   'http://localhost:3000/getStream?rstpUrl=rtsp://admin:Dsspl@123@103.97.243.100:554/1/1',
+    //   {
+    //     method: 'GET',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     }
+    //   }
+    // )
     setOpen(false)
     setCurrentPoint(currentPoint)
     setImageModal(true)
@@ -321,18 +319,15 @@ export const Dashboard = () => {
         type="absolute"
         modalStyle="py-24 px-12"
       >
-        <div className="grid grid-cols-5 gap-4  rounded-lg p-4 shadow-xl shadow-[#00000061] mt-16">
-          {/* {Array.from({ length: 15 }).map((_, index) => (
-          ))} */}
+        <div className=" mt-16 bg-gray-400 w-[1032px] p-4 rounded-xl">
           <div className="relative z-[9999]">
             <StreamingCamera />
-            {/* <img src={videoImage} alt="image" className="w-full h-full" /> */}
-            <div className="absolute -top-5 -right-5">
+            <div className="absolute -top-8 -right-8">
               <img
                 onClick={() => setImageModal(false)}
                 src={cancel}
                 alt="cancel"
-                className="cursor-pointer w-6 h-6 fill-current text-[#1C9FF6]"
+                className="cursor-pointer w-10 h-10 fill-current bg-[#1C9FF6] p-1 rounded-full"
               />
             </div>
           </div>
