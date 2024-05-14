@@ -16,6 +16,8 @@ import toast from 'react-hot-toast'
 import cancel from '../assets/cancel.svg'
 import edit from '../assets/edit.svg'
 import deleteIcon from '../assets/delete.svg'
+import { useRecoilValue } from 'recoil'
+import { userState } from '../components/Atoms/user'
 
 type DeviceMasterType = {
   branchID: number
@@ -36,8 +38,9 @@ type DeviceMasterType = {
 }
 
 const DeviceMasterList = () => {
+  const user: any = useRecoilValue(userState)
   const { data, isPending: getDeviceMasterPending } =
-    useGetDeviceMasterListQuery()
+    useGetDeviceMasterListQuery(user?.role?.roleID)
   const { isPending: isDeleteDevicePending, mutate: deleteDeviceFn } =
     useDeleteDeviceMasterMutation()
   const [deleteDeviceId, setDeleteDeviceId] = useState<number | null>(null)

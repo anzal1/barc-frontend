@@ -8,12 +8,10 @@ import { RecoilRoot } from 'recoil'
 import { Toaster } from 'react-hot-toast'
 
 createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <ApiProvider>
-      <RecoilRoot>
-        <Toaster />
-        <App />
-      </RecoilRoot>
-    </ApiProvider>
-  </React.StrictMode>
+  <ApiProvider>
+    <RecoilRoot>
+      <Toaster />
+      <App />
+    </RecoilRoot>
+  </ApiProvider>
 )

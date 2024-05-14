@@ -1,28 +1,25 @@
-import React, { useRef, useEffect } from 'react'
-import jsmpeg from 'jsmpeg'
+import { loadPlayer } from 'rtsp-relay/browser'
+import { useEffect, useRef, useState } from 'react'
 
 const StreamingCamera = () => {
-  const canvasRef = useRef(null)
+  const canvas = useRef<HTMLCanvasElement>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const canvas = canvasRef.current
-    const websocket = new WebSocket('ws://127.0.0.1:8000')
-
-    const newPlayer: any = new jsmpeg(websocket, {
-      canvas: canvas,
-      autoplay: true,
-      loop: true
+    if (!canvas?.current) throw new Error('Ref is null')
+    setLoading(true)
+    loadPlayer({
+      url: 'ws://localhost:2000/api/stream?url=rtsp://admin:Dsspl@123@103.97.243.100:554/1/1',
+      canvas: canvas.current
     })
-
-    return () => {
-      websocket.close()
-    }
+    setLoading(false)
   }, [])
 
   return (
-    <div>
-      {<canvas className="w-[600px] h-[600px]" ref={canvasRef}></canvas>}
-    </div>
+    <>
+      {loading && <div>Loading...</div>}
+      <canvas className="h-full" ref={canvas} />
+    </>
   )
 }
 
