@@ -93,9 +93,6 @@ export const Dashboard = () => {
         }
       }
     )
-    // console.log('response', response)
-
-    // if response is successfull
 
     setOpen(false)
     setCurrentPoint(currentPoint)

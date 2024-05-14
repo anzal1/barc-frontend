@@ -389,6 +389,11 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
+"@cycjimmy/jsmpeg-player@^6.0.5":
+  version "6.0.5"
+  resolved "https://registry.yarnpkg.com/@cycjimmy/jsmpeg-player/-/jsmpeg-player-6.0.5.tgz#ab4a9a2eb915894eeba8ca6e39aca3e66d1609b6"
+  integrity sha512-bVNHQ7VN9ecKT5AI/6RC7zpW/y4ca68a9txeR5Wiin+jKpUn/7buMe+5NPub89A8NNeNnKPQfrD2+c76ch36mA==
+
 "@esbuild/android-arm64@0.18.20":
   version "0.18.20"
   resolved "https://registry.yarnpkg.com/@esbuild/android-arm64/-/android-arm64-0.18.20.tgz#984b4f9c8d0377443cc2dfcef266d02244593622"
@@ -3280,6 +3285,11 @@ react-router@6.11.2:
   integrity sha512-74z9xUSaSX07t3LM+pS6Un0T55ibUE/79CzfZpy5wsPDZaea1F8QkrsiyRnA2YQ7LwE/umaydzXZV80iDCPkMg==
   dependencies:
     "@remix-run/router" "1.6.2"
+
+react-websockets-video-player@^0.0.22:
+  version "0.0.22"
+  resolved "https://registry.yarnpkg.com/react-websockets-video-player/-/react-websockets-video-player-0.0.22.tgz#4dd3ec29b52bf7949ede236b88c20600a7ecf6bb"
+  integrity sha512-etQJjoXI5MUOW8d7sJG6+ar4tSMuBeN0hjGCSwzwxCCXA2okL+1GHnvayfzyvFPXfOpXi0zmk0buMW0wciMiDg==
 
 react@^18.2.0:
   version "18.3.1"
