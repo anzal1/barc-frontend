@@ -26,12 +26,7 @@ export const loginUser = ({
       User_Name +
       '&Password=' +
       Password,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
+    { method: 'POST' }
   )
 
 export const createJWT = ({
@@ -40,12 +35,7 @@ export const createJWT = ({
 }: LoginBody): Promise<unknown> =>
   apiClient(
     '/api/login/JWTToken?Username=' + User_Name + '&Password=' + Password,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
+    { method: 'POST' }
   )
 
 export type CreateDeviceMasterBody = {
@@ -76,10 +66,6 @@ export const createOrEditDeviceMaster = (body: {
       : '/api/Device/InsertDeviceEntry',
     {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + localStorage.getItem('userToken')
-      },
       body: JSON.stringify(body.data)
     }
   )
@@ -89,9 +75,6 @@ export const deleteDeviceMaster = (
 ): Promise<unknown> =>
   apiClient('/api/Device/DeleteDeviceEntry', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
     body: JSON.stringify({ DeviceID: deviceId })
   })
 
@@ -108,9 +91,6 @@ export const getEmployeeMasterList = (UserID: string): Promise<unknown> =>
 export const deleteEmployee = (employeeSrNo: number): Promise<unknown> => {
   return apiClient('/api/Employee/RemoveEmployee', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
     body: JSON.stringify({ EMPSRNO: employeeSrNo, Command: 'Delete' })
   })
 }
@@ -133,6 +113,7 @@ export type CreateOrEditEmployeeMasterBody = {
   EmpID: string
   FingerID: number
   ValidityDate: string
+  Status: number
 }
 
 export const createOrEditEmployeeMaster = (body: {
@@ -143,33 +124,15 @@ export const createOrEditEmployeeMaster = (body: {
     body.isEdit
       ? '/api/Employee/UpdateEmployeeDetails'
       : '/api/Employee/InsertEmployeeEntry',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body.data)
-    }
+    { method: 'POST', body: JSON.stringify(body.data) }
   )
 }
 
 export const getRoleDetails = (UserID: string): Promise<unknown> =>
-  apiClient(`/api/Employee/GetRoleDeatils?UserID=${UserID}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + localStorage.getItem('userToken')
-    }
-  })
+  apiClient(`/api/Employee/GetRoleDeatils?UserID=${UserID}`, { method: 'GET' })
 
 export const getRoleList = (): Promise<unknown> =>
-  apiClient(`/api/login/GetRoleList`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + localStorage.getItem('userToken')
-    }
-  })
+  apiClient(`/api/login/GetRoleList`, { method: 'GET' })
 
 export type getReportBody = {
   startDate: string
@@ -181,13 +144,7 @@ export type getReportBody = {
 export const getReports = (params: getReportBody): Promise<unknown> =>
   apiClient(
     `/api/Appointment/LogReport?fromd=${params.startDate}&tod=${params.endDate}&Status=${params.status}&UserID=${params.userID}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + localStorage.getItem('userToken')
-      }
-    }
+    { method: 'GET' }
   )
 
 export type InsertAcknowledgeBody = {
@@ -201,9 +158,5 @@ export const insertAcknowledgement = (
 ): Promise<unknown> =>
   apiClient('/api/Device/acknowledgementInsertDeviceStatus', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + localStorage.getItem('userToken')
-    },
     body: JSON.stringify(body)
   })

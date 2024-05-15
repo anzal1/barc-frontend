@@ -76,14 +76,22 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
           name="fullName"
           label="Full Name"
           required
+          defaultValue={props.editData?.Emp_Name}
         />
         <TextInput
           disabled={isPending}
           name="contactNumber"
           label="Contact Number"
           required
+          defaultValue={props.editData?.ContactNo}
         />
-        <TextInput disabled={isPending} name="email" label="Email" required />
+        <TextInput
+          disabled={isPending}
+          name="email"
+          label="Email"
+          required
+          defaultValue={props.editData?.Email}
+        />
 
         {/* <TextInput
           disabled={isPending}
@@ -99,6 +107,11 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
             disabled={isPending || isGetRoleDetailsLoading}
             name="employeeRole"
             className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg shadow-md shadow-[#00000061]"
+            defaultValue={
+              roleDetails?.find(
+                (role: any) => role.roleID === props.editData?.Role_id
+              )?.role_Name
+            }
           >
             <option value="">Select Role</option>
             {roleDetails &&
@@ -122,6 +135,7 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
                 value="active"
                 name="workingStatus"
                 disabled={isPending}
+                defaultChecked={props.editData?.Status === 1}
               />
               <label htmlFor="active">Active</label>
             </div>
@@ -133,6 +147,7 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
                 value="inactice"
                 name="workingStatus"
                 disabled={isPending}
+                defaultChecked={props.editData?.Status === 0}
               />
               <label htmlFor="inactive">Not Active</label>
             </div>
@@ -146,6 +161,7 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
           label="Username"
           required
           disabled={isPending}
+          defaultValue={props.editData?.User_Name}
         />
         <div className="flex flex-col gap-1 items-start justify-start relative">
           <label htmlFor="password">
