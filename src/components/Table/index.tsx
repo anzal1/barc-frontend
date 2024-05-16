@@ -12,11 +12,17 @@ export type TableProps<T> = {
   columns: Array<Column<T>>
   data: T[]
   rowClassName?: string
+  rootClassName?: string
 }
 
 const Table = <T,>(props: TableProps<T>) => {
   return (
-    <div className="max-h-[calc(100vh - 100px)] min-h-[70vh]  max-w-[calc(100vw - 32px)] bg-white px-2 rounded-b-xl pb-2 overflow-y-auto overflow-x-auto">
+    <div
+      className={twMerge(
+        'max-h-[calc(100vh - 100px)] min-h-[70vh]  max-w-[calc(100vw - 32px)] bg-white px-2 rounded-b-xl pb-2 overflow-y-auto overflow-x-auto',
+        props.rootClassName
+      )}
+    >
       <table className="border-spacing-y-2 border-separate w-full">
         <thead className="rounded-md divide-y-8 divide-white">
           <tr className={twMerge('bg-[#1C9FF6] w-full', props.rowClassName)}>

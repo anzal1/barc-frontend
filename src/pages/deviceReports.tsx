@@ -6,10 +6,12 @@ import { useNavigate } from 'react-router-dom'
 
 import cancel from '../assets/cancel.svg'
 import { DeviceReportsForm } from '../components/DeviceReports/deviceReportsForm'
+import Table from '../components/Table'
+import dayjs from 'dayjs'
 
 export const DeviceReports = () => {
   const navigate = useNavigate()
-  const [reports, setReports] = React.useState(null)
+  const [reports, setReports] = React.useState<any[]>([])
 
   return (
     <Layout navType={NavType.FILLED}>
@@ -29,17 +31,37 @@ export const DeviceReports = () => {
             </div>
           }
         >
-          {reports ? (
-            <div className="flex flex-col gap-4 items-start w-full h-full">
+          {reports.length > 0 ? (
+            <div className="flex flex-col gap-4 items-start h-full">
               <p
                 className="text-blue-500 cursor-pointer"
-                onClick={() => setReports(null)}
+                onClick={() => setReports([])}
               >
                 Back to form
               </p>
-              <pre className="w-full h-[50vh] overflow-y-scroll">
-                {JSON.stringify(reports, null, 2)}
-              </pre>
+
+              <Table
+                data={reports.reverse()}
+                rootClassName="w-full max-w-[calc(100vw-160px)]"
+                columns={[
+                  { key: 'logID', title: 'Log ID' },
+                  {
+                    key: 'entryDate',
+                    title: 'Entry Date',
+                    render: ({ entryDate }) =>
+                      dayjs(entryDate).format('DD-MM-YYYY HH:mm:ss A')
+                  },
+                  { key: 'user_name', title: 'User Name' },
+                  { key: 'activity', title: 'Activity' },
+                  {
+                    key: 'log_Discription',
+                    title: 'Log Description',
+                    render: ({ log_Discription }) => (
+                      <p className="w-full break-words">{log_Discription}</p>
+                    )
+                  }
+                ]}
+              />
             </div>
           ) : (
             <DeviceReportsForm setReports={setReports} />
