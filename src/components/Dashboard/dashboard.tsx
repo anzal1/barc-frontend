@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { Fragment, useReducer, useState } from 'react'
 import Modal from '../Modal/modal'
 import {
   useGetDeviceMasterListQuery,
@@ -11,36 +11,13 @@ import greenDot from '../../assets/greenDot.svg'
 import redDot from '../../assets/redDot.svg'
 import orangeDot from '../../assets/orangeDot.svg'
 import cancel from '../../assets/cancel.svg'
-import videoImage from '../../assets/image.png'
+import minimize from '../../assets/minimize.svg'
 import map from '../../assets/map.png'
 import { InsertAcknowledgeBody } from '../Api/endpoints'
 import { userState } from '../Atoms/user'
 import { useRecoilValue } from 'recoil'
 import toast from 'react-hot-toast'
 import StreamingCamera from '../StreamingCamera/streamingCamera'
-
-// const data = [
-//   { x: 337, y: 513, color: 'red' },
-//   { x: 78, y: 516, color: 'green' },
-//   { x: 333, y: 6, color: 'red' },
-//   { x: 56, y: 350, color: 'orange' },
-//   { x: 440, y: 155, color: 'red' },
-//   { x: 367, y: 526, color: 'orange' },
-//   { x: 1018, y: 351, color: 'green' },
-//   { x: 963, y: 583, color: 'orange' },
-//   { x: 575, y: 324, color: 'orange' },
-//   { x: 536, y: 447, color: 'green' },
-//   { x: 427, y: 683, color: 'orange' },
-//   { x: 929, y: 126, color: 'orange' },
-//   { x: 755, y: 722, color: 'orange' },
-//   { x: 334, y: 567, color: 'red' },
-//   { x: 448, y: 335, color: 'orange' },
-//   { x: 728, y: 157, color: 'green' },
-//   { x: 639, y: 80, color: 'green' },
-//   { x: 940, y: 7, color: 'green' },
-//   { x: 579, y: 65, color: 'green' },
-//   { x: 986, y: 183, color: 'orange' }
-// ]
 
 const colorStatusMapper = {
   online: greenDot,
@@ -65,14 +42,71 @@ type DeviceMasterType = {
   x_value: string | number
   y_value: string | number
 }
+
+type ReducerState = {
+  currentPoint: DeviceMasterType | null
+  activePoints: Array<DeviceMasterType>
+  mapClick: any
+  imageModalVisible: boolean
+  rtspModalOpen: boolean
+}
+
 export const Dashboard = () => {
-  const [open, setOpen] = useState(false)
-  const [imageModal, setImageModal] = useState(false)
-  const [currentPoint, setCurrentPoint] = useState<DeviceMasterType>(
-    {} as DeviceMasterType
+  const [state, dispatch] = useReducer(
+    (state: ReducerState, action: any): any => {
+      switch (action.type) {
+        case 'MINIMIZE_RTSP_MODAL':
+          return { ...state, rtspModalOpen: false }
+        case 'SET_CURRENT_POINT':
+          return { ...state, currentPoint: action.payload }
+        case 'EMPTY_ACTIVE_POINTS':
+          return {
+            ...state,
+            activePoints: [],
+            imageModalVisible: false,
+            rtspModalOpen: true
+          }
+        case 'REMOVE_POINT_FROM_ACTIVE':
+          return {
+            ...state,
+            activePoints: state.activePoints.filter(
+              (point) => point.deviceID !== action.payload.deviceID
+            )
+          }
+        case 'ADD_ACTIVE_POINT':
+          let allActivePoints: Array<DeviceMasterType> = []
+          if (state.currentPoint)
+            allActivePoints = [...state.activePoints, state.currentPoint]
+          else allActivePoints = [...state.activePoints, action.payload]
+
+          const deviceMap = new Map<number, boolean>()
+          const uniquePoints = allActivePoints.filter((point) => {
+            if (deviceMap.has(point.deviceID)) return false
+            deviceMap.set(point.deviceID, true)
+            return true
+          })
+
+          return {
+            ...state,
+            rtspModalOpen: true,
+            imageModalVisible: false,
+            activePoints: uniquePoints
+          }
+        case 'SET_MAP_CLICK':
+          return { ...state, mapClick: action.payload }
+        default:
+          return { ...state }
+      }
+    },
+    {
+      currentPoint: null,
+      activePoints: [],
+      mapClick: { x: 0, y: 0 },
+      imageModalVisible: false,
+      rtspModalOpen: false
+    } satisfies ReducerState
   )
-  console.log('currentPoint', currentPoint)
-  const [mapClick, setMapClick] = useState({ x: 0, y: 0 })
+
   const [coordinateOpen, setCoordinateOpen] = useState(false)
   const {
     mutate: insertAcknowledgementFn,
@@ -82,19 +116,8 @@ export const Dashboard = () => {
   const user: any = useRecoilValue(userState)
 
   const handleShowLiveActivity = () => {
-    // hit a get request on http://localhost:3000
-    // const response = fetch(
-    //   'http://localhost:3000/getStream?rstpUrl=rtsp://admin:Dsspl@123@103.97.243.100:554/1/1',
-    //   {
-    //     method: 'GET',
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     }
-    //   }
-    // )
-    setOpen(false)
-    setCurrentPoint(currentPoint)
-    setImageModal(true)
+    if (!state.currentPoint || !state.currentPoint.rtsp) return
+    dispatch({ type: 'ADD_ACTIVE_POINT' })
   }
 
   const {
@@ -120,16 +143,16 @@ export const Dashboard = () => {
     )
 
     if (isNear) return
-    setMapClick({
-      x: Math.round(x * 100) / 100,
-      y: Math.round(y * 100) / 100
+    dispatch({
+      type: 'SET_MAP_CLICK',
+      payload: { x: Math.round(x * 100) / 100, y: Math.round(y * 100) / 100 }
     })
     setCoordinateOpen(true)
   }
 
   const handleInsertAcknowledgement = () => {
     const body = {
-      DeviceNumber: currentPoint?.deviceNumber,
+      DeviceNumber: state.currentPoint?.deviceNumber,
       status: 'online',
       UserID: user?.role?.roleID.toString()
     } as InsertAcknowledgeBody
@@ -163,24 +186,29 @@ export const Dashboard = () => {
           <div className="flex flex-col  gap-4 w-full justify-between items-center h-full ">
             <div className="flex flex-col items-start justify-start gap-4 w-full">
               <span className="text-2xl font-semibold">
-                Device Name: {currentPoint?.deviceName}
+                Device Name: {state.currentPoint?.deviceName}
               </span>
               <span className="text-2xl font-semibold">
-                Location: {currentPoint?.location}
+                Location: {state.currentPoint?.location}
               </span>
               <span className="text-xl">
-                Device IP: {currentPoint?.deviceIp}
+                Device IP: {state.currentPoint?.deviceIp}
               </span>
-              <span className="text-xl">Port No: {currentPoint?.portNo}</span>
+              <span className="text-xl">
+                Port No: {state.currentPoint?.portNo}
+              </span>
               <span className="text-xl ">
-                Serial No: {currentPoint?.serialNo}
+                Serial No: {state.currentPoint?.serialNo}
               </span>
-              <span className="text-xl">Status: {currentPoint?.status}</span>
+              <span className="text-xl">
+                Status: {state.currentPoint?.status}
+              </span>
             </div>
             <div className="flex flex-col gap-2 w-full">
               <button
                 disabled={
-                  isInsertAcknowledgementPending || !currentPoint?.deviceNumber
+                  isInsertAcknowledgementPending ||
+                  !state.currentPoint?.deviceNumber
                 }
                 onClick={handleInsertAcknowledgement}
                 className="bg-white text-[#1C9FF6] px-4 py-2 rounded-[10px] w-full border-2 border-[#1C9FF6] text-xl h-16"
@@ -188,8 +216,9 @@ export const Dashboard = () => {
                 Acknowledge
               </button>
               <button
-                className="bg-[#1C9FF6] text-white px-4 py-2 rounded-[10px] w-full text-xl h-16"
                 onClick={handleShowLiveActivity}
+                disabled={!!state.currentPoint}
+                className="bg-[#1C9FF6] text-white px-4 py-2 rounded-[10px] w-full text-xl h-16"
               >
                 Show Live Activity
               </button>
@@ -210,13 +239,11 @@ export const Dashboard = () => {
       >
         {deviceList &&
           deviceList?.map((point: DeviceMasterType) => (
-            <>
+            <Fragment key={point.x_value}>
               <img
-                key={point.x_value}
-                onClick={() => {
-                  setCurrentPoint(point)
-                  setOpen(!open)
-                }}
+                onClick={() =>
+                  dispatch({ type: 'SET_CURRENT_POINT', payload: point })
+                }
                 src={
                   colorStatusMapper[
                     point.status as keyof typeof colorStatusMapper
@@ -231,7 +258,6 @@ export const Dashboard = () => {
                 }}
               />
               <p
-                key={point.x_value}
                 className="absolute text-black text-xs font-semibold"
                 style={{
                   top: `${Number.parseFloat(point.y_value as string) + 10}px`,
@@ -240,21 +266,27 @@ export const Dashboard = () => {
               >
                 X : {point.x_value} , Y : {point.y_value}
               </p>
-            </>
+            </Fragment>
           ))}
-        <Modal open={open} onClose={() => setOpen(false)} type="absolute">
+        <Modal
+          open={!!state.currentPoint}
+          onClose={() => dispatch({ type: 'SET_CURRENT_POINT', payload: null })}
+          type="absolute"
+        >
           <div
             className="flex flex-col gap-6 max-w-xs relative bg-white border-1-[#1C9FF6] border-2 rounded-[10px] p-4 shadow-lg"
             style={{
               top: `${
-                Number.parseFloat(currentPoint?.y_value as string) > 500
-                  ? Number.parseFloat(currentPoint?.y_value as string) - 400
-                  : Number.parseFloat(currentPoint?.y_value as string)
+                Number.parseFloat(state.currentPoint?.y_value as string) > 500
+                  ? Number.parseFloat(state.currentPoint?.y_value as string) -
+                    400
+                  : Number.parseFloat(state.currentPoint?.y_value as string)
               }px`,
               left: `${
-                Number.parseFloat(currentPoint?.x_value as string) > 700
-                  ? Number.parseFloat(currentPoint?.x_value as string) - 400
-                  : Number.parseFloat(currentPoint?.x_value as string)
+                Number.parseFloat(state.currentPoint?.x_value as string) > 700
+                  ? Number.parseFloat(state.currentPoint?.x_value as string) -
+                    400
+                  : Number.parseFloat(state.currentPoint?.x_value as string)
               }px`
             }}
           >
@@ -262,16 +294,19 @@ export const Dashboard = () => {
               src={cancel}
               alt="close"
               className="absolute top-2 right-2 cursor-pointer w-6 h-6 filter invert"
-              onClick={() => setOpen(false)}
+              onClick={() =>
+                dispatch({ type: 'SET_CURRENT_POINT', payload: null })
+              }
             />
             <div>
-              <p>Device Name: {currentPoint?.deviceName}</p>
-              <p>Location: {currentPoint?.location}</p>
+              <p>Device Name: {state.currentPoint?.deviceName}</p>
+              <p>Location: {state.currentPoint?.location}</p>
             </div>
             <div className="flex flex-col gap-2 w-full">
               <button
                 disabled={
-                  isInsertAcknowledgementPending || !currentPoint?.deviceNumber
+                  isInsertAcknowledgementPending ||
+                  !state.currentPoint?.deviceNumber
                 }
                 onClick={handleInsertAcknowledgement}
                 className="bg-white text-[#1C9FF6]  rounded-[10px] w-full border-2 border-[#1C9FF6] text-xl h-10"
@@ -296,8 +331,16 @@ export const Dashboard = () => {
           <div
             className="flex flex-col gap-6 max-w-xs relative bg-white border-1-[#1C9FF6] border-2 rounded-[10px] p-4 shadow-lg"
             style={{
-              top: `${mapClick?.y > 500 ? mapClick?.y - 400 : mapClick?.y}px`,
-              left: `${mapClick?.x > 700 ? mapClick?.x - 400 : mapClick?.x}px`
+              top: `${
+                state.mapClick?.y > 500
+                  ? state.mapClick?.y - 400
+                  : state.mapClick?.y
+              }px`,
+              left: `${
+                state.mapClick?.x > 700
+                  ? state.mapClick?.x - 400
+                  : state.mapClick?.x
+              }px`
             }}
           >
             <img
@@ -307,27 +350,43 @@ export const Dashboard = () => {
               onClick={() => setCoordinateOpen(false)}
             />
             <div className="flex flex-col gap-2 w-full font-bold">
-              <p>X: {mapClick?.x}</p>
-              <p>Y: {mapClick?.y}</p>
+              <p>X: {state.mapClick?.x}</p>
+              <p>Y: {state.mapClick?.y}</p>
             </div>
           </div>
         </Modal>
       </div>
+
       <Modal
-        open={imageModal}
-        onClose={() => setImageModal}
         type="absolute"
         modalStyle="py-24 px-12"
+        open={state.rtspModalOpen}
+        onClose={() => dispatch({ type: 'MINIMIZE_RTSP_MODAL' })}
       >
-        <div className=" mt-16 bg-gray-400 w-[1032px] p-4 rounded-xl">
-          <div className="relative z-[9999]">
-            <StreamingCamera />
+        <div className=" mt-16 bg-gray-400 w-full max-w-screen-2xl  p-4 rounded-xl z-[9999]">
+          <div className="relative z-[9999] flex flex-wrap gap-4">
+            {state.activePoints.length > 0
+              ? state.activePoints.map((point: DeviceMasterType) => {
+                  return point.rtsp ? (
+                    <StreamingCamera
+                      url={point.rtsp}
+                      onRemove={() => {
+                        dispatch({
+                          type: 'REMOVE_POINT_FROM_ACTIVE',
+                          payload: { deviceID: point.deviceID }
+                        })
+                      }}
+                    />
+                  ) : null
+                })
+              : null}
+
             <div className="absolute -top-8 -right-8">
               <img
-                onClick={() => setImageModal(false)}
-                src={cancel}
+                onClick={() => dispatch({ type: 'MINIMIZE_RTSP_MODAL' })}
+                src={minimize}
                 alt="cancel"
-                className="cursor-pointer w-10 h-10 fill-current bg-[#1C9FF6] p-1 rounded-full"
+                className="cursor-pointer w-10 h-10 fill-current bg-[#1C9FF6] p-1 rounded-full text-white"
               />
             </div>
           </div>

@@ -114,6 +114,7 @@ export type CreateOrEditEmployeeMasterBody = {
   FingerID: number
   ValidityDate: string
   Status: number
+  EmpSrNo: number
 }
 
 export const createOrEditEmployeeMaster = (body: {

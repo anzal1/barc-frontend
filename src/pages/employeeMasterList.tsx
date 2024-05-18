@@ -75,7 +75,8 @@ export const EmployeeMasterListPage = () => {
       Role_id: currentRow.role_id,
       User_Name: currentRow.user_Name,
       ValidityDate: currentRow.validityDate,
-      Status: currentRow.status
+      Status: currentRow.status,
+      EmpSrNo: currentRow.empsrno
     }
     setEditData(_editData)
   }

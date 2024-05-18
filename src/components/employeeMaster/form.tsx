@@ -38,21 +38,37 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
       new FormData(e.target as HTMLFormElement).entries()
     )
 
-    if (!formData.contactNumber || formData.contactNumber.length !== 10) {
+    try {
+      if (!formData.ContactNo || formData.ContactNo.length !== 10) {
+        throw new Error()
+      }
+      parseInt(formData.ContactNo as string, 10)
+    } catch (err) {
       toast.error('Please enter a valid contact number')
       return
     }
 
     const emailRegex = new RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,5})+$/)
-    if (!formData.email || !emailRegex.test(formData.email as string)) {
+    if (!formData.Email || !emailRegex.test(formData.Email as string)) {
       toast.error('Please enter a valid email')
       return
     }
 
     const data = {
+      ...(props.editData || {}),
       ...formData,
+      Command: props.editData ? 'Update' : 'Insert',
+      Role_id: roleDetails?.find(
+        (role: any) => role.role_Name === formData.employeeRole
+      )?.roleID,
+      ValidityDate: '1997-06-27',
+      ContactNo: parseInt(formData.ContactNo as string, 10),
+      UserID: String(user?.role.roleID),
+      EMPSRNO: props.editData?.EmpSrNo,
       status: formData.workingStatus === 'active' ? 1 : 0
     } as unknown as CreateOrEditEmployeeMasterBody
+
+    delete (data as any).employeeRole
 
     createOrEditMutationFn(
       { data, isEdit: !!props.editData },
@@ -73,39 +89,32 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
       <div className="grid grid-cols-2 gap-x-8 gap-y-8 mb-4">
         <TextInput
           disabled={isPending}
-          name="fullName"
+          name="Emp_Name"
           label="Full Name"
           required
           defaultValue={props.editData?.Emp_Name}
         />
         <TextInput
           disabled={isPending}
-          name="contactNumber"
+          name="ContactNo"
           label="Contact Number"
           required
           defaultValue={props.editData?.ContactNo}
         />
         <TextInput
           disabled={isPending}
-          name="email"
+          name="Email"
           label="Email"
           required
           defaultValue={props.editData?.Email}
         />
-
-        {/* <TextInput
-          disabled={isPending}
-          name="employeeRole"
-          label="Employee Role"
-          required
-        /> */}
 
         <div className="flex flex-col gap-1 items-start justify-start">
           <label htmlFor="Select Role">Select Role</label>
           <select
             required
             disabled={isPending || isGetRoleDetailsLoading}
-            name="employeeRole"
+            name="employeeRole" // handle before submit
             className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg shadow-md shadow-[#00000061]"
             defaultValue={
               roleDetails?.find(
@@ -123,41 +132,45 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
           </select>
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label htmlFor="workingStatus">
-            Working Status <span className="text-red-500">*</span>
-          </label>
-          <div className="flex gap-4 items-center">
-            <div className="flex items-center justify-center gap-1">
-              <input
-                id="active"
-                type="radio"
-                value="active"
-                name="workingStatus"
-                disabled={isPending}
-                defaultChecked={props.editData?.Status === 1}
-              />
-              <label htmlFor="active">Active</label>
-            </div>
+        {props.editData ? (
+          <>
+            <div className="flex flex-col gap-1">
+              <label htmlFor="workingStatus">
+                Working Status <span className="text-red-500">*</span>
+              </label>
+              <div className="flex gap-4 items-center">
+                <div className="flex items-center justify-center gap-1">
+                  <input
+                    id="active"
+                    type="radio"
+                    value="active"
+                    name="workingStatus"
+                    disabled={isPending}
+                    defaultChecked={props.editData?.Status === 1}
+                  />
+                  <label htmlFor="active">Active</label>
+                </div>
 
-            <div className="flex items-center justify-center gap-1">
-              <input
-                id="inactive"
-                type="radio"
-                value="inactice"
-                name="workingStatus"
-                disabled={isPending}
-                defaultChecked={props.editData?.Status === 0}
-              />
-              <label htmlFor="inactive">Not Active</label>
+                <div className="flex items-center justify-center gap-1">
+                  <input
+                    id="inactive"
+                    type="radio"
+                    value="inactice"
+                    name="workingStatus"
+                    disabled={isPending}
+                    defaultChecked={props.editData?.Status === 0}
+                  />
+                  <label htmlFor="inactive">Not Active</label>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div />
+            <div />
+          </>
+        ) : null}
 
         <TextInput
           placeholder="user1"
-          name="username"
+          name="User_Name"
           label="Username"
           required
           disabled={isPending}
@@ -171,6 +184,7 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
           <input
             disabled={isPending}
             id="password"
+            name="Password"
             type={showPassword ? 'text' : 'password'}
             placeholder="********"
             className={

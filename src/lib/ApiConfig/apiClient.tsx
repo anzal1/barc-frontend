@@ -10,7 +10,6 @@ import toast from 'react-hot-toast'
 const defaultSuccessHandler = async (response: Response) => {
   try {
     const contentType = response.headers.get('content-type')
-    console.log('successHandler', response, contentType)
 
     let data
     if (contentType && contentType.indexOf('application/json') !== -1) {
@@ -37,7 +36,6 @@ const defaultSuccessHandler = async (response: Response) => {
  * @throws The error object.
  */
 const defaultErrorHandler = (error: Error) => {
-  console.log('eror', error)
   if ((error as any) == 401) {
     localStorage.removeItem('user')
     localStorage.removeItem('userToken')
