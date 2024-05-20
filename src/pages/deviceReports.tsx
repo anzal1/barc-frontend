@@ -12,7 +12,11 @@ import dayjs from 'dayjs'
 export const DeviceReports = () => {
   const navigate = useNavigate()
   const [reports, setReports] = React.useState<any[] | null>(null)
-  const [header, setHeader] = React.useState<any[] | null>(null)
+  const [header, setHeader] = React.useState<any>({
+    reportName: '',
+    startDate: '',
+    endDate: ''
+  })
   return (
     <Layout navType={NavType.FILLED}>
       {reports ? (
@@ -20,7 +24,17 @@ export const DeviceReports = () => {
           <CustomCard
             header={
               <div className="flex  justify-between items-center h-full w-full ">
-                <h1>{header?.[0].toUpperCase() + header?.slice(1)} Reports</h1>
+                <div className="flex flex-col gap-1 items-start py-4">
+                  <h1 className="text-2xl">
+                    {header?.reportName?.[0].toUpperCase() +
+                      header?.reportName?.slice(1)}{' '}
+                    Reports
+                  </h1>
+                  <p className="text-md font-normal ">
+                    From {dayjs(header?.startDate).format('DD/MM/YYYY')} to{' '}
+                    {dayjs(header?.endDate).format('DD/MM/YYYY')}
+                  </p>
+                </div>
                 <div className="flex gap-2">
                   <p
                     className="text-blue-500 cursor-pointer bg-white rounded-lg p-2 hover:bg-blue-500 hover:text-white m-2"
@@ -69,6 +83,7 @@ export const DeviceReports = () => {
                   className: 'text-left items-start justify-start',
                   render: ({ log_Discription }) => (
                     <p
+                      title={log_Discription}
                       className="break-words w-full max-w-[700px] flex flex-col justify-start
                   overflow-ellipsis overflow-hidden text-left
                   "

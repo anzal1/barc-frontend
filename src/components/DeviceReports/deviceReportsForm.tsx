@@ -27,7 +27,11 @@ export const DeviceReportsForm = ({
 
     getReportFn(data, {
       onSuccess: (response: any) => {
-        setHeader(data?.status)
+        setHeader({
+          reportName: data.status,
+          startDate: data.startDate,
+          endDate: data.endDate
+        })
         setReports(response)
       },
       onError: (error) => {
