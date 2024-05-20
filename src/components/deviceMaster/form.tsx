@@ -26,14 +26,14 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
     const formData = Object.fromEntries(
       new FormData(e.target as HTMLFormElement).entries()
     )
-    if (
-      formData.status &&
-      (formData.status as string).toUpperCase() !== 'Y' &&
-      (formData.status as string).toUpperCase() !== 'N'
-    ) {
-      toast.error('Invalid device status! Device Status is either Y or N')
-      return
-    }
+    // if (
+    //   formData.status &&
+    //   (formData.status as string).toUpperCase() !== 'Y' &&
+    //   (formData.status as string).toUpperCase() !== 'N'
+    // ) {
+    //   toast.error('Invalid device status! Device Status is either Y or N')
+    //   return
+    // }
 
     // sanitinzation of DeviceIp
     const deviceIp = formData.DeviceIp as string
@@ -68,7 +68,7 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
 
     const data = {
       ...formData,
-      DeviceID: 0,
+      DeviceID: parseInt(formData.DeviceID as string),
       BranchID: 1,
       UserID: user?.role?.roleID.toString() || '2',
       X_Value: parseFloat(formData.X_Value as string),
