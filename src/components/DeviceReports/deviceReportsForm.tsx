@@ -4,8 +4,10 @@ import { userState } from '../Atoms/user'
 import { getReportBody } from '../Api/endpoints'
 
 export const DeviceReportsForm = ({
+  setHeader,
   setReports
 }: {
+  setHeader: React.Dispatch<React.SetStateAction<any>>
   setReports: React.Dispatch<React.SetStateAction<any>>
 }) => {
   const { mutate: getReportFn, isPending } = useGetReportMutation()
@@ -17,14 +19,16 @@ export const DeviceReportsForm = ({
     const formData = Object.fromEntries(
       new FormData(e.target as HTMLFormElement).entries()
     )
+
     const data = {
       ...formData,
       userID: user?.role?.roleID || 2
     } as unknown as getReportBody
 
     getReportFn(data, {
-      onSuccess: (data: any) => {
-        setReports(data)
+      onSuccess: (response: any) => {
+        setHeader(data?.status)
+        setReports(response)
       },
       onError: (error) => {
         console.log('Error fetching report', error)
