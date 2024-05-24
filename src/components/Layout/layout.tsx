@@ -32,13 +32,7 @@ const Layout = ({
             roleList &&
             roleList.find((role: any) => role.user_Name === user.username)
           localStorage.setItem('role', JSON.stringify(role))
-          setUser((prev) => {
-            return {
-              ...prev,
-              name: user.username,
-              role: role
-            }
-          })
+          setUser((prev) => ({ ...prev, name: user.username, role: role }))
         },
         onError: (error: any) => {
           console.log('Error fetching role list', error)
@@ -48,10 +42,10 @@ const Layout = ({
   }, [])
 
   return (
-    <div className="flex flex-col w-full h-screen">
+    <div className="flex flex-col min-h-screen h-full w-screen overflow-x-hidden">
       <Navbar navType={navType} path={navPath} extras={extras} />
 
-      <main className="flex-1 bg-[#C1C1C1]">{children}</main>
+      <main className="flex-1 flex-grow bg-[#C1C1C1]">{children}</main>
       <Footer footerContent={footerContent} />
     </div>
   )
