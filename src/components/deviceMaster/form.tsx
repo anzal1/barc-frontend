@@ -68,7 +68,7 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
 
     const data = {
       ...formData,
-      DeviceID: parseInt(formData.DeviceID as string),
+      DeviceID: parseInt((formData.DeviceID || 0) as string),
       BranchID: 1,
       UserID: user?.role?.roleID.toString() || '2',
       X_Value: parseFloat(formData.X_Value as string),
@@ -107,7 +107,7 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
           <TextInput
             type="number"
             disabled={isPending}
-            defaultValue={props.editData?.DeviceID}
+            defaultValue={props.editData?.DeviceID || 0}
             required
             name="DeviceID"
             label="Device ID"
