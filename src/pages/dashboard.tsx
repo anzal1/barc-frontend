@@ -16,6 +16,7 @@ export const DashboardPage = () => {
       navPath="Device Live Dashboard"
       extras={[
         <img
+          title="Device Master List"
           className="cursor-pointer w-12 h-12"
           src={navList}
           onClick={() => navigate('/device-master')}

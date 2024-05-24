@@ -44,7 +44,7 @@ export const Login = () => {
                   token: data?.token
                 }
               })
-              toast.success('User logged in successfully!')
+              toast.success(`Welcome ${data?.username}!`)
               navigate('/')
             },
             onError(error: any) {
