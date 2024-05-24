@@ -8,10 +8,7 @@ import { userState } from '../Atoms/user'
 import eye from '../../assets/eye.svg'
 
 export const Login = () => {
-  const [formValues, setFormValues] = useState({
-    username: '',
-    password: ''
-  })
+  const [formValues, setFormValues] = useState({ username: '', password: '' })
   const setUserState = useSetRecoilState(userState)
   const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
@@ -69,7 +66,7 @@ export const Login = () => {
   if (isCreateJWTPending || isLoginUserPending) return <div>Loading...</div>
 
   return (
-    <div className="flex flex-col items-center px-4 justify-center w-96 h-[591px] bg-[#1C9FF6] rounded-xl  bg-opacity-50 bg-clip-padding backdrop-filter-none bg-filter shadow-black shadow-xl  ">
+    <div className="flex flex-col items-center px-4 justify-center max-w-96 w-full mt-6 md:mt-0 h-[591px] bg-[#1C9FF6] rounded-xl  bg-opacity-50 bg-clip-padding backdrop-filter-none bg-filter shadow-black shadow-xl  ">
       <h1 className="text-4xl font-semibold text-gray-800">Login</h1>
       <form className="flex flex-col items-center justify-center w-96 h-96">
         <label className="text-gray-800 text-left w-80 mt-4 ml-2">
