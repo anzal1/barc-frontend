@@ -167,7 +167,7 @@ const DeviceMasterList = () => {
                   { key: 'rtsp', title: 'RSTP Link' },
                   { key: 'status', title: 'Device Status' },
                   { key: 'x_value', title: 'X Value' },
-                  { key: 'x_value', title: 'Y Value' },
+                  { key: 'y_value', title: 'Y Value' },
                   {
                     key: 'actions',
                     title: 'Action',
