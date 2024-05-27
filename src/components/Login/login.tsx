@@ -77,7 +77,7 @@ export const Login = () => {
             onChange={handleChange}
             type="text"
             placeholder=""
-            className=" h-12  mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+            className="h-12  mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
           />
           <label className="text-gray-800 text-left  mt-4 ml-2">Password</label>
           <div className="relative w-full">
