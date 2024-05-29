@@ -23,7 +23,7 @@ export const DashboardPage = () => {
         />,
         <AvatarTooltip />
       ]}
-      footerContent={<p>© | Powered by DAccess Security Systems</p>}
+      footerContent={<p>&copy; | Powered by DAccess Security Systems</p>}
     >
       <Dashboard />
     </Layout>

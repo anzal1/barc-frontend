@@ -78,7 +78,11 @@ const DeviceMasterList = () => {
     }
 
     deleteDeviceFn(deviceId, {
-      onSuccess() {
+      onSuccess(data) {
+        if (data == -1) {
+          toast.error('Could not delete device')
+          return
+        }
         toast.success('Device deleted successfully')
       },
       onError() {
@@ -144,6 +148,7 @@ const DeviceMasterList = () => {
             editData ? (
               <DeviceMasterForm
                 editData={editData}
+                onSuccess={() => setEditData(null)}
                 extraButton={
                   <button
                     onClick={() => setEditData(null)}
@@ -165,7 +170,11 @@ const DeviceMasterList = () => {
                   { key: 'DeviceNumber', title: 'Serial Number' },
                   { key: 'location', title: 'Device Location' },
                   { key: 'rtsp', title: 'RSTP Link' },
-                  { key: 'status', title: 'Device Status' },
+                  {
+                    key: 'status',
+                    title: 'Device Status',
+                    render: (currentRow) => currentRow.status || 'NA'
+                  },
                   { key: 'x_value', title: 'X Value' },
                   { key: 'y_value', title: 'Y Value' },
                   {

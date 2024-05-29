@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FC, ReactNode } from 'react'
 import toast from 'react-hot-toast'
 import { useRecoilValue } from 'recoil'
 import { useNavigate } from 'react-router-dom'
@@ -10,10 +10,11 @@ import { useCreateOrEditDeviceMasterMutation } from '../Api'
 
 export type DeviceMasterFormProps = {
   editData?: CreateDeviceMasterBody
-  extraButton?: React.ReactNode
+  extraButton?: ReactNode
+  onSuccess?: () => void
 }
 
-const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
+const DeviceMasterForm: FC<DeviceMasterFormProps> = (props) => {
   const navigate = useNavigate()
   const { mutate: createEditDeviceMasterFn, isPending } =
     useCreateOrEditDeviceMasterMutation()
@@ -45,6 +46,29 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
     const ipParts = deviceIp.split('.')
     if (ipParts.length !== 4) {
       toast.error('Please enter valid Device IP!')
+      return
+    }
+
+    const macAddress = formData.MacID as string
+    const x = parseFloat(formData.X_Value as any)
+    const y = parseFloat(formData.Y_Value as any)
+    if (isNaN(x) || isNaN(y)) {
+      toast.error('X and Y have invalid values')
+      return
+    }
+
+    const macAddressRegexCheck1 = new RegExp(
+      '^([0-9a-fA-F][0-9a-fA-F]-){5}([0-9a-fA-F][0-9a-fA-F])$'
+    )
+    const macAddressRegexCheck2 = new RegExp(
+      '^([0-9a-fA-F][0-9a-fA-F]:){5}([0-9a-fA-F][0-9a-fA-F])$'
+    )
+
+    if (
+      !macAddressRegexCheck1.test(macAddress) &&
+      !macAddressRegexCheck2.test(macAddress)
+    ) {
+      toast.error('Invalid Format for Mac Address')
       return
     }
 
@@ -82,8 +106,13 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
       { data, isEdit: !!props.editData },
       {
         onSuccess() {
-          toast.success('Device Master created successfully!')
+          toast.success(
+            props.editData
+              ? 'Device master updated successfully!'
+              : 'Device master created successfully!'
+          )
           navigate('/device-master-list')
+          if (props.onSuccess) props.onSuccess()
         },
         onError() {
           toast.error('An error occured!')
@@ -91,8 +120,6 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
       }
     )
   }
-
-  console.log('props.editData', props.editData)
 
   const handleReset = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()

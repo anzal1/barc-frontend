@@ -78,11 +78,16 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
     createOrEditMutationFn(
       { data, isEdit: !!props.editData },
       {
-        onSuccess() {
+        onSuccess(data) {
+          if (data == 0) {
+            toast.error('Username already exists')
+            return
+          }
           toast.success('Employee Master created successfully!')
           navigate('/employee-master-list')
         },
-        onError() {
+        onError(err: any) {
+          console.log({ err })
           toast.error('An error occured!')
         }
       }

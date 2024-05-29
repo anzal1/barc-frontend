@@ -19,8 +19,7 @@ const Layout = ({
   navPath?: string
   footerContent?: React.ReactNode
 }) => {
-  const { mutate: getRoleListFn, isPending: getRoleListLoading } =
-    useGetRoleListMutation()
+  const { mutate: getRoleListFn } = useGetRoleListMutation()
   const setUser = useSetRecoilState(userState)
 
   useEffect(() => {
@@ -42,7 +41,7 @@ const Layout = ({
   }, [])
 
   return (
-    <div className="flex flex-col min-h-screen h-full w-screen overflow-hidden">
+    <div className="flex flex-col min-h-screen h-full w-screen overflow-x-hidden overflow-y-auto">
       <Navbar navType={navType} path={navPath} extras={extras} />
 
       <main className="flex-1 flex-grow bg-[#C1C1C1]">{children}</main>

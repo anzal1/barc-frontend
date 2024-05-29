@@ -65,16 +65,18 @@ export const Login = () => {
               )
               navigate('/')
             },
-            onError(error: any) {
+            onError(err: any) {
               toast.error('An error occured!')
-              console.log(error.message)
+              console.log({ err: err })
+              console.log(err.message)
             }
           })
         } else {
-          toast.error('User not found!')
+          toast.error('Cannot find a user with the following credentials')
         }
       },
       onError(error: any) {
+        console.log({ errOuter: error })
         toast.error('An error occured!')
         console.log(error)
       }
