@@ -191,6 +191,7 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
             <span className="text-red-500"> *</span>
           </label>
           <input
+            required
             disabled={isPending}
             id="password"
             name="Password"

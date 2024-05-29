@@ -1,4 +1,3 @@
-import React from 'react'
 import { CustomCard } from '../components/Card/card'
 import { NavType } from '../enums/navtype'
 import Layout from '../components/Layout/layout'
