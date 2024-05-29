@@ -70,12 +70,13 @@ export const createOrEditDeviceMaster = (body: {
     }
   )
 
-export const deleteDeviceMaster = (
+export const deleteDeviceMaster = (props: {
   deviceId: string | number
-): Promise<unknown> =>
+  userID: string
+}): Promise<unknown> =>
   apiClient('/api/Device/DeleteDeviceEntry', {
     method: 'POST',
-    body: JSON.stringify({ DeviceID: deviceId })
+    body: JSON.stringify({ DeviceID: props.deviceId, UserID: props.userID })
   })
 
 export const getDeviceMasterList = (UserID: string): Promise<unknown> =>
@@ -88,10 +89,10 @@ export const getEmployeeMasterList = (UserID: string): Promise<unknown> =>
     method: 'GET'
   })
 
-export const deleteEmployee = (employeeSrNo: number): Promise<unknown> => {
+export const deleteEmployee = (data: any): Promise<unknown> => {
   return apiClient('/api/Employee/RemoveEmployee', {
     method: 'POST',
-    body: JSON.stringify({ EMPSRNO: employeeSrNo, Command: 'Delete' })
+    body: JSON.stringify({ ...data, Command: 'Delete' })
   })
 }
 

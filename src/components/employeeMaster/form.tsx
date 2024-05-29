@@ -3,8 +3,8 @@ import TextInput from '../Input'
 import { CreateOrEditEmployeeMasterBody } from '../Api/endpoints'
 import { useNavigate } from 'react-router-dom'
 import {
-  useCreateOrEditEmployeeMasterMutation,
-  useGetRoleDetailsQuery
+  useGetRoleDetailsQuery,
+  useCreateOrEditEmployeeMasterMutation
 } from '../Api'
 import toast from 'react-hot-toast'
 
@@ -15,6 +15,7 @@ import { userState } from '../Atoms/user'
 export type EmployeeMasterFormProps = {
   editData?: CreateOrEditEmployeeMasterBody
   extraButton?: React.ReactNode
+  onSuccess?: () => void
 }
 
 const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
@@ -30,6 +31,10 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
     data: any
     isLoading: boolean
   } = useGetRoleDetailsQuery(user?.role?.roleID || 5)
+
+  if (isGetRoleDetailsLoading) {
+    return <div>Loading...</div>
+  }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -83,8 +88,13 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
             toast.error('Username already exists')
             return
           }
-          toast.success('Employee Master created successfully!')
+          toast.success(
+            props.editData
+              ? 'Employee Master updated successfully!'
+              : 'Employee Master created successfully!'
+          )
           navigate('/employee-master-list')
+          if (props.onSuccess) props.onSuccess()
         },
         onError(err: any) {
           console.log({ err })
@@ -126,8 +136,8 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
             name="employeeRole" // handle before submit
             className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg shadow-md shadow-[#00000061]"
             defaultValue={
-              roleDetails?.find(
-                (role: any) => role.roleID === props.editData?.Role_id
+              (roleDetails || []).find(
+                (d: any) => d.roleID === props.editData?.Role_id
               )?.role_Name
             }
           >
@@ -191,10 +201,10 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
             <span className="text-red-500"> *</span>
           </label>
           <input
-            required
             disabled={isPending}
             id="password"
             name="Password"
+            required={!props.editData}
             type={showPassword ? 'text' : 'password'}
             placeholder="********"
             className={

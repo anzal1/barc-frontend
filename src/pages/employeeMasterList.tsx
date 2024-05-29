@@ -47,8 +47,11 @@ type EmployeeMasterType = {
 
 export const EmployeeMasterListPage = () => {
   const user: any = useRecoilValue(userState)
-  const { data, isPending: employeeListPending } =
-    useGetEmployeeMasterListQuery(user?.role?.roleID || '5')
+  const {
+    data,
+    refetch: refetchEmployees,
+    isPending: employeeListPending
+  } = useGetEmployeeMasterListQuery(user?.role?.roleID || '5')
   const { isPending: employeeDeletePending, mutate: deleteEmployeeFn } =
     useDeleteEmployeeMutation()
 
@@ -72,7 +75,7 @@ export const EmployeeMasterListPage = () => {
       EmptypID: currentRow.emptypID,
       FingerID: currentRow.fingerID,
       Password: currentRow.password,
-      Role_id: currentRow.role_id,
+      Role_id: currentRow.roleID,
       User_Name: currentRow.user_Name,
       ValidityDate: currentRow.validityDate,
       Status: currentRow.status,
@@ -87,17 +90,28 @@ export const EmployeeMasterListPage = () => {
       return
     }
 
-    deleteEmployeeFn(employeeSrno, {
-      onSuccess() {
-        toast.success('Employee deleted successfully')
+    deleteEmployeeFn(
+      {
+        EMPSRNO: employeeSrno,
+        Emp_Name: user.name,
+        Email: user.email,
+        Role_id: user.role.roleID,
+        User_Name: user.role.user_Name,
+        UserID: String(user.role.empsrno)
       },
-      onError() {
-        toast.error('Failed to delete employee')
-      },
-      onSettled() {
-        setDeleteEmployeeId(null)
+      {
+        onSuccess() {
+          refetchEmployees()
+          toast.success('Employee deleted successfully')
+        },
+        onError() {
+          toast.error('Failed to delete employee')
+        },
+        onSettled() {
+          setDeleteEmployeeId(null)
+        }
       }
-    })
+    )
   }
 
   const navigate = useNavigate()
@@ -155,6 +169,7 @@ export const EmployeeMasterListPage = () => {
             editData ? (
               <EmployeeMasterForm
                 editData={editData}
+                onSuccess={() => setEditData(null)}
                 extraButton={
                   <button
                     onClick={() => setEditData(null)}
@@ -171,7 +186,7 @@ export const EmployeeMasterListPage = () => {
                   { key: 'emp_Name', title: 'Full Name' },
                   { key: 'contactNo', title: 'Contact Number' },
                   { key: 'email', title: 'Email' },
-                  { key: 'role_id', title: 'Employee Role' },
+                  { key: 'roleID', title: 'Employee Role' },
                   { key: 'user_Name', title: 'User name' },
                   {
                     key: 'actions',

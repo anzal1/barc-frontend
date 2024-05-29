@@ -39,8 +39,11 @@ type DeviceMasterType = {
 
 const DeviceMasterList = () => {
   const user: any = useRecoilValue(userState)
-  const { data, isPending: getDeviceMasterPending } =
-    useGetDeviceMasterListQuery(user?.role?.roleID)
+  const {
+    data,
+    refetch: refetchDevices,
+    isPending: getDeviceMasterPending
+  } = useGetDeviceMasterListQuery(user?.role?.roleID)
   const { isPending: isDeleteDevicePending, mutate: deleteDeviceFn } =
     useDeleteDeviceMasterMutation()
   const [deleteDeviceId, setDeleteDeviceId] = useState<number | null>(null)
@@ -77,21 +80,25 @@ const DeviceMasterList = () => {
       return
     }
 
-    deleteDeviceFn(deviceId, {
-      onSuccess(data) {
-        if (data == -1) {
-          toast.error('Could not delete device')
-          return
+    deleteDeviceFn(
+      { deviceId, userID: String(user?.role.empsrno) },
+      {
+        onSuccess(data) {
+          if (data == -1) {
+            toast.error('Could not delete device')
+            return
+          }
+          refetchDevices()
+          toast.success('Device deleted successfully')
+        },
+        onError() {
+          toast.error('Failed to delete device')
+        },
+        onSettled() {
+          setDeleteDeviceId(null)
         }
-        toast.success('Device deleted successfully')
-      },
-      onError() {
-        toast.error('Failed to delete device')
-      },
-      onSettled() {
-        setDeleteDeviceId(null)
       }
-    })
+    )
   }
 
   const navigate = useNavigate()
