@@ -44,14 +44,14 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
 
     const ipParts = deviceIp.split('.')
     if (ipParts.length !== 4) {
-      toast.error('Invalid IP address!')
+      toast.error('Please enter valid Device IP!')
       return
     }
 
     for (const part of ipParts) {
       const partNum = parseInt(part)
       if (isNaN(partNum) || partNum < 0 || partNum > 255) {
-        toast.error('Invalid IP address!')
+        toast.error('Please enter valid Device IP!')
         return
       }
     }
@@ -166,7 +166,6 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
           label="Port Number"
         />
         <TextInput
-          type="number"
           disabled={isPending}
           defaultValue={props.editData?.MacID}
           required
@@ -241,7 +240,7 @@ const DeviceMasterForm: React.FC<DeviceMasterFormProps> = (props) => {
             type="submit"
             className="px-8 py-3 bg-[#1C9FF6] rounded-lg text-white font-bold shadow-md shadow-[#00000061] cursor-pointer"
           >
-            Save
+            {props.editData ? 'Update' : 'Save'}
           </button>
         </div>
 

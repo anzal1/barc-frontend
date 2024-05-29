@@ -39,6 +39,11 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
     )
 
     try {
+      if (!formData.employeeRole) {
+        toast.error('Please select a role')
+        return
+      }
+
       if (!formData.ContactNo || formData.ContactNo.length !== 10) {
         throw new Error()
       }
@@ -112,7 +117,6 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
         <div className="flex flex-col gap-1 items-start justify-start">
           <label htmlFor="Select Role">Select Role</label>
           <select
-            required
             disabled={isPending || isGetRoleDetailsLoading}
             name="employeeRole" // handle before submit
             className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg shadow-md shadow-[#00000061]"

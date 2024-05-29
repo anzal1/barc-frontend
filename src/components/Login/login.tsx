@@ -29,6 +29,21 @@ export const Login = () => {
       Password: formValues.password
     }
 
+    if (!loginData.User_Name && !loginData.Password) {
+      toast.error('Please enter username and password')
+      return
+    }
+
+    if (!loginData.User_Name) {
+      toast.error('Please enter your username')
+      return
+    }
+
+    if (!loginData.Password) {
+      toast.error('Please enter your password')
+      return
+    }
+
     loginUserFn(loginData, {
       onSuccess(data: any) {
         if (data > 0) {
@@ -44,7 +59,10 @@ export const Login = () => {
                   token: data?.token
                 }
               })
-              toast.success(`Welcome ${data?.username}!`)
+              const name = data.name || data.username
+              toast.success(
+                name ? `Welcome ${name}` : 'User logged in successfully!'
+              )
               navigate('/')
             },
             onError(error: any) {
