@@ -22,7 +22,8 @@ import StreamingCamera from '../StreamingCamera/streamingCamera'
 const colorStatusMapper = {
   online: greenDot,
   offline: orangeDot,
-  panic: redDot
+  panic: redDot,
+  acknowledge: greenDot
 }
 
 type DeviceMasterType = {
@@ -132,7 +133,7 @@ export const Dashboard = () => {
   useEffect(() => {
     if (!deviceList) return
     const isAcknowledged = deviceList.some(
-      (point: DeviceMasterType) => point.status === 'acknowledged'
+      (point: DeviceMasterType) => point.status === 'acknowledge'
     )
     if (isAcknowledged) setPanicStatusBlink(false)
     else setPanicStatusBlink(true)
@@ -260,7 +261,9 @@ export const Dashboard = () => {
                 }
                 alt="circle"
                 className={`absolute cursor-pointer ${
-                  panicStatusBlink && point.status === 'panic' && 'animate-ping'
+                  panicStatusBlink &&
+                  point.status === 'panic' &&
+                  'animate-pulse'
                 } `}
                 style={{
                   top: `${Number.parseFloat(point.y_value as string) - 10}px`,
