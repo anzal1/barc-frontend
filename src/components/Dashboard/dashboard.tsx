@@ -226,7 +226,6 @@ export const Dashboard = () => {
               </button>
               <button
                 onClick={handleShowLiveActivity}
-                disabled={!!state.currentPoint}
                 className="bg-[#1C9FF6] text-white px-4 py-2 rounded-[10px] w-full text-xl h-16"
               >
                 Show Live Activity
