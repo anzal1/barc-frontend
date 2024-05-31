@@ -201,7 +201,7 @@ export const Dashboard = () => {
                 Serial No: {state.currentPoint?.serialNo}
               </span>
               <span className="text-xl">
-                Status: {state.currentPoint?.status}
+                Status: {state.currentPoint?.status || 'NA'}
               </span>
             </div>
             <div className="flex flex-col gap-2 w-full">
@@ -226,10 +226,11 @@ export const Dashboard = () => {
           </div>
         </div>
       </div>
+
       <div
         id="map"
         onClick={handleMapClick}
-        className="h-[776px]  w-[1078px]  rounded-[20px] p-0 overflow-hidden relative"
+        className="h-[776px] w-[1078px] rounded-[20px] p-0 overflow-hidden relative"
         style={{
           background: `url('${map}')`,
           backgroundSize: 'cover',
@@ -238,7 +239,7 @@ export const Dashboard = () => {
         }}
       >
         {deviceList &&
-          deviceList?.map((point: DeviceMasterType) => (
+          (deviceList || []).map((point: DeviceMasterType) => (
             <Fragment key={point.x_value}>
               <img
                 onClick={() =>
@@ -247,7 +248,7 @@ export const Dashboard = () => {
                 src={
                   colorStatusMapper[
                     point.status as keyof typeof colorStatusMapper
-                  ] || greenDot
+                  ] || orangeDot
                 }
                 alt="circle"
                 className="absolute cursor-pointer"
@@ -268,6 +269,7 @@ export const Dashboard = () => {
               </p>
             </Fragment>
           ))}
+
         <Modal
           open={!!state.currentPoint}
           onClose={() => dispatch({ type: 'SET_CURRENT_POINT', payload: null })}

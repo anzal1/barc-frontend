@@ -3,8 +3,8 @@ import TextInput from '../Input'
 import { CreateOrEditEmployeeMasterBody } from '../Api/endpoints'
 import { useNavigate } from 'react-router-dom'
 import {
-  useCreateOrEditEmployeeMasterMutation,
-  useGetRoleDetailsQuery
+  useGetRoleDetailsQuery,
+  useCreateOrEditEmployeeMasterMutation
 } from '../Api'
 import toast from 'react-hot-toast'
 
@@ -15,6 +15,7 @@ import { userState } from '../Atoms/user'
 export type EmployeeMasterFormProps = {
   editData?: CreateOrEditEmployeeMasterBody
   extraButton?: React.ReactNode
+  onSuccess?: () => void
 }
 
 const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
@@ -31,6 +32,10 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
     isLoading: boolean
   } = useGetRoleDetailsQuery(user?.role?.roleID || 5)
 
+  if (isGetRoleDetailsLoading) {
+    return <div>Loading...</div>
+  }
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     e.stopPropagation()
@@ -39,6 +44,11 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
     )
 
     try {
+      if (!formData.employeeRole) {
+        toast.error('Please select a role')
+        return
+      }
+
       if (!formData.ContactNo || formData.ContactNo.length !== 10) {
         throw new Error()
       }
@@ -73,11 +83,21 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
     createOrEditMutationFn(
       { data, isEdit: !!props.editData },
       {
-        onSuccess() {
-          toast.success('Employee Master created successfully!')
+        onSuccess(data) {
+          if (data == 0) {
+            toast.error('Username already exists')
+            return
+          }
+          toast.success(
+            props.editData
+              ? 'Employee Master updated successfully!'
+              : 'Employee Master created successfully!'
+          )
           navigate('/employee-master-list')
+          if (props.onSuccess) props.onSuccess()
         },
-        onError() {
+        onError(err: any) {
+          console.log({ err })
           toast.error('An error occured!')
         }
       }
@@ -112,13 +132,12 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
         <div className="flex flex-col gap-1 items-start justify-start">
           <label htmlFor="Select Role">Select Role</label>
           <select
-            required
             disabled={isPending || isGetRoleDetailsLoading}
             name="employeeRole" // handle before submit
             className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg shadow-md shadow-[#00000061]"
             defaultValue={
-              roleDetails?.find(
-                (role: any) => role.roleID === props.editData?.Role_id
+              (roleDetails || []).find(
+                (d: any) => d.roleID === props.editData?.Role_id
               )?.role_Name
             }
           >
@@ -185,6 +204,7 @@ const EmployeeMasterForm: React.FC<EmployeeMasterFormProps> = (props) => {
             disabled={isPending}
             id="password"
             name="Password"
+            required={!props.editData}
             type={showPassword ? 'text' : 'password'}
             placeholder="********"
             className={

@@ -42,7 +42,6 @@ export const useCreateOrEditDeviceMasterMutation = () => {
 }
 
 export const useDeleteDeviceMasterMutation = () => {
-  // const {} =
   return useMutation({
     mutationKey: [QUERY_KEYS.deleteDeviceMaster],
     mutationFn: ENDPOINTS.deleteDeviceMaster

@@ -29,6 +29,21 @@ export const Login = () => {
       Password: formValues.password
     }
 
+    if (!loginData.User_Name && !loginData.Password) {
+      toast.error('Please enter username and password')
+      return
+    }
+
+    if (!loginData.User_Name) {
+      toast.error('Please enter your username')
+      return
+    }
+
+    if (!loginData.Password) {
+      toast.error('Please enter your password')
+      return
+    }
+
     loginUserFn(loginData, {
       onSuccess(data: any) {
         if (data > 0) {
@@ -44,19 +59,24 @@ export const Login = () => {
                   token: data?.token
                 }
               })
-              toast.success(`Welcome ${data?.username}!`)
+              const name = data.name || data.username
+              toast.success(
+                name ? `Welcome ${name}` : 'User logged in successfully!'
+              )
               navigate('/')
             },
-            onError(error: any) {
+            onError(err: any) {
               toast.error('An error occured!')
-              console.log(error.message)
+              console.log({ err: err })
+              console.log(err.message)
             }
           })
         } else {
-          toast.error('User not found!')
+          toast.error('Cannot find a user with the following credentials')
         }
       },
       onError(error: any) {
+        console.log({ errOuter: error })
         toast.error('An error occured!')
         console.log(error)
       }

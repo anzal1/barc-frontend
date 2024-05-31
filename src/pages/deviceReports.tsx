@@ -74,7 +74,7 @@ export const DeviceReports = () => {
               columns={[
                 {
                   key: 'logID',
-                  title: 'Sl. No.',
+                  title: 'Sr. No.',
                   render: (_, __, index) => index + 1
                 },
                 {

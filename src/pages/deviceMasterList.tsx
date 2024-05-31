@@ -39,8 +39,11 @@ type DeviceMasterType = {
 
 const DeviceMasterList = () => {
   const user: any = useRecoilValue(userState)
-  const { data, isPending: getDeviceMasterPending } =
-    useGetDeviceMasterListQuery(user?.role?.roleID)
+  const {
+    data,
+    refetch: refetchDevices,
+    isPending: getDeviceMasterPending
+  } = useGetDeviceMasterListQuery(user?.role?.roleID)
   const { isPending: isDeleteDevicePending, mutate: deleteDeviceFn } =
     useDeleteDeviceMasterMutation()
   const [deleteDeviceId, setDeleteDeviceId] = useState<number | null>(null)
@@ -77,17 +80,25 @@ const DeviceMasterList = () => {
       return
     }
 
-    deleteDeviceFn(deviceId, {
-      onSuccess() {
-        toast.success('Device deleted successfully')
-      },
-      onError() {
-        toast.error('Failed to delete device')
-      },
-      onSettled() {
-        setDeleteDeviceId(null)
+    deleteDeviceFn(
+      { deviceId, userID: String(user?.role.empsrno) },
+      {
+        onSuccess(data) {
+          if (data == -1) {
+            toast.error('Could not delete device')
+            return
+          }
+          refetchDevices()
+          toast.success('Device deleted successfully')
+        },
+        onError() {
+          toast.error('Failed to delete device')
+        },
+        onSettled() {
+          setDeleteDeviceId(null)
+        }
       }
-    })
+    )
   }
 
   const navigate = useNavigate()
@@ -144,6 +155,7 @@ const DeviceMasterList = () => {
             editData ? (
               <DeviceMasterForm
                 editData={editData}
+                onSuccess={() => setEditData(null)}
                 extraButton={
                   <button
                     onClick={() => setEditData(null)}
@@ -165,7 +177,11 @@ const DeviceMasterList = () => {
                   { key: 'DeviceNumber', title: 'Serial Number' },
                   { key: 'location', title: 'Device Location' },
                   { key: 'rtsp', title: 'RSTP Link' },
-                  { key: 'status', title: 'Device Status' },
+                  {
+                    key: 'status',
+                    title: 'Device Status',
+                    render: (currentRow) => currentRow.status || 'NA'
+                  },
                   { key: 'x_value', title: 'X Value' },
                   { key: 'y_value', title: 'Y Value' },
                   {
