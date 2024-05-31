@@ -256,7 +256,7 @@ export const Dashboard = () => {
                 src={
                   colorStatusMapper[
                     point.status as keyof typeof colorStatusMapper
-                  ] || orangeDot
+                  ] || greenDot
                 }
                 alt="circle"
                 className={`absolute cursor-pointer ${
