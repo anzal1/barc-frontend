@@ -1,4 +1,4 @@
-import { Fragment, useReducer, useState } from 'react'
+import { Fragment, useEffect, useReducer, useState } from 'react'
 import Modal from '../Modal/modal'
 import {
   useGetDeviceMasterListQuery,
@@ -108,6 +108,7 @@ export const Dashboard = () => {
   )
 
   const [coordinateOpen, setCoordinateOpen] = useState(false)
+  const [panicStatusBlink, setPanicStatusBlink] = useState(true)
   const {
     mutate: insertAcknowledgementFn,
     isPending: isInsertAcknowledgementPending
@@ -128,7 +129,14 @@ export const Dashboard = () => {
     isLoading: boolean
   } = useGetDeviceMasterListQuery(user?.role?.roleID || '1234')
 
-  if (isLoading) return <div>Loading...</div>
+  useEffect(() => {
+    if (!deviceList) return
+    const isAcknowledged = deviceList.some(
+      (point: DeviceMasterType) => point.status === 'acknowledged'
+    )
+    if (isAcknowledged) setPanicStatusBlink(false)
+    else setPanicStatusBlink(true)
+  }, [deviceList])
 
   const handleMapClick = (event: any) => {
     const bounds: any = document?.getElementById('map')?.getBoundingClientRect()
@@ -251,8 +259,9 @@ export const Dashboard = () => {
                   ] || orangeDot
                 }
                 alt="circle"
-                className="absolute cursor-pointer"
-                // this image should have its center at the x and y
+                className={`absolute cursor-pointer ${
+                  panicStatusBlink && point.status === 'panic' && 'animate-ping'
+                } `}
                 style={{
                   top: `${Number.parseFloat(point.y_value as string) - 10}px`,
                   left: `${Number.parseFloat(point.x_value as string) - 10}px`
