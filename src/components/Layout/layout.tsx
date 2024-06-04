@@ -11,7 +11,7 @@ const Layout = ({
   navType,
   extras = [],
   navPath = '',
-  footerContent = <></>
+  footerContent = <p>&copy; | Powered by DAccess Security Systems</p>
 }: {
   children: React.ReactNode
   navType: NavType

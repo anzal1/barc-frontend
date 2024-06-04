@@ -168,9 +168,9 @@ export const Dashboard = () => {
   }
 
   return (
-    <div className="flex justify-start items-start h-full w-full bg-white  px-6 py-8 gap-4">
-      <div className="flex flex-col gap-4 items-start justify-start w-[calc(100%-1078px)] h-[80vh]">
-        <div className="flex flex-col items-center justify-center py-2 bg-[#EEEEEE] shadow-lg w-full rounded-[20px] gap-8 max-h-[208px]">
+    <div className="flex justify-start items-start h-full w-full bg-white px-3 py-4 gap-4">
+      <div className="flex flex-col gap-4 items-start justify-start w-[calc(100%-1200px)]">
+        <div className="flex flex-col items-center justify-center py-2 bg-[#EEEEEE] shadow-lg w-full rounded-[20px] gap-8 max-h-[200px]">
           <h2 className="text-2xl font-semibold ">Server</h2>
           <div className="flex gap-4 w-full justify-center items-center relative">
             <img src={circles} alt="circles" className="w-32 h-32" />
@@ -181,28 +181,37 @@ export const Dashboard = () => {
             />
           </div>
         </div>
+
         <div className="flex flex-col items-center justify-start py-2 px-4 bg-[#EEEEEE] shadow-lg w-full rounded-[20px] gap-8 ">
-          <h2 className="text-3xl font-semibold ">Device Information</h2>
-          <div className="flex flex-col  gap-4 w-full justify-between items-center h-full ">
+          <h2 className="text-2xl font-semibold ">Device Information</h2>
+          <div className="flex flex-col gap-4 w-full justify-between items-center h-full">
             <div className="flex flex-col items-start justify-start gap-4 w-full">
-              <span className="text-2xl font-semibold">
-                Device Name: {state.currentPoint?.deviceName}
-              </span>
-              <span className="text-2xl font-semibold">
-                Location: {state.currentPoint?.location}
-              </span>
-              <span className="text-xl">
-                Device IP: {state.currentPoint?.deviceIp}
-              </span>
-              <span className="text-xl">
-                Port No: {state.currentPoint?.portNo}
-              </span>
-              <span className="text-xl ">
-                Serial No: {state.currentPoint?.serialNo}
-              </span>
-              <span className="text-xl">
-                Status: {state.currentPoint?.status || 'NA'}
-              </span>
+              <table className="table-auto font-semibold border-spacing-3 border-separate mx-auto">
+                <tr className="text-xl space-y-2">
+                  <td>Device Name</td>
+                  <td>{state.currentPoint?.deviceName || 'N/A'}</td>
+                </tr>
+                <tr>
+                  <td>Location</td>
+                  <td>{state.currentPoint?.location || 'N/A'}</td>
+                </tr>
+                <tr>
+                  <td>Device IP</td>
+                  <td>{state.currentPoint?.deviceIp || 'N/A'}</td>
+                </tr>
+                <tr>
+                  <td>Port No</td>
+                  <td>{state.currentPoint?.portNo || 'N/A'}</td>
+                </tr>
+                <tr>
+                  <td>Serial No</td>
+                  <td>{state.currentPoint?.serialNo || 'N/A'}</td>
+                </tr>
+                <tr>
+                  <td>Status</td>
+                  <td>{state.currentPoint?.status || 'N/A'}</td>
+                </tr>
+              </table>
             </div>
             <div className="flex flex-col gap-2 w-full">
               <button
@@ -230,14 +239,14 @@ export const Dashboard = () => {
       <div
         id="map"
         onClick={handleMapClick}
-        className="h-[776px] w-[1078px] rounded-[20px] p-0 overflow-hidden relative"
-        style={{
-          background: `url('${map}')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          boxShadow: '0px 1px 18px 0px #00000061'
-        }}
+        // 581 x 1170
+        className="h-[700px] w-[1200px] rounded-2xl p-0 overflow-hidden relative bg-no-repeat bg-stone-200"
+        style={{ boxShadow: '0px 1px 18px 0px #00000061' }}
       >
+        <img
+          src={map}
+          className="absolute top-0 my-auto bottom-0 w-full h-auto overflow-hidden"
+        />
         {deviceList &&
           (deviceList || []).map((point: DeviceMasterType) => (
             <Fragment key={point.x_value}>

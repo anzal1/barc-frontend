@@ -14,7 +14,7 @@ export const Navbar = ({
 }) => {
   return (
     <header
-      className="flex justify-between items-center h-[99px] p-5 text-white sticky  top-0 z-[999]"
+      className="flex justify-between items-center h-[80px] p-2 text-white sticky  top-0 z-[999]"
       style={{
         background:
           navType === NavType.FADED

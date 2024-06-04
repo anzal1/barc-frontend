@@ -1,4 +1,3 @@
-import React from 'react'
 import { Dashboard } from '../components/Dashboard/dashboard'
 import Layout from '../components/Layout/layout'
 import { NavType } from '../enums/navtype'
@@ -23,7 +22,6 @@ export const DashboardPage = () => {
         />,
         <AvatarTooltip />
       ]}
-      footerContent={<p>&copy; | Powered by DAccess Security Systems</p>}
     >
       <Dashboard />
     </Layout>
