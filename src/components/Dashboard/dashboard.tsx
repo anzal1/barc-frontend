@@ -18,6 +18,7 @@ import { userState } from '../Atoms/user'
 import { useRecoilValue } from 'recoil'
 import toast from 'react-hot-toast'
 import StreamingCamera from '../StreamingCamera/streamingCamera'
+import { twMerge } from 'tailwind-merge'
 
 const colorStatusMapper = {
   online: greenDot,
@@ -225,9 +226,9 @@ export const Dashboard = () => {
                 Acknowledge
               </button>
               <button
+                disabled={!state.currentPoint}
                 onClick={handleShowLiveActivity}
-                disabled={!!state.currentPoint}
-                className="bg-[#1C9FF6] text-white px-4 py-2 rounded-[10px] w-full text-xl h-16"
+                className="bg-[#1C9FF6] text-white px-4 py-2 rounded-[10px] w-full text-xl h-16 cursor-pointer z-[99]"
               >
                 Show Live Activity
               </button>

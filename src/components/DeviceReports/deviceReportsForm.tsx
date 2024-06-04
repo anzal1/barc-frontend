@@ -32,7 +32,7 @@ export const DeviceReportsForm = ({
           startDate: data.startDate,
           endDate: data.endDate
         })
-        setReports(response)
+        setReports(response[0].report)
       },
       onError: (error) => {
         console.log('Error fetching report', error)
