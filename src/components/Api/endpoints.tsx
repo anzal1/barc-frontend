@@ -141,11 +141,12 @@ export type getReportBody = {
   endDate: string
   status: string
   userID: string
+  pageNumber: number
 }
 
 export const getReports = (params: getReportBody): Promise<unknown> =>
   apiClient(
-    `/api/Appointment/LogReport?fromd=${params.startDate}&tod=${params.endDate}&Status=${params.status}&UserID=${params.userID}&PageNumber=1`,
+    `/api/Appointment/LogReport?fromd=${params.startDate}&tod=${params.endDate}&Status=${params.status}&UserID=${params.userID}&PageNumber=${params.pageNumber}`,
     { method: 'GET' }
   )
 
