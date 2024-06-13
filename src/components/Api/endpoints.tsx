@@ -145,7 +145,7 @@ export type getReportBody = {
 
 export const getReports = (params: getReportBody): Promise<unknown> =>
   apiClient(
-    `/api/Appointment/LogReport?fromd=${params.startDate}&tod=${params.endDate}&Status=${params.status}&UserID=${params.userID}`,
+    `/api/Appointment/LogReport?fromd=${params.startDate}&tod=${params.endDate}&Status=${params.status}&UserID=${params.userID}&PageNumber=1`,
     { method: 'GET' }
   )
 
