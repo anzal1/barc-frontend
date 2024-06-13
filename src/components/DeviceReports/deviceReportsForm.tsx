@@ -1,16 +1,14 @@
 import { useRecoilValue } from 'recoil'
-import { useGetReportMutation } from '../Api'
 import { userState } from '../Atoms/user'
 import { getReportBody } from '../Api/endpoints'
 
 export const DeviceReportsForm = ({
-  setHeader,
-  setReports
+  handleGetReports,
+  isPending
 }: {
-  setHeader: React.Dispatch<React.SetStateAction<any>>
-  setReports: React.Dispatch<React.SetStateAction<any>>
+  handleGetReports: (data: any) => void
+  isPending: boolean
 }) => {
-  const { mutate: getReportFn, isPending } = useGetReportMutation()
   const user: any = useRecoilValue(userState)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -22,22 +20,11 @@ export const DeviceReportsForm = ({
 
     const data = {
       ...formData,
-      userID: user?.role?.roleID || 2
+      userID: user?.role?.roleID || 2,
+      pageNumber: 1
     } as unknown as getReportBody
 
-    getReportFn(data, {
-      onSuccess: (response: any) => {
-        setHeader({
-          reportName: data.status,
-          startDate: data.startDate,
-          endDate: data.endDate
-        })
-        setReports(response[0].report)
-      },
-      onError: (error) => {
-        console.log('Error fetching report', error)
-      }
-    })
+    handleGetReports(data)
   }
   return (
     <form

@@ -8,6 +8,7 @@ import cancel from '../assets/cancel.svg'
 import { DeviceReportsForm } from '../components/DeviceReports/deviceReportsForm'
 import Table from '../components/Table'
 import dayjs from 'dayjs'
+import { useGetReportMutation } from '../components/Api'
 
 export const DeviceReports = () => {
   const navigate = useNavigate()
@@ -17,6 +18,48 @@ export const DeviceReports = () => {
     startDate: '',
     endDate: ''
   })
+  const [totalPages, setTotalPages] = React.useState(0)
+  const [pageNumber, setPageNumber] = React.useState(1)
+  const { mutate: getReportFn, isPending } = useGetReportMutation()
+
+  const handleGetReports = (data: any) => {
+    getReportFn(data, {
+      onSuccess: (response: any) => {
+        setHeader({
+          reportName: data.status,
+          startDate: data.startDate,
+          endDate: data.endDate
+        })
+        setReports(response[0].report)
+        setTotalPages(response[0].totalRecord)
+      },
+      onError: (error) => {
+        console.log('Error fetching report', error)
+      }
+    })
+  }
+
+  const handleNextAndPrevious = (operation: number) => {
+    setPageNumber((pageNumber) =>
+      pageNumber + operation < 0
+        ? 1
+        : pageNumber + operation > totalPages
+        ? totalPages
+        : pageNumber + operation
+    )
+    handleGetReports({
+      startDate: header.startDate,
+      endDate: header.endDate,
+      status: header.reportName,
+      pageNumber:
+        pageNumber + operation < 0
+          ? 1
+          : pageNumber + operation > totalPages
+          ? totalPages
+          : pageNumber + operation
+    })
+  }
+
   return (
     <Layout navType={NavType.FILLED}>
       {reports ? (
@@ -33,6 +76,34 @@ export const DeviceReports = () => {
                   <p className="text-md font-normal ">
                     From {dayjs(header?.startDate).format('DD/MM/YYYY')} to{' '}
                     {dayjs(header?.endDate).format('DD/MM/YYYY')}
+                  </p>
+                </div>
+                <div className="flex gap-2 items-center justify-center">
+                  {/* //add pagination here */}
+                  <button
+                    disabled={pageNumber === 1}
+                    onClick={() => handleNextAndPrevious(-1)}
+                    className={`${
+                      pageNumber === 1 ? 'bg-black' : 'text-blue-500'
+                    }
+                    px-4 py-2 rounded-lg font-bold  border-[#1C9FF6] shadow-md shadow-[#00000061]   text-white
+                    `}
+                  >
+                    Previous
+                  </button>
+                  <button
+                    disabled={pageNumber === totalPages}
+                    onClick={() => handleNextAndPrevious(1)}
+                    className={`${
+                      pageNumber === totalPages ? 'bg-black' : 'text-blue-500 '
+                    }
+                     text-white   px-4 py-2 rounded-lg font-bold border-[#1C9FF6] shadow-md shadow-[#00000061]    
+                    `}
+                  >
+                    Next
+                  </button>
+                  <p className="text-blue-500 cursor-pointer bg-white rounded-lg p-2 hover:bg-blue-500 hover:text-white m-2">
+                    Page {pageNumber} of {totalPages}
                   </p>
                 </div>
                 <div className="flex gap-2">
@@ -67,41 +138,45 @@ export const DeviceReports = () => {
               </div>
             }
           >
-            <Table
-              title="Log Reports"
-              data={reports}
-              rootClassName="w-full max-w-[calc(100vw-48px)] m-[12px] p-2 rounded-lg bg-white shadow-md"
-              columns={[
-                {
-                  key: 'logID',
-                  title: 'Sr. No.',
-                  render: (_, __, index) => index + 1
-                },
-                {
-                  key: 'log_Discription',
-                  title: 'Description',
-                  className: 'text-left items-start justify-start',
-                  render: ({ log_Discription }) => (
-                    <p
-                      title={log_Discription}
-                      className="break-words w-full max-w-[700px] flex flex-col justify-start
+            {isPending ? (
+              <p>Loading...</p>
+            ) : (
+              <Table
+                title="Log Reports"
+                data={reports}
+                rootClassName="w-full max-w-[calc(100vw-48px)] m-[12px] p-2 rounded-lg bg-white shadow-md"
+                columns={[
+                  {
+                    key: 'logID',
+                    title: 'Sr. No.',
+                    render: (_, __, index) => (pageNumber - 1) * 100 + index + 1
+                  },
+                  {
+                    key: 'log_Discription',
+                    title: 'Description',
+                    className: 'text-left items-start justify-start',
+                    render: ({ log_Discription }) => (
+                      <p
+                        title={log_Discription}
+                        className="break-words w-full max-w-[700px] flex flex-col justify-start
                   overflow-ellipsis overflow-hidden text-left
                   "
-                    >
-                      {log_Discription}
-                    </p>
-                  )
-                },
-                { key: 'user_name', title: 'By Whom' },
-                { key: 'activity', title: 'Activity' },
-                {
-                  key: 'entryDate',
-                  title: 'Activity Date',
-                  render: ({ entryDate }) =>
-                    dayjs(entryDate).format('DD/MM/YYYY')
-                }
-              ]}
-            />
+                      >
+                        {log_Discription}
+                      </p>
+                    )
+                  },
+                  { key: 'user_name', title: 'By Whom' },
+                  { key: 'activity', title: 'Activity' },
+                  {
+                    key: 'entryDate',
+                    title: 'Activity Date',
+                    render: ({ entryDate }) =>
+                      dayjs(entryDate).format('DD/MM/YYYY')
+                  }
+                ]}
+              />
+            )}
           </CustomCard>
         </div>
       ) : (
@@ -121,7 +196,10 @@ export const DeviceReports = () => {
               </div>
             }
           >
-            <DeviceReportsForm setHeader={setHeader} setReports={setReports} />
+            <DeviceReportsForm
+              handleGetReports={handleGetReports}
+              isPending={isPending}
+            />
           </CustomCard>
         </div>
       )}
