@@ -14,7 +14,7 @@ export const Navbar = ({
 }) => {
   return (
     <header
-      className="flex justify-between items-center h-[80px] p-2 text-white sticky  top-0 z-[999]"
+      className="flex justify-center items-center h-[80px] p-2 text-white relative top-0 z-[999] print:hidden"
       style={{
         background:
           navType === NavType.FADED
@@ -22,20 +22,19 @@ export const Navbar = ({
             : 'linear-gradient(90.34deg, #75CDFF -0.16%, #468CCC 102.8%)'
       }}
     >
-      <div className="flex items-center gap-4 cursor-pointer">
-        <Link to={'/'}>
-          <img src={emblem} className="w-60 h-16" alt="logo" />
-        </Link>
-        {path && (
-          <>
-            <div className=" h-16  border-l-4 border-white" />
-            <div className="text-2xl">{path}</div>
-          </>
-        )}
-      </div>
-      <div className="flex items-center gap-2">
+      {path && (
+        <div className="absolute top-0 left-2 h-14 my-3 flex items-center justify-center border-l-4 border-white pl-2">
+          <div className="text-2xl">{path}</div>
+        </div>
+      )}
+
+      <Link to="/">
+        <img src={emblem} className="w-60 h-16" alt="logo" />
+      </Link>
+
+      <div className="absolute flex items-center gap-2 right-0 top-0 justify-center h-[80px]">
         {extras.map((extra, index) => (
-          <div key={index} className="inline-block mx-2">
+          <div key={index} className="inline-block">
             {extra}
           </div>
         ))}

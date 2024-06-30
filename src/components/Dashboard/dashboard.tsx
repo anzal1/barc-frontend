@@ -18,7 +18,6 @@ import { userState } from '../Atoms/user'
 import { useRecoilValue } from 'recoil'
 import toast from 'react-hot-toast'
 import StreamingCamera from '../StreamingCamera/streamingCamera'
-import { twMerge } from 'tailwind-merge'
 
 const colorStatusMapper = {
   online: greenDot,
@@ -179,9 +178,9 @@ export const Dashboard = () => {
 
   return (
     <div className="flex justify-start items-start h-full w-full bg-white px-3 py-4 gap-4">
-      <div className="flex flex-col gap-4 items-start justify-start w-[calc(100%-1200px)]">
-        <div className="flex flex-col items-center justify-center py-2 bg-[#EEEEEE] shadow-lg w-full rounded-[20px] gap-8 max-h-[200px]">
-          <h2 className="text-2xl font-semibold ">Server</h2>
+      <div className="flex flex-col gap-4 items-start justify-start w-[250px]">
+        <div className="flex flex-col items-center justify-center py-4 bg-[#EEEEEE] shadow-lg w-full rounded-[20px] gap-4 max-h-[220px]">
+          <h2 className="text-xl font-semibold">Server</h2>
           <div className="flex gap-4 w-full justify-center items-center relative">
             <img src={circles} alt="circles" className="w-32 h-32" />
             <img
@@ -192,12 +191,12 @@ export const Dashboard = () => {
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-start py-2 px-4 bg-[#EEEEEE] shadow-lg w-full rounded-[20px] gap-8 ">
-          <h2 className="text-2xl font-semibold ">Device Information</h2>
+        <div className="flex flex-col items-center justify-start px-2 py-4 bg-[#EEEEEE] shadow-lg w-full rounded-[20px] gap-4">
+          <h2 className="text-xl font-semibold">Device Information</h2>
           <div className="flex flex-col gap-4 w-full justify-between items-center h-full">
             <div className="flex flex-col items-start justify-start gap-4 w-full">
-              <table className="table-auto font-semibold border-spacing-3 border-separate mx-auto">
-                <tr className="text-xl space-y-2">
+              <table className="table-auto font-semibold border-spacing-1 border-separate mx-auto text-sm w-full">
+                <tr className="text-md space-y-2">
                   <td>Device Name</td>
                   <td>{state.currentPoint?.deviceName || 'N/A'}</td>
                 </tr>
@@ -223,7 +222,7 @@ export const Dashboard = () => {
                 </tr>
               </table>
             </div>
-            <div className="flex flex-col gap-2 w-full">
+            {/* <div className="flex flex-col gap-2 w-full">
               <button
                 disabled={
                   isInsertAcknowledgementPending ||
@@ -241,7 +240,7 @@ export const Dashboard = () => {
               >
                 Show Live Activity
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -250,7 +249,7 @@ export const Dashboard = () => {
         id="map"
         onClick={handleMapClick}
         // 581 x 1170
-        className="h-[700px] w-[1200px] rounded-2xl p-0 overflow-hidden relative bg-no-repeat bg-stone-200"
+        className="h-[700px] w-[1250px] rounded-2xl p-0 overflow-hidden relative bg-no-repeat bg-stone-200"
         style={{ boxShadow: '0px 1px 18px 0px #00000061' }}
       >
         <img

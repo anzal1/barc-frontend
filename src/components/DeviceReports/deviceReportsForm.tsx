@@ -1,6 +1,8 @@
 import { useRecoilValue } from 'recoil'
 import { userState } from '../Atoms/user'
 import { getReportBody } from '../Api/endpoints'
+import { FormEvent, useState } from 'react'
+import { twMerge } from 'tailwind-merge'
 
 export const DeviceReportsForm = ({
   handleGetReports,
@@ -10,22 +12,22 @@ export const DeviceReportsForm = ({
   isPending: boolean
 }) => {
   const user: any = useRecoilValue(userState)
+  const [startDate, setStartDate] = useState('')
+  const [endDate, setEndDate] = useState('')
+  const [status, setStatus] = useState('')
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     e.stopPropagation()
-    const formData = Object.fromEntries(
-      new FormData(e.target as HTMLFormElement).entries()
-    )
-
-    const data = {
-      ...formData,
+    handleGetReports({
+      startDate,
+      endDate,
+      status,
       userID: user?.role?.roleID || 2,
       pageNumber: 1
-    } as unknown as getReportBody
-
-    handleGetReports(data)
+    } as getReportBody)
   }
+
   return (
     <form
       className="mx-auto grid grid-cols-1 gap-x-8 gap-y-8 max-w-sm "
@@ -37,6 +39,8 @@ export const DeviceReportsForm = ({
           type="date"
           id="startDate"
           name="startDate"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
           className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg p-4 shadow-md shadow-[#00000061]"
         />
       </div>
@@ -46,6 +50,8 @@ export const DeviceReportsForm = ({
           type="date"
           id="endDate"
           name="endDate"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
           className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg p-4 shadow-md shadow-[#00000061]"
         />
       </div>
@@ -53,6 +59,8 @@ export const DeviceReportsForm = ({
         <label htmlFor="Select Report">Select Report</label>
         <select
           name="status"
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
           className="w-full h-12 border bg-[#e8e8e8] border-none rounded-lg shadow-md shadow-[#00000061]"
         >
           <option value="">Select a report</option>
@@ -76,7 +84,13 @@ export const DeviceReportsForm = ({
         </button>
         <button
           type="submit"
-          className="px-8 py-3 bg-[#1C9FF6] rounded-lg text-white font-bold shadow-md shadow-[#00000061]"
+          disabled={!startDate || !endDate || !status}
+          className={twMerge(
+            'px-8 py-3 bg-[#1C9FF6] rounded-lg text-white font-bold shadow-md shadow-[#00000061]',
+            !startDate || !endDate || !status
+              ? 'cursor-not-allowed bg-gray-400'
+              : ''
+          )}
         >
           View Report
         </button>

@@ -14,6 +14,7 @@ module.exports = {
     parser: '@typescript-eslint/parser'
   },
   rules: {
-    'no-case-declarations': 'off'
+    'no-case-declarations': 'off',
+    '@typescript-eslint/no-explicit-any': 'off'
   }
 }

@@ -12,6 +12,7 @@ import employee from '../../assets/employee.svg'
 export const AvatarTooltip = () => {
   const [open, setOpen] = useState(false)
   const user: any = useRecoilValue(userState)
+
   const handleLogout = () => {
     localStorage.removeItem('user')
     localStorage.removeItem('userToken')
@@ -20,25 +21,26 @@ export const AvatarTooltip = () => {
   }
 
   return (
-    <div className="relative">
-      <img
-        className="cursor-pointer w-12 h-12"
-        src={avatar}
-        onClick={() => setOpen(!open)}
-      />
+    <div
+      onClick={() => setOpen(!open)}
+      className="relative flex items-center justify-center gap-2 px-2 mx-2 py-1 hover:bg-black/20 rounded-md cursor-pointer"
+    >
+      <div className="text-black">
+        <p className="text-xl font-bold mb-0 pb-0">{user?.name}</p>
+        <p className="text-sm text-white -mt-1 pt-0">{user?.role?.role_Name}</p>
+      </div>
+
+      <img className="w-12 h-12" src={avatar} />
+
       <Modal open={open} onClose={() => setOpen(false)} type="absolute">
-        <div className="flex flex-col gap-6 w-[300px] right-[300px] top-9 relative bg-white border-1-[#1C9FF6] border-2 rounded-[10px] p-4 shadow-lg">
+        <div className="mt-4 flex flex-col gap-6 w-[300px] right-[300px] top-9 relative bg-white border-1-[#1C9FF6] border-2 rounded-[10px] p-4 shadow-lg">
           <img
             src={cancel}
             alt="close"
             className="absolute top-2 right-2 cursor-pointer w-6 h-6 filter invert"
             onClick={() => setOpen(false)}
           />
-          <div className="text-black">
-            <p className="text-xl font-bold">{user?.name}</p>
-            <p className="text-sm text-[#1C9FF6]">{user?.role?.role_Name}</p>
-          </div>
-          {/* add routes here */}
+
           <Link
             to="/device-reports"
             className="flex gap-2 items-center w-full cursor-pointer"
@@ -61,9 +63,6 @@ export const AvatarTooltip = () => {
             >
               Logout
             </button>
-            {/* <button className="bg-[#1C9FF6] text-white rounded-[10px] w-full text-xl h-10">
-              Show Live Activity
-            </button> */}
           </div>
         </div>
       </Modal>

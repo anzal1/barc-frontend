@@ -9,6 +9,7 @@ import { DeviceReportsForm } from '../components/DeviceReports/deviceReportsForm
 import Table from '../components/Table'
 import dayjs from 'dayjs'
 import { useGetReportMutation } from '../components/Api'
+import { twMerge } from 'tailwind-merge'
 
 export const DeviceReports = () => {
   const navigate = useNavigate()
@@ -63,19 +64,21 @@ export const DeviceReports = () => {
   return (
     <Layout navType={NavType.FILLED}>
       {reports ? (
-        <div className="h-full w-full p-12 justify-center items-center">
+        <div className="h-full w-full p-12 justify-center items-center print:p-0">
           <CustomCard
             header={
-              <div className="flex  justify-between items-center h-full w-full ">
-                <div className="flex flex-col gap-1 items-start py-4">
+              <div className="flex justify-between items-center h-full w-full">
+                <div className="flex flex-col gap-1 items-start py-4 print:py-0">
                   <h1 className="text-2xl">
-                    {header?.reportName?.[0].toUpperCase() +
-                      header?.reportName?.slice(1)}{' '}
-                    Reports
+                    {`${
+                      header?.reportName?.[0].toUpperCase() +
+                      header?.reportName?.slice(1)
+                    } Reports`}
                   </h1>
-                  <p className="text-md font-normal ">
-                    From {dayjs(header?.startDate).format('DD/MM/YYYY')} to{' '}
-                    {dayjs(header?.endDate).format('DD/MM/YYYY')}
+                  <p className="text-base font-normal">
+                    {`From ${dayjs(header?.startDate).format(
+                      'DD/MM/YYYY'
+                    )} to ${dayjs(header?.endDate).format('DD/MM/YYYY')}`}
                   </p>
                 </div>
                 <div className="flex gap-2 items-center justify-center">
@@ -83,32 +86,30 @@ export const DeviceReports = () => {
                   <button
                     disabled={pageNumber === 1}
                     onClick={() => handleNextAndPrevious(-1)}
-                    className={`${
-                      pageNumber === 1 ? 'bg-black' : 'text-blue-500'
-                    }
-                    px-4 py-2 rounded-lg font-bold  border-[#1C9FF6] shadow-md shadow-[#00000061]   text-white
-                    `}
+                    className={twMerge(
+                      'px-4 py-2 rounded-lg font-bold  border-[#1C9FF6] shadow-md shadow-[#00000061] text-base',
+                      pageNumber === 1 ? 'bg-black' : 'text-white'
+                    )}
                   >
                     Previous
                   </button>
                   <button
                     disabled={pageNumber === totalPages}
                     onClick={() => handleNextAndPrevious(1)}
-                    className={`${
-                      pageNumber === totalPages ? 'bg-black' : 'text-blue-500 '
-                    }
-                     text-white   px-4 py-2 rounded-lg font-bold border-[#1C9FF6] shadow-md shadow-[#00000061]    
-                    `}
+                    className={twMerge(
+                      'px-4 py-2 rounded-lg font-bold border-[#1C9FF6] shadow-md shadow-[#00000061] text-base',
+                      pageNumber === totalPages ? 'bg-black' : 'text-white'
+                    )}
                   >
                     Next
                   </button>
-                  <p className="text-blue-500 cursor-pointer bg-white rounded-lg p-2 hover:bg-blue-500 hover:text-white m-2">
+                  <p className="text-blue-500 cursor-pointer bg-white rounded-lg p-2 hover:bg-blue-500 hover:text-white text-base">
                     Page {pageNumber} of {totalPages}
                   </p>
                 </div>
                 <div className="flex gap-2">
                   <p
-                    className="text-blue-500 cursor-pointer bg-white rounded-lg p-2 hover:bg-blue-500 hover:text-white m-2"
+                    className="text-blue-500 cursor-pointer bg-white rounded-lg p-2 hover:bg-blue-500 hover:text-white text-base"
                     onClick={() =>
                       window.open(
                         `data:text/csv;charset=utf-8,${encodeURIComponent(
@@ -129,8 +130,8 @@ export const DeviceReports = () => {
                     Download
                   </p>
                   <p
-                    className="text-blue-500 cursor-pointer bg-white rounded-lg p-2 hover:bg-blue-500 hover:text-white m-2"
                     onClick={() => setReports(null)}
+                    className="text-blue-500 cursor-pointer bg-white rounded-lg p-2 hover:bg-blue-500 hover:text-white m-0 text-base"
                   >
                     Back to form
                   </p>
@@ -144,7 +145,7 @@ export const DeviceReports = () => {
               <Table
                 title="Log Reports"
                 data={reports}
-                rootClassName="w-full max-w-[calc(100vw-48px)] m-[12px] p-2 rounded-lg bg-white shadow-md"
+                rootClassName="w-full max-w-[calc(100vw-48px)] m-[12px] p-2 rounded-lg bg-white shadow-md print:shadow-none print:p-0 print:m-0 print:w-full print:max-w-full print:overflow-x-auto"
                 columns={[
                   {
                     key: 'logID',
@@ -158,9 +159,7 @@ export const DeviceReports = () => {
                     render: ({ log_Discription }) => (
                       <p
                         title={log_Discription}
-                        className="break-words w-full max-w-[700px] flex flex-col justify-start
-                  overflow-ellipsis overflow-hidden text-left
-                  "
+                        className="break-words w-full max-w-[700px] flex flex-col justify-start overflow-ellipsis overflow-hidden text-left print:max-w-[500px]"
                       >
                         {log_Discription}
                       </p>
@@ -172,7 +171,7 @@ export const DeviceReports = () => {
                     key: 'entryDate',
                     title: 'Activity Date',
                     render: ({ entryDate }) =>
-                      dayjs(entryDate).format('DD/MM/YYYY')
+                      dayjs(entryDate).format('DD/MM/YYYY HH:mm:ss A')
                   }
                 ]}
               />
@@ -183,7 +182,7 @@ export const DeviceReports = () => {
         <div className="h-full w-full p-12 justify-center items-center">
           <CustomCard
             header={
-              <div className="flex  justify-between items-center h-full w-full ">
+              <div className="flex justify-between items-center h-full w-full ">
                 <h1>Device Reports</h1>
                 <div className="flex gap-6">
                   <img

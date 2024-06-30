@@ -6,7 +6,7 @@ export const Footer = ({
   footerContent: React.ReactNode
 }) => {
   return (
-    <footer>
+    <footer className="print:hidden">
       <div className="bg-gradient-to-r from-[#75CDFF] to-[#466BCC] flex justify-end items-center px-10 h-12 text-bold text-xl text-white w-full">
         {footerContent}
       </div>
