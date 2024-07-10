@@ -12,14 +12,16 @@ type DownloadReportProps = {
   reportName: string
 }
 
-const downloadOptions = ['excel', 'csv', ''] as const
+const downloadOptions = ['excel', 'csv', 'pdf', ''] as const
 function DownloadReportButton(props: DownloadReportProps) {
   const { role } = useRecoilValue(userState)
   const [open, setOpen] = useState(false)
+  const [downloadLoading, setDownloadLoading] = useState(false)
+  const [showPdfExport, setShowPdfExport] = useState(false)
+
   const [downloadType, setDownloadType] =
     useState<(typeof downloadOptions)[number]>('')
 
-  const [downloadLoading, setDownloadLoading] = useState(false)
   const { mutate: getDataForDownload } = useDownloadReportsMutation()
 
   const onDownload = async () => {
@@ -36,6 +38,7 @@ function DownloadReportButton(props: DownloadReportProps) {
           try {
             if (downloadType === 'csv') handleCsvExport(response)
             else if (downloadType === 'excel') handleExcelExport(response)
+            // else if (downloadType === "pdf")
           } catch (err) {
             console.log(err)
           } finally {
