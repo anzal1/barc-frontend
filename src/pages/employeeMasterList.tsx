@@ -14,10 +14,10 @@ import { CreateOrEditEmployeeMasterBody } from '../components/Api/endpoints'
 import EmployeeMasterForm from '../components/employeeMaster/form'
 
 import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon'
-import edit from '../assets/edit.svg'
-import deleteIcon from '../assets/delete.svg'
 import { useRecoilValue } from 'recoil'
 import { userState } from '../components/Atoms/user'
+import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon'
+import TrashIcon from '@heroicons/react/24/outline/TrashIcon'
 
 type EmployeeMasterType = {
   command: any
@@ -191,19 +191,15 @@ export const EmployeeMasterListPage = () => {
                     title: 'Action',
                     render: (currentRow) => (
                       <div className="flex items-center justify-center gap-4">
-                        <img
-                          src={edit}
-                          className="cursor-pointer"
+                        <PencilSquareIcon
+                          className="cursor-pointer bg-[#1C9FF6] text-white h-10 w-10 p-2 rounded-full"
                           onClick={() => handleEdit(currentRow)}
-                          alt="edit"
                         />
-                        <img
-                          className="cursor-pointer"
+                        <TrashIcon
+                          className="cursor-pointer bg-[#1C9FF6] text-white h-10 w-10 p-2 rounded-full"
                           onClick={() =>
                             setDeleteEmployeeId(currentRow.empsrno)
                           }
-                          src={deleteIcon}
-                          alt="delete"
                         />
                       </div>
                     )

@@ -14,10 +14,10 @@ import Modal from '../components/Modal/modal'
 import toast from 'react-hot-toast'
 
 import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon'
-import edit from '../assets/edit.svg'
-import deleteIcon from '../assets/delete.svg'
+import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon'
 import { useRecoilValue } from 'recoil'
 import { userState } from '../components/Atoms/user'
+import TrashIcon from '@heroicons/react/24/outline/TrashIcon'
 
 type DeviceMasterType = {
   branchID: number
@@ -187,17 +187,13 @@ const DeviceMasterList = () => {
                     title: 'Action',
                     render: (currentRow) => (
                       <div className="flex items-center justify-center gap-4 px-4">
-                        <img
-                          src={edit}
-                          className="cursor-pointer"
+                        <PencilSquareIcon
+                          className="cursor-pointer bg-[#1C9FF6] text-white h-10 w-10 p-2 rounded-full"
                           onClick={() => handleEdit(currentRow)}
-                          alt="edit"
                         />
-                        <img
-                          className="cursor-pointer"
+                        <TrashIcon
+                          className="cursor-pointer bg-[#1C9FF6] text-white h-10 w-10 p-2 rounded-full"
                           onClick={() => setDeleteDeviceId(currentRow.deviceID)}
-                          src={deleteIcon}
-                          alt="delete"
                         />
                       </div>
                     )
