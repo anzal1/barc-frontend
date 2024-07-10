@@ -17,7 +17,6 @@ function DownloadReportButton(props: DownloadReportProps) {
   const { role } = useRecoilValue(userState)
   const [open, setOpen] = useState(false)
   const [downloadLoading, setDownloadLoading] = useState(false)
-  const [showPdfExport, setShowPdfExport] = useState(false)
 
   const [downloadType, setDownloadType] =
     useState<(typeof downloadOptions)[number]>('')
