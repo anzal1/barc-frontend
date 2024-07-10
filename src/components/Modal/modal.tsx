@@ -18,16 +18,17 @@ export default function Modal({
   return (
     <div
       onClick={onClose}
-      className={twMerge(`
-        ${type} inset-0 flex justify-center items-center transition-colors w-full h-full rounded-xl bg-black/50
-      `)}
+      className={twMerge(
+        type,
+        'inset-0 flex justify-center items-center transition-colors w-full h-full rounded-xl bg-black/50'
+      )}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={twMerge(`
-         rounded-xl shadow p-6 transition-all h-full w-full 
-          ${modalStyle}
-        `)}
+        className={twMerge(
+          'rounded-xl shadow p-6 transition-all h-full w-full',
+          modalStyle
+        )}
       >
         {children}
       </div>

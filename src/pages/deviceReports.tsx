@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../components/Layout/layout'
 import { NavType } from '../enums/navtype'
 import { CustomCard } from '../components/Card/card'
@@ -10,17 +10,19 @@ import Table from '../components/Table'
 import dayjs from 'dayjs'
 import { useGetReportMutation } from '../components/Api'
 import { twMerge } from 'tailwind-merge'
+import DownloadReportButton from '../components/downloadReports'
 
 export const DeviceReports = () => {
   const navigate = useNavigate()
-  const [reports, setReports] = React.useState<any[] | null>(null)
-  const [header, setHeader] = React.useState<any>({
+  const [reports, setReports] = useState<any[] | null>(null)
+  const [header, setHeader] = useState<any>({
     reportName: '',
     startDate: '',
     endDate: ''
   })
-  const [totalPages, setTotalPages] = React.useState(0)
-  const [pageNumber, setPageNumber] = React.useState(1)
+  const [totalPages, setTotalPages] = useState(0)
+  // const [totalRecords, setTotalRecords] = React.useState(0)
+  const [pageNumber, setPageNumber] = useState(1)
   const { mutate: getReportFn, isPending } = useGetReportMutation()
 
   const handleGetReports = (data: any) => {
@@ -32,7 +34,8 @@ export const DeviceReports = () => {
           endDate: data.endDate
         })
         setReports(response[0].report)
-        setTotalPages(response[0].totalRecord)
+        setTotalPages(response[0].pageCount)
+        // setTotalRecords(response[0].totalRecord)
       },
       onError: (error) => {
         console.log('Error fetching report', error)
@@ -40,26 +43,15 @@ export const DeviceReports = () => {
     })
   }
 
-  const handleNextAndPrevious = (operation: number) => {
-    setPageNumber((pageNumber) =>
-      pageNumber + operation < 0
-        ? 1
-        : pageNumber + operation > totalPages
-        ? totalPages
-        : pageNumber + operation
-    )
+  useEffect(() => {
+    window.scrollTo(0, 0)
     handleGetReports({
       startDate: header.startDate,
       endDate: header.endDate,
       status: header.reportName,
-      pageNumber:
-        pageNumber + operation < 0
-          ? 1
-          : pageNumber + operation > totalPages
-          ? totalPages
-          : pageNumber + operation
+      pageNumber
     })
-  }
+  }, [pageNumber])
 
   return (
     <Layout navType={NavType.FILLED}>
@@ -85,7 +77,9 @@ export const DeviceReports = () => {
                   {/* //add pagination here */}
                   <button
                     disabled={pageNumber === 1}
-                    onClick={() => handleNextAndPrevious(-1)}
+                    onClick={() =>
+                      setPageNumber((prev) => (prev <= 1 ? 1 : prev - 1))
+                    }
                     className={twMerge(
                       'px-4 py-2 rounded-lg font-bold  border-[#1C9FF6] shadow-md shadow-[#00000061] text-base',
                       pageNumber === 1 ? 'bg-black' : 'text-white'
@@ -95,7 +89,11 @@ export const DeviceReports = () => {
                   </button>
                   <button
                     disabled={pageNumber === totalPages}
-                    onClick={() => handleNextAndPrevious(1)}
+                    onClick={() =>
+                      setPageNumber((prev) =>
+                        prev >= totalPages ? prev : prev + 1
+                      )
+                    }
                     className={twMerge(
                       'px-4 py-2 rounded-lg font-bold border-[#1C9FF6] shadow-md shadow-[#00000061] text-base',
                       pageNumber === totalPages ? 'bg-black' : 'text-white'
@@ -107,28 +105,8 @@ export const DeviceReports = () => {
                     Page {pageNumber} of {totalPages}
                   </p>
                 </div>
-                <div className="flex gap-2">
-                  <p
-                    className="text-blue-500 cursor-pointer bg-white rounded-lg p-2 hover:bg-blue-500 hover:text-white text-base"
-                    onClick={() =>
-                      window.open(
-                        `data:text/csv;charset=utf-8,${encodeURIComponent(
-                          reports.reduce((acc, report) => {
-                            return (
-                              acc +
-                              Object.values(report)
-                                .map((value) => `"${value}"`)
-                                .join(',') +
-                              '\n'
-                            )
-                          }, 'LogID,Description,By Whom,Activity,Activity Date\n')
-                        )}`,
-                        '_blank'
-                      )
-                    }
-                  >
-                    Download
-                  </p>
+                <div className="flex gap-2 items-center justify-center">
+                  <DownloadReportButton {...header} />
                   <p
                     onClick={() => setReports(null)}
                     className="text-blue-500 cursor-pointer bg-white rounded-lg p-2 hover:bg-blue-500 hover:text-white m-0 text-base"

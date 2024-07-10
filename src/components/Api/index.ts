@@ -106,6 +106,13 @@ export const useGetReportMutation = () => {
   })
 }
 
+export const useDownloadReportsMutation = () => {
+  return useMutation({
+    mutationKey: [],
+    mutationFn: ENDPOINTS.downloadReports
+  })
+}
+
 export const useInsertAcknowledgementMutation = () => {
   return useMutation({
     mutationKey: [QUERY_KEYS.insertAcknowledgement],
