@@ -4,10 +4,11 @@ import { useRecoilValue } from 'recoil'
 import { userState } from '../Atoms/user'
 import { Link } from 'react-router-dom'
 
-import avatar from '../../assets/avatar.svg'
 import cancel from '../../assets/cancel.svg'
-import report from '../../assets/report.svg'
+import ClipboardDocumentListIcon from '@heroicons/react/24/outline/ClipboardDocumentListIcon'
+import { UserCircleIcon } from '@heroicons/react/24/outline'
 import employee from '../../assets/employee.svg'
+import HoverTooltip from '../hoverTooltip'
 
 export const AvatarTooltip = () => {
   const [open, setOpen] = useState(false)
@@ -25,15 +26,22 @@ export const AvatarTooltip = () => {
       onClick={() => setOpen(!open)}
       className="relative flex items-center justify-center gap-2 px-2 mx-2 py-1 hover:bg-black/20 rounded-md cursor-pointer"
     >
-      <div className="text-black">
-        <p className="text-xl font-bold mb-0 pb-0">{user?.name}</p>
-        <p className="text-sm text-white -mt-1 pt-0">{user?.role?.role_Name}</p>
-      </div>
+      <HoverTooltip
+        showOnHover="Admin actions"
+        element={
+          <div className="text-black">
+            <p className="text-xl font-bold mb-0 pb-0">{user?.name}</p>
+            <p className="text-sm text-white -mt-1 pt-0">
+              {user?.role?.role_Name}
+            </p>
+          </div>
+        }
+      />
 
-      <img className="w-12 h-12" src={avatar} />
+      <UserCircleIcon className="h-12 w-12 font-bold" />
 
       <Modal open={open} onClose={() => setOpen(false)} type="absolute">
-        <div className="mt-4 flex flex-col gap-6 w-[300px] right-[300px] top-9 relative bg-white border-1-[#1C9FF6] border-2 rounded-[10px] p-4 shadow-lg">
+        <div className="mt-4 flex flex-col gap-6 w-[300px] right-[200px] top-6 relative bg-white border-1-[#1C9FF6] border-2 rounded-[10px] p-4 shadow-lg">
           <img
             src={cancel}
             alt="close"
@@ -45,7 +53,7 @@ export const AvatarTooltip = () => {
             to="/device-reports"
             className="flex gap-2 items-center w-full cursor-pointer"
           >
-            <img src={report} alt="device-reports" />
+            <ClipboardDocumentListIcon className="w-9 h-9 font-bold text-black" />
             <p className="text-[#1C9FF6] text-xl">Device Reports</p>
           </Link>
 
