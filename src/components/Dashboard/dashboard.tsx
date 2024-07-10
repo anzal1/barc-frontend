@@ -10,7 +10,7 @@ import server from '../../assets/server.png'
 import greenDot from '../../assets/greenDot.svg'
 import redDot from '../../assets/redDot.svg'
 import orangeDot from '../../assets/orangeDot.svg'
-import cancel from '../../assets/cancel.svg'
+import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon'
 import minimize from '../../assets/minimize.svg'
 import map from '../../assets/map.png'
 import { InsertAcknowledgeBody } from '../Api/endpoints'
@@ -122,13 +122,8 @@ export const Dashboard = () => {
     dispatch({ type: 'ADD_ACTIVE_POINT' })
   }
 
-  const {
-    data: deviceList,
-    isLoading
-  }: {
-    data: any
-    isLoading: boolean
-  } = useGetDeviceMasterListQuery(user?.role?.roleID || '1234')
+  const { data: deviceList }: { data: any; isLoading: boolean } =
+    useGetDeviceMasterListQuery(user?.role?.roleID || '1234')
 
   useEffect(() => {
     if (!deviceList) return
@@ -313,14 +308,13 @@ export const Dashboard = () => {
               }px`
             }}
           >
-            <img
-              src={cancel}
-              alt="close"
+            <XMarkIcon
               className="absolute top-2 right-2 cursor-pointer w-6 h-6 filter invert"
               onClick={() =>
                 dispatch({ type: 'SET_CURRENT_POINT', payload: null })
               }
             />
+
             <div>
               <p>Device Name: {state.currentPoint?.deviceName}</p>
               <p>Location: {state.currentPoint?.location}</p>
@@ -366,9 +360,7 @@ export const Dashboard = () => {
               }px`
             }}
           >
-            <img
-              src={cancel}
-              alt="close"
+            <XMarkIcon
               className="absolute top-2 right-2 cursor-pointer w-6 h-6 filter invert"
               onClick={() => setCoordinateOpen(false)}
             />

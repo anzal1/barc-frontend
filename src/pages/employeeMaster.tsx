@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import EmployeeMasterForm from '../components/employeeMaster/form'
 
 import list from '../assets/list.svg'
-import cancel from '../assets/cancel.svg'
+import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon'
 
 const EmployeeMasterPage = () => {
   const navigate = useNavigate()
@@ -24,10 +24,8 @@ const EmployeeMasterPage = () => {
                   alt="list"
                   onClick={() => navigate('/employee-master-list')}
                 />
-                <img
-                  src={cancel}
+                <XMarkIcon
                   className="w-10 h-10 cursor-pointer"
-                  alt="cancel"
                   onClick={() => navigate('/')}
                 />
               </div>

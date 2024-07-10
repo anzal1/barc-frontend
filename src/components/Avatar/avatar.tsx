@@ -4,10 +4,10 @@ import { useRecoilValue } from 'recoil'
 import { userState } from '../Atoms/user'
 import { Link } from 'react-router-dom'
 
-import cancel from '../../assets/cancel.svg'
 import ClipboardDocumentListIcon from '@heroicons/react/24/outline/ClipboardDocumentListIcon'
-import { UserCircleIcon } from '@heroicons/react/24/outline'
-import employee from '../../assets/employee.svg'
+import UserCircleIcon from '@heroicons/react/24/outline/UserCircleIcon'
+import UserGroupIcon from '@heroicons/react/24/outline/UserGroupIcon'
+import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon'
 import HoverTooltip from '../hoverTooltip'
 
 export const AvatarTooltip = () => {
@@ -42,10 +42,8 @@ export const AvatarTooltip = () => {
 
       <Modal open={open} onClose={() => setOpen(false)} type="absolute">
         <div className="mt-4 flex flex-col gap-6 w-[300px] right-[200px] top-6 relative bg-white border-1-[#1C9FF6] border-2 rounded-[10px] p-4 shadow-lg">
-          <img
-            src={cancel}
-            alt="close"
-            className="absolute top-2 right-2 cursor-pointer w-6 h-6 filter invert"
+          <XMarkIcon
+            className="absolute top-2 right-2 cursor-pointer w-8 h-8 filter invert mb-2"
             onClick={() => setOpen(false)}
           />
 
@@ -61,7 +59,7 @@ export const AvatarTooltip = () => {
             to="/employee-master"
             className="flex gap-2 items-center w-full cursor-pointer"
           >
-            <img src={employee} alt="employee-master" />
+            <UserGroupIcon className="w-9 h-9 font-bold text-black" />
             <p className="text-[#1C9FF6] text-xl">Employee Master</p>
           </Link>
           <div className="flex flex-col gap-2 w-full">

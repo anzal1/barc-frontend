@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import DeviceMasterForm from '../components/deviceMaster/form'
 
 import list from '../assets/list.svg'
-import cancel from '../assets/cancel.svg'
+import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon'
 
 export const DeviceMasterPage = () => {
   const navigate = useNavigate()
@@ -26,10 +26,8 @@ export const DeviceMasterPage = () => {
                   alt="list"
                   onClick={() => navigate('/device-master-list')}
                 />
-                <img
-                  src={cancel}
+                <XMarkIcon
                   className="w-10 h-10 cursor-pointer"
-                  alt="cancel"
                   onClick={() => navigate('/')}
                 />
               </div>

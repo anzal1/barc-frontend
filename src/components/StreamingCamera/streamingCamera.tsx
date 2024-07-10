@@ -1,4 +1,4 @@
-import cancel from '../../assets/cancel.svg'
+import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon'
 import { loadPlayer } from 'rtsp-relay/browser'
 import { useEffect, useRef, useState } from 'react'
 
@@ -29,12 +29,12 @@ const StreamingCamera = ({
   return (
     <div className="relative">
       {loading && <div>Loading...</div>}
-      <img
-        src={cancel}
-        alt="cancel"
+
+      <XMarkIcon
         onClick={onRemove}
         className="cursor-pointer w-8 h-8 fill-current bg-[#1C9FF6] p-1 rounded-full absolute -top-2 -right-2"
       />
+
       <canvas className="h-[291px] w-[485px]" ref={canvas} />
     </div>
   )

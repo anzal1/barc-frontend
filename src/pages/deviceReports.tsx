@@ -4,7 +4,7 @@ import { NavType } from '../enums/navtype'
 import { CustomCard } from '../components/Card/card'
 import { useNavigate } from 'react-router-dom'
 
-import cancel from '../assets/cancel.svg'
+import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon'
 import { DeviceReportsForm } from '../components/DeviceReports/deviceReportsForm'
 import Table from '../components/Table'
 import dayjs from 'dayjs'
@@ -163,10 +163,8 @@ export const DeviceReports = () => {
               <div className="flex justify-between items-center h-full w-full ">
                 <h1>Device Reports</h1>
                 <div className="flex gap-6">
-                  <img
-                    src={cancel}
+                  <XMarkIcon
                     className="w-10 h-10 cursor-pointer"
-                    alt="cancel"
                     onClick={() => navigate('/')}
                   />
                 </div>

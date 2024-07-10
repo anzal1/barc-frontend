@@ -13,7 +13,7 @@ import toast from 'react-hot-toast'
 import { CreateOrEditEmployeeMasterBody } from '../components/Api/endpoints'
 import EmployeeMasterForm from '../components/employeeMaster/form'
 
-import cancel from '../assets/cancel.svg'
+import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon'
 import edit from '../assets/edit.svg'
 import deleteIcon from '../assets/delete.svg'
 import { useRecoilValue } from 'recoil'
@@ -124,10 +124,8 @@ export const EmployeeMasterListPage = () => {
             <div className="flex  justify-between items-center h-full w-full ">
               <h1>Employee Master List</h1>
               <div className="flex gap-6">
-                <img
-                  src={cancel}
+                <XMarkIcon
                   className="w-10 h-10 cursor-pointer"
-                  alt="cancel"
                   onClick={() => navigate('/employee-master')}
                 />
               </div>

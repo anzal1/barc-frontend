@@ -13,7 +13,7 @@ import DeviceMasterForm from '../components/deviceMaster/form'
 import Modal from '../components/Modal/modal'
 import toast from 'react-hot-toast'
 
-import cancel from '../assets/cancel.svg'
+import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon'
 import edit from '../assets/edit.svg'
 import deleteIcon from '../assets/delete.svg'
 import { useRecoilValue } from 'recoil'
@@ -111,10 +111,8 @@ const DeviceMasterList = () => {
             <div className="flex  justify-between items-center h-full w-full ">
               <h1>Device Master List</h1>
               <div className="flex gap-6">
-                <img
-                  src={cancel}
+                <XMarkIcon
                   className="w-10 h-10 cursor-pointer"
-                  alt="cancel"
                   onClick={() => navigate('/device-master')}
                 />
               </div>
