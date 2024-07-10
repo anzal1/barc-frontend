@@ -106,7 +106,11 @@ export const DeviceReports = () => {
                   </p>
                 </div>
                 <div className="flex gap-2 items-center justify-center">
-                  <DownloadReportButton {...header} />
+                  <DownloadReportButton
+                    endDate={header.endDate}
+                    reportName={header.reportName}
+                    startDate={header.startDate}
+                  />
                   <p
                     onClick={() => setReports(null)}
                     className="text-blue-500 cursor-pointer bg-white rounded-lg p-2 hover:bg-blue-500 hover:text-white m-0 text-base"

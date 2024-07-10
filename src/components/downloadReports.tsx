@@ -4,7 +4,7 @@ import { useDownloadReportsMutation } from './Api'
 import { useRecoilValue } from 'recoil'
 import { userState } from './Atoms/user'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { handleCsvExport, handleExcelExport } from './exports'
+import { handleCsvExport, handleExcelExport, pdfExport } from './exports'
 
 type DownloadReportProps = {
   startDate: string
@@ -12,14 +12,15 @@ type DownloadReportProps = {
   reportName: string
 }
 
-const downloadOptions = ['excel', 'csv', 'pdf', ''] as const
+const downloadOptions = ['excel', 'csv', 'pdf'] as const
 function DownloadReportButton(props: DownloadReportProps) {
   const { role } = useRecoilValue(userState)
   const [open, setOpen] = useState(false)
+  // const [renderPdfDownload, setRenderPdfDownload] = useState<any[]>([])
   const [downloadLoading, setDownloadLoading] = useState(false)
 
   const [downloadType, setDownloadType] =
-    useState<(typeof downloadOptions)[number]>('')
+    useState<(typeof downloadOptions)[number]>('excel')
 
   const { mutate: getDataForDownload } = useDownloadReportsMutation()
 
@@ -37,7 +38,7 @@ function DownloadReportButton(props: DownloadReportProps) {
           try {
             if (downloadType === 'csv') handleCsvExport(response)
             else if (downloadType === 'excel') handleExcelExport(response)
-            // else if (downloadType === "pdf")
+            else if (downloadType === 'pdf') pdfExport(response)
           } catch (err) {
             console.log(err)
           } finally {
@@ -64,6 +65,12 @@ function DownloadReportButton(props: DownloadReportProps) {
         )}
       </button>
 
+      {/* {renderPdfDownload.length > 0 ? (
+        <div className="absolute top-2 left-2 h-full w-full z-[10000]">
+          <PdfExport data={renderPdfDownload} />
+        </div>
+      ) : null} */}
+
       <Modal
         open={open}
         onClose={() => setOpen(false)}
@@ -85,7 +92,7 @@ function DownloadReportButton(props: DownloadReportProps) {
         >
           {downloadOptions.map((val) => (
             <option key={val} value={val}>
-              {val ? val.toUpperCase() : 'Please select download type'}
+              {val.toUpperCase()}
             </option>
           ))}
         </select>

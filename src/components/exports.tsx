@@ -1,4 +1,5 @@
-import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer'
+import 'jspdf-autotable'
+import { jsPDF } from 'jspdf'
 import ExcelJS from 'exceljs'
 
 export const handleCsvExport = (data: any[]) => {
@@ -39,34 +40,56 @@ export const handleExcelExport = async (data: any[]) => {
   document.body.removeChild(link)
 }
 
-type PdfExportProps = {
-  data: any[]
-}
+export const pdfExport = (data: any[]) => {
+  const doc = new jsPDF()
+  const tableColumn = [
+    'Log ID',
+    'User Name',
+    'Activity',
+    'Entry Date',
+    'Description'
+  ]
+  const tableRows: any[] = []
 
-// Create styles
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: 'row',
-    backgroundColor: '#E4E4E4'
-  },
-  section: {
-    margin: 10,
-    padding: 10,
-    flexGrow: 1
-  }
-})
+  data.forEach((item) => {
+    tableRows.push([
+      item.logID,
+      item.user_name,
+      item.activity,
+      item.entryDate,
+      item.log_Discription
+    ])
+  })
 
-export function PdfExport(props: PdfExportProps) {
-  return (
-    <Document>
-      <Page size="A4" style={styles.page}>
-        <View style={styles.section}>
-          <Text>Section #1</Text>
-        </View>
-        <View style={styles.section}>
-          <Text>Section #2</Text>
-        </View>
-      </Page>
-    </Document>
-  )
+  const pageWidth = doc.internal.pageSize.getWidth()
+  const margin = 1
+  const availableWidth = pageWidth - margin * 2
+
+  // Calculate column widths ensuring minimum width of 150 and distribute remaining space
+  const minColumnWidth = 5
+  const totalMinWidth = minColumnWidth * tableColumn.length
+  const remainingWidth =
+    availableWidth > totalMinWidth ? availableWidth - totalMinWidth : 0
+  const columnWidth =
+    remainingWidth > 0
+      ? minColumnWidth + remainingWidth / tableColumn.length
+      : minColumnWidth
+
+  doc.autoTable({
+    head: [tableColumn],
+    body: tableRows,
+    startY: 1,
+    styles: { cellPadding: 2, fontSize: 8 },
+    columnStyles: {
+      0: { cellWidth: columnWidth },
+      1: { cellWidth: columnWidth },
+      2: { cellWidth: columnWidth },
+      3: { cellWidth: columnWidth },
+      4: { cellWidth: columnWidth }
+    },
+    margin: { left: margin, right: margin, top: margin, bottom: margin }
+  })
+
+  // Save the PDF
+  doc.save('log_entries.pdf')
 }
