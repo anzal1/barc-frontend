@@ -5,16 +5,8 @@ import ExcelJS from 'exceljs'
 export const handleCsvExport = (data: any[]) => {
   window.open(
     `data:text/csv;charset=utf-8,${encodeURIComponent(
-      data.reduce((acc: any, report: any) => {
-        return (
-          acc +
-          Object.values(report)
-            .map((value) => `"${value}"`)
-            .join(',') +
-          '\n'
-        )
-      }, 'logID,log_Discription,user_name,activity,entryDate\n')
-    )}`,
+			data.reduce((acc: any, r: any) => (acc + Object.values(r).map((v) => `"${v}"`).join(',') + '\n'),
+			'logID,log_Discription,user_name,activity,entryDate\n'))}`,
     '_blank'
   )
 }
@@ -27,9 +19,7 @@ export const handleExcelExport = async (data: any[]) => {
   worksheet.columns = columns
   data.forEach((item) => worksheet.addRow(item))
   const buffer = await workbook.xlsx.writeBuffer()
-  const blob = new Blob([buffer], {
-    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-  })
+  const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
 
   const link = document.createElement('a')
   link.href = URL.createObjectURL(blob)
@@ -42,13 +32,7 @@ export const handleExcelExport = async (data: any[]) => {
 
 export const pdfExport = (data: any[]) => {
   const doc = new jsPDF()
-  const tableColumn = [
-    'Log ID',
-    'User Name',
-    'Activity',
-    'Entry Date',
-    'Description'
-  ]
+  const tableColumn = ['Log ID', 'User Name', 'Activity', 'Entry Date', 'Description' ]
   const tableRows: any[] = []
 
   data.forEach((item) => {
@@ -68,13 +52,8 @@ export const pdfExport = (data: any[]) => {
   // Calculate column widths ensuring minimum width of 150 and distribute remaining space
   const minColumnWidth = 5
   const totalMinWidth = minColumnWidth * tableColumn.length
-  const remainingWidth =
-    availableWidth > totalMinWidth ? availableWidth - totalMinWidth : 0
-  const columnWidth =
-    remainingWidth > 0
-      ? minColumnWidth + remainingWidth / tableColumn.length
-      : minColumnWidth
-
+  const remainingWidth = availableWidth > totalMinWidth ? availableWidth - totalMinWidth : 0
+  const columnWidth = remainingWidth > 0 ? minColumnWidth + remainingWidth / tableColumn.length : minColumnWidth
   // @ts-ignore
   doc.autoTable({
     head: [tableColumn],
@@ -91,6 +70,5 @@ export const pdfExport = (data: any[]) => {
     margin: { left: margin, right: margin, top: margin, bottom: margin }
   })
 
-  // Save the PDF
-  doc.save('log_entries.pdf')
+  doc.save('download.pdf')
 }

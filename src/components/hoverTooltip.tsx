@@ -12,10 +12,7 @@ function HoverTooltip(props: HoverTooltipProps) {
     <div className="relative group">
       {props.element}
       <div
-        className={twMerge(
-          'absolute hidden group-hover:inline-block bg-white px-2 py-1 text-black text-base w-max rounded-md shadow-lg top-8 right-4',
-          props.hoverClassName
-        )}
+        className={twMerge('absolute hidden group-hover:inline-block bg-white px-2 py-1 text-black text-base w-max rounded-md shadow-lg top-8 right-4', props.hoverClassName)}
       >
         {props.showOnHover}
       </div>
