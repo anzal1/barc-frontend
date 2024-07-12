@@ -75,6 +75,7 @@ export const pdfExport = (data: any[]) => {
       ? minColumnWidth + remainingWidth / tableColumn.length
       : minColumnWidth
 
+  // @ts-ignore
   doc.autoTable({
     head: [tableColumn],
     body: tableRows,
