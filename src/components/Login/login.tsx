@@ -12,23 +12,15 @@ export const Login = () => {
   const setUserState = useSetRecoilState(userState)
   const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
-  const { mutate: createJWTFn, isPending: isCreateJWTPending } =
-    useCreateJWTMutation()
-  const { mutate: loginUserFn, isPending: isLoginUserPending } =
-    useLoginUserMutation()
+  const { mutate: createJWTFn, isPending: isCreateJWTPending } = useCreateJWTMutation()
+  const { mutate: loginUserFn, isPending: isLoginUserPending } = useLoginUserMutation()
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormValues({ ...formValues, [e.target.name]: e.target.value })
-  }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setFormValues({ ...formValues, [e.target.name]: e.target.value })
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
 
-    const loginData = {
-      User_Name: formValues.username,
-      Password: formValues.password
-    }
-
+    const loginData = { User_Name: formValues.username, Password: formValues.password }
     if (!loginData.User_Name && !loginData.Password) {
       toast.error('Please enter username and password')
       return
@@ -60,9 +52,7 @@ export const Login = () => {
                 }
               })
               const name = data.name || data.username
-              toast.success(
-                name ? `Welcome ${name}` : 'User logged in successfully!'
-              )
+              toast.success(name ? `Welcome ${name}` : 'User logged in successfully!')
               navigate('/')
             },
             onError(err: any) {
@@ -93,27 +83,27 @@ export const Login = () => {
           <label className="text-gray-800 text-left mt-4 ml-2">Login Id</label>
           <input
             value={formValues.username}
-            name="username"
-            onChange={handleChange}
             type="text"
             placeholder=""
+            name="username"
+            onChange={handleChange}
             className="h-12  mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
           />
           <label className="text-gray-800 text-left  mt-4 ml-2">Password</label>
           <div className="relative w-full">
             <input
-              name="password"
-              value={formValues?.password}
-              onChange={handleChange}
-              type={showPassword ? 'text' : 'password'}
               placeholder=""
+              name="password"
+              onChange={handleChange}
+              value={formValues?.password}
+              type={showPassword ? 'text' : 'password'}
               className=" h-12 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 w-full"
             />
             <img
-              onClick={() => setShowPassword(!showPassword)}
               src={eye}
-              className="w-6 h-6  absolute top-5 right-2 cursor-pointer"
               alt="eye"
+              onClick={() => setShowPassword(!showPassword)}
+              className="w-6 h-6  absolute top-5 right-2 cursor-pointer"
             />
           </div>
         </div>

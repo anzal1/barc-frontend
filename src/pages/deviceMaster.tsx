@@ -22,13 +22,13 @@ export const DeviceMasterPage = () => {
               <div className="flex gap-6">
                 <img
                   src={list}
-                  className="w-10 h-10 cursor-pointer"
                   alt="list"
+                  className="w-10 h-10 cursor-pointer"
                   onClick={() => navigate('/device-master-list')}
                 />
                 <XMarkIcon
-                  className="w-10 h-10 cursor-pointer"
                   onClick={() => navigate('/')}
+                  className="w-10 h-10 cursor-pointer"
                 />
               </div>
             </div>

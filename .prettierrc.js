@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   printWidth: 80,
   tabWidth: 2,
   singleQuote: true,
@@ -8,5 +8,6 @@ module.exports = {
   semi: false,
   useTabs: false,
   bracketSameLine: false,
-  proseWrap: 'never'
+  proseWrap: 'never',
+  plugins: ["prettier-plugin-tailwindcss"]
 }

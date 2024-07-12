@@ -17,13 +17,9 @@ const App = () => {
           <Route path="/device-master" element={<DeviceMasterPage />} />
           <Route path="/device-master-list" element={<DeviceMasterList />} />
           <Route path="/employee-master" element={<EmployeeMasterPage />} />
-          <Route
-            path="/employee-master-list"
-            element={<EmployeeMasterListPage />}
-          />
+          <Route path="/employee-master-list" element={<EmployeeMasterListPage />} />
           <Route path="/device-reports" element={<DeviceReports />} />
         </Route>
-
         <Route path="/login" element={<LoginPage />} />
       </Routes>
     </Router>
