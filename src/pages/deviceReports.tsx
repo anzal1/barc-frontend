@@ -34,7 +34,7 @@ export const DeviceReports = () => {
 					endDate: data.endDate
 				})
 				setReports(response[0].report)
-				setTotalPages(response[0].pageCount)
+				setTotalPages(Number(response[0].pageCount))
 				// setTotalRecords(response[0].totalRecord)
 			},
 			onError: (error) => {
@@ -94,8 +94,22 @@ export const DeviceReports = () => {
 									>
 										Next
 									</button>
-									<p className="cursor-pointer rounded-lg bg-white p-2 text-base text-blue-500 hover:bg-blue-500 hover:text-white">
-										Page {pageNumber} of {totalPages}
+
+									<select
+										name="pageNumber"
+										value={pageNumber}
+										onChange={(e) => setPageNumber(Number(e.target.value))}
+										className="h-10 rounded-lg border border-none bg-white text-blue-500 shadow-md"
+									>
+										{Array.from({ length: totalPages }).map((_, index) => (
+											<option key={index} value={index + 1}>
+												Page {index + 1}
+											</option>
+										))}
+									</select>
+
+									<p className="cursor-pointer rounded-lg bg-white p-2 text-base text-blue-500">
+										Total {totalPages} pages
 									</p>
 								</div>
 								<div className="flex items-center justify-center gap-2">

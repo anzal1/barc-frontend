@@ -241,17 +241,23 @@ const DeviceMasterForm: FC<DeviceMasterFormProps> = (props) => {
 							className="h-12 w-full rounded-lg border border-none bg-[#e8e8e8] p-4 shadow-md shadow-[#00000061]"
 						/>
 					</div>
-
-					<div className="flex items-center gap-4">
-						<TextInput
-							disabled={isPending}
-							defaultValue={props.editData?.camereIp}
-							required
-							name="camereIp"
-							label="camera IP"
-						/>
-					</div>
 				</div>
+
+				<TextInput
+					disabled={isPending}
+					defaultValue={props.editData?.camereIp}
+					required
+					name="camereIp"
+					label="camera IP"
+				/>
+
+				<TextInput
+					disabled={isPending}
+					defaultValue={props.editData?.deviceCategory}
+					required
+					name="deviceCategory"
+					label="Device Category"
+				/>
 			</div>
 
 			<br />

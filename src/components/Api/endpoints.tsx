@@ -133,11 +133,21 @@ export const downloadReports = (params: Omit<getReportBody, 'pageNumber'>): Prom
 		{ method: 'GET' }
 	)
 
-export const getReports = (params: getReportBody): Promise<unknown> =>
-	apiClient(
+export const getReports = (params: getReportBody): Promise<unknown> => {
+	if (
+		!params.startDate ||
+		!params.startDate ||
+		!params.status ||
+		!params.userID ||
+		!params.pageNumber
+	)
+		return Promise.reject('Invalid params')
+
+	return apiClient(
 		`/api/Appointment/LogReport?fromd=${params.startDate}&tod=${params.endDate}&Status=${params.status}&UserID=${params.userID}&PageNumber=${params.pageNumber}`,
 		{ method: 'GET' }
 	)
+}
 
 export type InsertAcknowledgeBody = {
 	DeviceNumber: string
