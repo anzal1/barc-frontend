@@ -251,13 +251,25 @@ const DeviceMasterForm: FC<DeviceMasterFormProps> = (props) => {
 					label="camera IP"
 				/>
 
-				<TextInput
-					disabled={isPending}
-					defaultValue={props.editData?.deviceCategory}
-					required
-					name="deviceCategory"
-					label="Device Category"
-				/>
+				<div className="flex flex-col gap-1">
+					<label htmlFor="deviceCategory">
+						Device Category <span className="text-red-500">*</span>
+					</label>
+					<select
+						required
+						id="deviceCategory"
+						name="deviceCategory"
+						defaultValue={props.editData?.deviceCategory}
+						className="h-12 rounded-lg border border-none bg-[#e8e8e8] p-2 shadow-md shadow-[#00000061]"
+					>
+						<option value="">Select Device Category</option>
+						<option value="1">CCTV</option>
+						<option value="2">Biometric</option>
+						<option value="3">Fire Alarm</option>
+						<option value="4">Access Control</option>
+						<option value="5">Others</option>
+					</select>
+				</div>
 			</div>
 
 			<br />
