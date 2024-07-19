@@ -2,7 +2,7 @@
 
 - [ ] Show status button should be provided to view status of all cameras. Status should be taken from camera, not from master or slave unit.
 - [x] In log reports date and time both should be shown.
-- [ ] In log reports, Report button should be provided on navigation bar.
+- [x] In log reports, Report button should be provided on navigation bar.
 - [x] Report page validation is required, without selection of any parameter, report view option was coming. Report filter criteria was not properly working.
 - [x] In all reports, device id, device location, device name, date and time of log should be provided. Sorting option for all parameters is required.
 - [ ] Reset log, communication fail log is not available, should be provided. <[backend_problem]>
