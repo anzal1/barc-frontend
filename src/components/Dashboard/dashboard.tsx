@@ -254,7 +254,7 @@ export const Dashboard = () => {
 								}}
 							/>
 							<p
-								className="absolute text-xs font-semibold text-black"
+								className="absolute rounded-sm bg-white px-2 py-0.5 text-xs font-semibold text-black shadow-sm"
 								style={{
 									top: `${Number.parseFloat(point.y_value as string) + 10}px`,
 									left: `${Number.parseFloat(point.x_value as string) + 10}px`
@@ -321,7 +321,7 @@ export const Dashboard = () => {
 						}}
 					>
 						<XMarkIcon
-							className="absolute right-2 top-2 h-6 w-6 cursor-pointer invert filter"
+							className="absolute right-2 top-2 h-6 w-6 cursor-pointer filter"
 							onClick={() => setCoordinateOpen(false)}
 						/>
 						<div className="flex w-full flex-col gap-2 font-bold">

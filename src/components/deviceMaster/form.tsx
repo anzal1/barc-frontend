@@ -13,6 +13,22 @@ export type DeviceMasterFormProps = {
 	onSuccess?: () => void
 }
 
+const validateIp = (ip: string) => {
+	const ipParts = ip.split('.')
+	if (ipParts.length !== 4) {
+		return false
+	}
+
+	for (const part of ipParts) {
+		const partNum = parseInt(part)
+		if (isNaN(partNum) || partNum < 0 || partNum > 255) {
+			return false
+		}
+	}
+
+	return true
+}
+
 const DeviceMasterForm: FC<DeviceMasterFormProps> = (props) => {
 	const navigate = useNavigate()
 	const { mutate: createEditDeviceMasterFn, isPending } = useCreateOrEditDeviceMasterMutation()
@@ -31,19 +47,6 @@ const DeviceMasterForm: FC<DeviceMasterFormProps> = (props) => {
 		//   toast.error('Invalid device status! Device Status is either Y or N')
 		//   return
 		// }
-
-		// sanitinzation of DeviceIp
-		const deviceIp = formData.DeviceIp as string
-		if (!deviceIp) {
-			toast.error('Device IP is required!')
-			return
-		}
-
-		const ipParts = deviceIp.split('.')
-		if (ipParts.length !== 4) {
-			toast.error('Please enter valid Device IP!')
-			return
-		}
 
 		const macAddress = formData.MacID as string
 		const x = parseFloat(formData.X_Value as any)
@@ -65,12 +68,14 @@ const DeviceMasterForm: FC<DeviceMasterFormProps> = (props) => {
 			return
 		}
 
-		for (const part of ipParts) {
-			const partNum = parseInt(part)
-			if (isNaN(partNum) || partNum < 0 || partNum > 255) {
-				toast.error('Please enter valid Device IP!')
-				return
-			}
+		if (!validateIp(formData.camereIp as string)) {
+			toast.error('Invalid Camera IP Address')
+			return
+		}
+
+		if (!validateIp(formData.DeviceIp as string)) {
+			toast.error('Invalid Device IP Address')
+			return
 		}
 
 		if (isNaN(parseFloat(formData.X_Value as string))) {
@@ -98,7 +103,12 @@ const DeviceMasterForm: FC<DeviceMasterFormProps> = (props) => {
 		createEditDeviceMasterFn(
 			{ data, isEdit: !!props.editData },
 			{
-				onSuccess() {
+				onSuccess(res: any) {
+					if (res <= 0) {
+						toast.error('An error occured!')
+						return
+					}
+
 					toast.success(
 						props.editData
 							? 'Device master updated successfully!'
