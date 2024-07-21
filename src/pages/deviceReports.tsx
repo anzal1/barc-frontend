@@ -156,6 +156,7 @@ export const DeviceReports = () => {
 									},
 									{ key: 'user_name', title: 'By Whom' },
 									{ key: 'activity', title: 'Activity' },
+									{ key: 'device_Location', title: 'Device Location' },
 									{
 										key: 'entryDate',
 										title: 'Activity Date',
