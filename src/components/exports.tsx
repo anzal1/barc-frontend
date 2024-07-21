@@ -17,7 +17,7 @@ export const handleCsvExport = (data: LogType[]) => {
 	window.open(
 		`data:text/csv;charset=utf-8,${encodeURIComponent(
 			data.reduce((acc, curr) => {
-				return `${acc}${curr.logID},${curr.log_Discription},${curr.user_name},${curr.activity},${curr.entryDate}\n`
+				return `${acc}${curr.logID},${curr.log_Discription},${curr.user_name},${curr.activity},${dayjs(curr.entryDate).format('DD/MM/YYYY HH:mm:ss A')}\n`
 			}, 'logID,log_Discription,by_whom,activity,entryDate\n')
 		)}`,
 		'_blank'
