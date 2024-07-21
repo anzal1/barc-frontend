@@ -16,9 +16,11 @@ export type LogType = {
 export const handleCsvExport = (data: LogType[]) => {
 	window.open(
 		`data:text/csv;charset=utf-8,${encodeURIComponent(
-			data.reduce((acc, curr) => {
-				return `${acc}${curr.logID},${curr.log_Discription},${curr.user_name},${curr.activity},${dayjs(curr.entryDate).format('DD/MM/YYYY HH:mm:ss A')}\n`
-			}, 'logID,log_Discription,by_whom,activity,entryDate\n')
+			data.reduce(
+				(acc, curr) =>
+					`${acc}${curr.logID},${curr.user_name},${curr.activity},${dayjs(curr.entryDate).format('DD/MM/YYYY HH:mm:ss A')},${curr.device_Location},${curr.log_Discription}\n`,
+				'logID,by whom,activity,entryDate,Location,Description\n'
+			)
 		)}`,
 		'_blank'
 	)
@@ -28,9 +30,18 @@ export const handleExcelExport = async (data: LogType[]) => {
 	const workbook = new ExcelJS.Workbook()
 	const worksheet = workbook.addWorksheet('My Data')
 
-	const columns = Object.keys(data[0]).map((key) => ({ header: key, key }))
+	const newData = data.map((d) => ({
+		logID: d.logID,
+		'by Whom': d.user_name,
+		Activity: d.activity,
+		entryDate: dayjs(d.entryDate).format('DD/MM/YYYY HH:mm:ss A'),
+		'Device Location': d.device_Location,
+		Description: d.log_Discription
+	}))
+
+	const columns = Object.keys(newData[0]).map((key) => ({ header: key, key }))
 	worksheet.columns = columns
-	data.forEach((item) => worksheet.addRow(item))
+	newData.forEach((item) => worksheet.addRow(item))
 	const buffer = await workbook.xlsx.writeBuffer()
 	const blob = new Blob([buffer], {
 		type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
