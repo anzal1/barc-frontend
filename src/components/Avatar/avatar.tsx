@@ -20,13 +20,15 @@ export const AvatarTooltip = () => {
 		window.location.href = '/login'
 	}
 
+	// console.log(user.role.role_Name)
+
 	return (
 		<div
 			onClick={() => setOpen(!open)}
 			className="relative mx-2 flex cursor-pointer items-center justify-center gap-2 rounded-md px-2 py-1 hover:bg-black/20"
 		>
 			<HoverTooltip
-				showOnHover="Admin actions"
+				showOnHover={user.role.role_Name === 'BranchAdmin' ? 'Admin actions' : 'Security actions'}
 				element={
 					<div className="text-black">
 						<p className="mb-0 pb-0 text-xl font-bold">{user?.name}</p>
