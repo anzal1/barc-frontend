@@ -1,4 +1,5 @@
 import { useGetReportMutation } from '../components/Api'
+import { userState } from '../components/Atoms/user'
 import { CustomCard } from '../components/Card/card'
 import { DeviceReportsForm } from '../components/DeviceReports/deviceReportsForm'
 import Layout from '../components/Layout/layout'
@@ -9,7 +10,8 @@ import { NavType } from '../enums/navtype'
 import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon'
 import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
+import { useRecoilValue } from 'recoil'
 import { twMerge } from 'tailwind-merge'
 
 export const DeviceReports = () => {
@@ -42,6 +44,12 @@ export const DeviceReports = () => {
 			pageNumber
 		})
 	}, [pageNumber])
+
+	const user = useRecoilValue(userState)
+
+	if (!user.role || (user.role as any).role_Name !== 'BranchAdmin') {
+		return <Navigate to="/" replace={true} />
+	}
 
 	return (
 		<Layout navType={NavType.FILLED} extras={<HeaderExtraRight />}>

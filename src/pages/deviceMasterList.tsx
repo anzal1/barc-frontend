@@ -13,7 +13,7 @@ import TrashIcon from '@heroicons/react/24/outline/TrashIcon'
 import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
 type DeviceMasterType = {
@@ -93,6 +93,10 @@ const DeviceMasterList = () => {
 				onSettled: () => setDeleteDeviceId(null)
 			}
 		)
+	}
+
+	if (!user.role || (user.role as any).role_Name !== 'BranchAdmin') {
+		return <Navigate to="/" replace={true} />
 	}
 
 	return (

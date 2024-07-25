@@ -12,7 +12,7 @@ import TrashIcon from '@heroicons/react/24/outline/TrashIcon'
 import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
 type EmployeeMasterType = {
@@ -42,6 +42,7 @@ type EmployeeMasterType = {
 }
 
 export const EmployeeMasterListPage = () => {
+	const navigate = useNavigate()
 	const user: any = useRecoilValue(userState)
 	const {
 		data,
@@ -108,7 +109,9 @@ export const EmployeeMasterListPage = () => {
 		)
 	}
 
-	const navigate = useNavigate()
+	if (!user.role || (user.role as any).role_Name !== 'BranchAdmin') {
+		return <Navigate to="/" replace={true} />
+	}
 
 	return (
 		<Layout navType={NavType.FILLED}>

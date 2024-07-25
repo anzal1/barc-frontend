@@ -61,26 +61,34 @@ const ShowCamera = () => {
 }
 
 const HeaderExtraRight = () => {
+	const user = useRecoilValue(userState)
+
 	return (
 		<div className="flex items-center gap-2">
 			<ShowCamera />
-			<HoverTooltip
-				showOnHover="Device Master"
-				element={
-					<Link to="/device-master">
-						<ListBulletIcon className="h-9 w-9 font-bold text-white" />
-					</Link>
-				}
-			/>
 
-			<HoverTooltip
-				showOnHover="Device Reports"
-				element={
-					<Link to="/device-reports">
-						<ClipboardDocumentListIcon className="h-9 w-9 font-bold text-white" />
-					</Link>
-				}
-			/>
+			{user.role && (user.role as any).role_Name === 'BranchAdmin' ? (
+				<HoverTooltip
+					showOnHover="Device Master"
+					element={
+						<Link to="/device-master">
+							<ListBulletIcon className="h-9 w-9 font-bold text-white" />
+						</Link>
+					}
+				/>
+			) : null}
+
+			{user.role && (user.role as any).role_Name === 'BranchAdmin' ? (
+				<HoverTooltip
+					showOnHover="Device Reports"
+					element={
+						<Link to="/device-reports">
+							<ClipboardDocumentListIcon className="h-9 w-9 font-bold text-white" />
+						</Link>
+					}
+				/>
+			) : null}
+
 			<AvatarTooltip />
 		</div>
 	)

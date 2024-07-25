@@ -1,4 +1,5 @@
 import list from '../assets/list.svg'
+import { userState } from '../components/Atoms/user'
 import { CustomCard } from '../components/Card/card'
 import Layout from '../components/Layout/layout'
 import DeviceMasterForm from '../components/deviceMaster/form'
@@ -6,10 +7,16 @@ import HeaderExtraRight from '../components/headerExtras'
 import { NavType } from '../enums/navtype'
 import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon'
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
+import { useRecoilValue } from 'recoil'
 
 export const DeviceMasterPage = () => {
 	const navigate = useNavigate()
+	const user = useRecoilValue(userState)
+
+	if (!user.role || (user.role as any).role_Name !== 'BranchAdmin') {
+		return <Navigate to="/" replace={true} />
+	}
 
 	return (
 		<Layout navType={NavType.FILLED} extras={<HeaderExtraRight />}>

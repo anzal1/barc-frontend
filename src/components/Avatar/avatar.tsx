@@ -38,16 +38,19 @@ export const AvatarTooltip = () => {
 			<UserCircleIcon className="h-12 w-12 font-bold" />
 
 			<Modal open={open} onClose={() => setOpen(false)} type="absolute">
-				<div className="border-1-[#1C9FF6] relative right-[200px] top-6 mt-4 flex w-[300px] flex-col gap-6 rounded-[10px] border-2 bg-white p-4 shadow-lg">
+				<div className="border-1-[#1C9FF6] relative right-[200px] top-6 mt-4 flex w-[300px] flex-col gap-6 rounded-[10px] border-2 bg-white p-4 pt-12 shadow-lg">
 					<XMarkIcon
 						className="absolute right-2 top-2 mb-2 h-8 w-8 cursor-pointer invert filter"
 						onClick={() => setOpen(false)}
 					/>
 
-					<Link to="/employee-master" className="flex w-full cursor-pointer items-center gap-2">
-						<UserGroupIcon className="h-9 w-9 font-bold text-black" />
-						<p className="text-xl text-[#1C9FF6]">Employee Master</p>
-					</Link>
+					{user.role && (user.role as any).role_Name === 'BranchAdmin' ? (
+						<Link to="/employee-master" className="flex w-full cursor-pointer items-center gap-2">
+							<UserGroupIcon className="h-9 w-9 font-bold text-black" />
+							<p className="text-xl text-[#1C9FF6]">Employee Master</p>
+						</Link>
+					) : null}
+
 					<div className="flex w-full flex-col gap-2">
 						<button
 							onClick={handleLogout}
