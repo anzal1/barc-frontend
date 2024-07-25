@@ -3,6 +3,7 @@ import { userState } from './Atoms/user'
 import Modal from './Modal/modal'
 import { handleCsvExport, handleExcelExport, pdfExport } from './exports'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import dayjs from 'dayjs'
 import { useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
@@ -37,7 +38,10 @@ function DownloadReportButton(props: DownloadReportProps) {
 					try {
 						if (downloadType === 'csv') handleCsvExport(response)
 						else if (downloadType === 'excel') handleExcelExport(response)
-						else if (downloadType === 'pdf') pdfExport(response)
+						else if (downloadType === 'pdf') {
+							const heading = `${props.reportName.toUpperCase()} reports: ${dayjs(props.startDate).format('DD/MM/YYYY')} - ${dayjs(props.endDate).format('DD/MM/YYYY')}`
+							pdfExport(response, heading)
+						}
 					} catch (err) {
 						console.log(err)
 					} finally {

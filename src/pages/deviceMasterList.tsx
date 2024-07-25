@@ -32,7 +32,7 @@ type DeviceMasterType = {
 	userID: any
 	x_value: string | number
 	y_value: string | number
-	cameraIp: string
+	camereIp: string
 	deviceType: string
 }
 
@@ -66,7 +66,7 @@ const DeviceMasterList = () => {
 			UserID: currentRow.userID,
 			X_Value: String(currentRow.x_value) as any,
 			Y_Value: String(currentRow.y_value) as any,
-			camereIp: String(currentRow.cameraIp) as any,
+			camereIp: String(currentRow.camereIp) as any,
 			deviceType: currentRow.deviceType as any
 		}
 		setEditData(_editData)

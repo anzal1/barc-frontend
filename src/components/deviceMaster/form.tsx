@@ -143,13 +143,7 @@ const DeviceMasterForm: FC<DeviceMasterFormProps> = (props) => {
 						label="Device ID"
 					/>
 				) : null}
-				{/* <TextInput
-          disabled={isPending}
-          defaultValue={props.editData?.DeviceNumber}
-          required
-          name="DeviceNumber"
-          label="Device Serial Number"
-        /> */}
+
 				<TextInput
 					disabled={isPending}
 					defaultValue={props.editData?.DeviceName}
@@ -157,6 +151,7 @@ const DeviceMasterForm: FC<DeviceMasterFormProps> = (props) => {
 					name="DeviceName"
 					label="Device Name"
 				/>
+
 				<TextInput
 					disabled={isPending}
 					defaultValue={props.editData?.Location}
@@ -164,6 +159,7 @@ const DeviceMasterForm: FC<DeviceMasterFormProps> = (props) => {
 					name="Location"
 					label="Device Location"
 				/>
+
 				<TextInput
 					disabled={isPending}
 					defaultValue={props.editData?.DeviceIp}
@@ -171,6 +167,7 @@ const DeviceMasterForm: FC<DeviceMasterFormProps> = (props) => {
 					name="DeviceIp"
 					label="Device IP"
 				/>
+
 				<TextInput
 					type="number"
 					disabled={isPending}
@@ -179,6 +176,7 @@ const DeviceMasterForm: FC<DeviceMasterFormProps> = (props) => {
 					name="SerialNo"
 					label="Serial Number"
 				/>
+
 				<TextInput
 					type="number"
 					disabled={isPending}
@@ -187,6 +185,7 @@ const DeviceMasterForm: FC<DeviceMasterFormProps> = (props) => {
 					name="PortNo"
 					label="Port Number"
 				/>
+
 				<TextInput
 					disabled={isPending}
 					defaultValue={props.editData?.MacID}
@@ -194,6 +193,7 @@ const DeviceMasterForm: FC<DeviceMasterFormProps> = (props) => {
 					name="MacID"
 					label="Mac ID"
 				/>
+
 				<TextInput
 					type="text"
 					disabled={isPending}
@@ -202,6 +202,7 @@ const DeviceMasterForm: FC<DeviceMasterFormProps> = (props) => {
 					name="RTSP"
 					label="RTSP"
 				/>
+
 				{props.editData && (
 					<TextInput
 						disabled={isPending}
@@ -250,6 +251,7 @@ const DeviceMasterForm: FC<DeviceMasterFormProps> = (props) => {
 					<label htmlFor="deviceType">
 						Device Category <span className="text-red-500">*</span>
 					</label>
+
 					<select
 						required
 						id="deviceType"

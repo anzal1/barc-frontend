@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import ExcelJS from 'exceljs'
 import { jsPDF } from 'jspdf'
-import 'jspdf-autotable'
+import autoTable from 'jspdf-autotable'
 
 export type LogType = {
 	logID: number
@@ -57,8 +57,11 @@ export const handleExcelExport = async (data: LogType[]) => {
 	document.body.removeChild(link)
 }
 
-export const pdfExport = (data: LogType[]) => {
+export const pdfExport = (data: LogType[], heading: string) => {
 	const doc = new jsPDF()
+	doc.setFontSize(12)
+	doc.text(heading, 2, 6)
+
 	const tableColumn = [
 		'Sl. No.',
 		'Device Name',
@@ -67,8 +70,8 @@ export const pdfExport = (data: LogType[]) => {
 		'By whom',
 		'Entry Date'
 	]
-	const tableRows: any[] = []
 
+	const tableRows: any[] = []
 	data.forEach((item, idx) => {
 		tableRows.push([
 			idx + 1,
@@ -84,25 +87,23 @@ export const pdfExport = (data: LogType[]) => {
 	const margin = 1
 	const availableWidth = pageWidth - margin * 2
 
-	// Calculate column widths ensuring minimum width of 150 and distribute remaining space
-	const minColumnWidth = 5
-	const totalMinWidth = minColumnWidth * tableColumn.length
-	const remainingWidth = availableWidth > totalMinWidth ? availableWidth - totalMinWidth : 0
-	const columnWidth =
-		remainingWidth > 0 ? minColumnWidth + remainingWidth / tableColumn.length : minColumnWidth
+	const minColWidth = 5
+	const totalMinWidth = minColWidth * tableColumn.length
+	const remWidth = availableWidth > totalMinWidth ? availableWidth - totalMinWidth : 0
+	const columnWidth = remWidth > 0 ? minColWidth + remWidth / tableColumn.length : minColWidth
 
-	// @ts-ignore
-	doc.autoTable({
+	autoTable(doc, {
 		head: [tableColumn],
 		body: tableRows,
-		startY: 1,
+		startY: 10,
 		styles: { cellPadding: 2, fontSize: 8 },
 		columnStyles: {
-			0: { cellWidth: columnWidth },
+			0: { cellWidth: 15 },
 			1: { cellWidth: columnWidth },
 			2: { cellWidth: columnWidth },
-			3: { cellWidth: columnWidth },
-			4: { cellWidth: columnWidth }
+			3: { cellWidth: columnWidth + (2 * columnWidth - 37) },
+			4: { cellWidth: 22 },
+			5: { cellWidth: columnWidth }
 		},
 		margin: { left: margin, right: margin, top: margin, bottom: margin }
 	})
