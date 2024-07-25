@@ -14,28 +14,18 @@ import { twMerge } from 'tailwind-merge'
 
 export const DeviceReports = () => {
 	const navigate = useNavigate()
-	const [reports, setReports] = useState<any[] | null>(null)
-	const [header, setHeader] = useState<any>({
-		reportName: '',
-		startDate: '',
-		endDate: ''
-	})
 	const [totalPages, setTotalPages] = useState(0)
-	// const [totalRecords, setTotalRecords] = React.useState(0)
 	const [pageNumber, setPageNumber] = useState(1)
+	const [reports, setReports] = useState<any[] | null>(null)
 	const { mutate: getReportFn, isPending } = useGetReportMutation()
+	const [header, setHeader] = useState<any>({ reportName: '', startDate: '', endDate: '' })
 
 	const handleGetReports = (data: any) => {
 		getReportFn(data, {
 			onSuccess: (response: any) => {
-				setHeader({
-					reportName: data.status,
-					startDate: data.startDate,
-					endDate: data.endDate
-				})
+				setHeader({ reportName: data.status, startDate: data.startDate, endDate: data.endDate })
 				setReports(response[0].report)
 				setTotalPages(Number(response[0].pageCount))
-				// setTotalRecords(response[0].totalRecord)
 			},
 			onError: (error) => {
 				console.log('Error fetching report', error)
@@ -141,22 +131,22 @@ export const DeviceReports = () => {
 										title: 'Sr. No.',
 										render: (_, __, index) => (pageNumber - 1) * 100 + index + 1
 									},
+									{ key: 'device_Name', title: 'Device Name' },
+									{ key: 'device_Location', title: 'Device Location' },
 									{
-										key: 'log_Discription',
-										title: 'Description',
+										key: 'activity',
+										title: 'Activity',
 										className: 'text-left items-start justify-start',
-										render: ({ log_Discription }) => (
+										render: ({ activity }) => (
 											<p
-												title={log_Discription}
+												title={activity}
 												className="flex w-full max-w-[700px] flex-col justify-start overflow-hidden overflow-ellipsis break-words text-left print:max-w-[500px]"
 											>
-												{log_Discription}
+												{activity}
 											</p>
 										)
 									},
 									{ key: 'user_name', title: 'By Whom' },
-									{ key: 'activity', title: 'Activity' },
-									{ key: 'device_Location', title: 'Device Location' },
 									{
 										key: 'entryDate',
 										title: 'Activity Date',

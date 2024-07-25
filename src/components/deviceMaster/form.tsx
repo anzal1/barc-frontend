@@ -258,11 +258,8 @@ const DeviceMasterForm: FC<DeviceMasterFormProps> = (props) => {
 						className="h-12 rounded-lg border border-none bg-[#e8e8e8] p-2 shadow-md shadow-[#00000061]"
 					>
 						<option value="">Select Device Category</option>
-						<option value="1">CCTV</option>
-						<option value="2">Biometric</option>
-						<option value="3">Fire Alarm</option>
-						<option value="4">Access Control</option>
-						<option value="5">Others</option>
+						<option value="master">Master</option>
+						<option value="slave">Slave</option>
 					</select>
 				</div>
 			</div>
