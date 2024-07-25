@@ -4,7 +4,7 @@ import { DeviceReportsForm } from '../components/DeviceReports/deviceReportsForm
 import Layout from '../components/Layout/layout'
 import Table from '../components/Table'
 import DownloadReportButton from '../components/downloadReports'
-import HeaderExtras from '../components/headerExtras'
+import HeaderExtraRight from '../components/headerExtras'
 import { NavType } from '../enums/navtype'
 import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon'
 import dayjs from 'dayjs'
@@ -54,7 +54,7 @@ export const DeviceReports = () => {
 	}, [pageNumber])
 
 	return (
-		<Layout navType={NavType.FILLED} extras={HeaderExtras}>
+		<Layout navType={NavType.FILLED} extras={<HeaderExtraRight />}>
 			{reports ? (
 				<div className="h-full w-full items-center justify-center p-12 print:p-0">
 					<CustomCard

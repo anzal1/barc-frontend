@@ -6,7 +6,7 @@ import Layout from '../components/Layout/layout'
 import Modal from '../components/Modal/modal'
 import Table from '../components/Table'
 import DeviceMasterForm from '../components/deviceMaster/form'
-import HeaderExtras from '../components/headerExtras'
+import HeaderExtraRight from '../components/headerExtras'
 import { NavType } from '../enums/navtype'
 import PencilSquareIcon from '@heroicons/react/24/outline/PencilSquareIcon'
 import TrashIcon from '@heroicons/react/24/outline/TrashIcon'
@@ -33,10 +33,11 @@ type DeviceMasterType = {
 	x_value: string | number
 	y_value: string | number
 	cameraIp: string
-	deviceCategory: string
+	deviceType: string
 }
 
 const DeviceMasterList = () => {
+	const navigate = useNavigate()
 	const user: any = useRecoilValue(userState)
 	const {
 		data,
@@ -49,8 +50,6 @@ const DeviceMasterList = () => {
 	const [editData, setEditData] = React.useState<CreateDeviceMasterBody | null>(null)
 
 	const handleEdit = (currentRow: DeviceMasterType) => {
-		console.log(currentRow)
-
 		const _editData: CreateDeviceMasterBody = {
 			BranchID: currentRow.branchID,
 			BranchName: currentRow.branchName,
@@ -68,7 +67,7 @@ const DeviceMasterList = () => {
 			X_Value: String(currentRow.x_value) as any,
 			Y_Value: String(currentRow.y_value) as any,
 			camereIp: String(currentRow.cameraIp) as any,
-			deviceCategory: currentRow.deviceCategory as any
+			deviceType: currentRow.deviceType as any
 		}
 		setEditData(_editData)
 	}
@@ -82,7 +81,7 @@ const DeviceMasterList = () => {
 		deleteDeviceFn(
 			{ deviceId, userID: String(user?.role.empsrno) },
 			{
-				onSuccess(data) {
+				onSuccess: (data) => {
 					if (data == -1) {
 						toast.error('Could not delete device')
 						return
@@ -90,20 +89,14 @@ const DeviceMasterList = () => {
 					refetchDevices()
 					toast.success('Device deleted successfully')
 				},
-				onError() {
-					toast.error('Failed to delete device')
-				},
-				onSettled() {
-					setDeleteDeviceId(null)
-				}
+				onError: () => toast.error('Failed to delete device'),
+				onSettled: () => setDeleteDeviceId(null)
 			}
 		)
 	}
 
-	const navigate = useNavigate()
-
 	return (
-		<Layout navType={NavType.FILLED} extras={HeaderExtras}>
+		<Layout navType={NavType.FILLED} extras={<HeaderExtraRight />}>
 			<div className="h-full w-full items-center justify-center px-6 py-4">
 				<CustomCard
 					header={
@@ -126,7 +119,8 @@ const DeviceMasterList = () => {
 					>
 						<div className="border-1-[#1C9FF6] flex w-full flex-col rounded-[10px] border-2 bg-white p-4 shadow-lg">
 							<h3 className="text-lg font-bold">
-								Are you sure, you want to delete the device {deleteDeviceId}
+								Are you sure, you want to delete&nbsp;
+								{data?.find((d) => d.deviceID === deleteDeviceId)?.deviceName || deleteDeviceId}
 							</h3>
 
 							<div className="mt-8 flex items-center justify-between">

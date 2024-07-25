@@ -44,7 +44,7 @@ export type CreateDeviceMasterBody = {
 	X_Value: number
 	Y_Value: number
 	camereIp: string
-	deviceCategory: string
+	deviceType: string
 }
 
 export const createOrEditDeviceMaster = (body: {
@@ -65,7 +65,7 @@ export const deleteDeviceMaster = (props: {
 		body: JSON.stringify({ DeviceID: props.deviceId, UserID: props.userID })
 	})
 
-export const getDeviceMasterList = (UserID: string): Promise<unknown> =>
+export const getDeviceMasterList = (UserID: string): Promise<any[]> =>
 	apiClient(`/api/Device/GetDeviceDetails?branchid=1&UserID=${UserID}`, {
 		method: 'GET'
 	})

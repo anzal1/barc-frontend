@@ -5,21 +5,22 @@ import 'jspdf-autotable'
 
 export type LogType = {
 	logID: number
-	log_Discription: string
-	user_name: string
-	activity: string
-	device_Location: string
 	device_Name: string
+	device_Location: string
+	activity: string
+	user_name: string
 	entryDate: string
+
+	log_Discription: string
 }
 
 export const handleCsvExport = (data: LogType[]) => {
 	window.open(
 		`data:text/csv;charset=utf-8,${encodeURIComponent(
 			data.reduce(
-				(acc, curr) =>
-					`${acc}${curr.logID},${curr.user_name},${curr.activity},${dayjs(curr.entryDate).format('DD/MM/YYYY HH:mm:ss A')},${curr.device_Location},${curr.log_Discription}\n`,
-				'logID,by whom,activity,entryDate,Location,Description\n'
+				(acc, curr, idx) =>
+					`${acc}${idx + 1},${curr.device_Name},${curr.device_Location},${curr.activity},${curr.user_name},${dayjs(curr.entryDate).format('DD/MM/YYYY HH:mm:ss A')}\n`,
+				'sl.No,Device Name,Location,Activity,by whom,Activity Date\n'
 			)
 		)}`,
 		'_blank'
@@ -28,15 +29,15 @@ export const handleCsvExport = (data: LogType[]) => {
 
 export const handleExcelExport = async (data: LogType[]) => {
 	const workbook = new ExcelJS.Workbook()
-	const worksheet = workbook.addWorksheet('My Data')
+	const worksheet = workbook.addWorksheet('Report Data')
 
-	const newData = data.map((d) => ({
-		logID: d.logID,
-		'by Whom': d.user_name,
-		Activity: d.activity,
-		entryDate: dayjs(d.entryDate).format('DD/MM/YYYY HH:mm:ss A'),
+	const newData = data.map((d, idx) => ({
+		slNo: idx + 1,
+		'Device Name': d.device_Name,
 		'Device Location': d.device_Location,
-		Description: d.log_Discription
+		Activity: d.activity,
+		'by Whom': d.user_name,
+		entryDate: dayjs(d.entryDate).format('DD/MM/YYYY HH:mm:ss A')
 	}))
 
 	const columns = Object.keys(newData[0]).map((key) => ({ header: key, key }))
@@ -59,23 +60,23 @@ export const handleExcelExport = async (data: LogType[]) => {
 export const pdfExport = (data: LogType[]) => {
 	const doc = new jsPDF()
 	const tableColumn = [
-		'Log ID',
-		'By whom',
-		'Activity',
-		'Entry Date',
+		'Sl. No.',
+		'Device Name',
 		'Device Location',
-		'Description'
+		'Activity',
+		'By whom',
+		'Entry Date'
 	]
 	const tableRows: any[] = []
 
-	data.forEach((item) => {
+	data.forEach((item, idx) => {
 		tableRows.push([
-			item.logID,
-			item.user_name,
-			item.activity,
-			dayjs(item.entryDate).format('DD/MM/YYYY HH:mm:ss A'),
+			idx + 1,
+			item.device_Name,
 			item.device_Location,
-			item.log_Discription
+			item.activity,
+			item.user_name,
+			dayjs(item.entryDate).format('DD/MM/YYYY HH:mm:ss A')
 		])
 	})
 
@@ -89,6 +90,7 @@ export const pdfExport = (data: LogType[]) => {
 	const remainingWidth = availableWidth > totalMinWidth ? availableWidth - totalMinWidth : 0
 	const columnWidth =
 		remainingWidth > 0 ? minColumnWidth + remainingWidth / tableColumn.length : minColumnWidth
+
 	// @ts-ignore
 	doc.autoTable({
 		head: [tableColumn],

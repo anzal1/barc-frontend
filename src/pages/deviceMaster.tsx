@@ -2,7 +2,7 @@ import list from '../assets/list.svg'
 import { CustomCard } from '../components/Card/card'
 import Layout from '../components/Layout/layout'
 import DeviceMasterForm from '../components/deviceMaster/form'
-import HeaderExtras from '../components/headerExtras'
+import HeaderExtraRight from '../components/headerExtras'
 import { NavType } from '../enums/navtype'
 import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon'
 import React from 'react'
@@ -12,7 +12,7 @@ export const DeviceMasterPage = () => {
 	const navigate = useNavigate()
 
 	return (
-		<Layout navType={NavType.FILLED} extras={HeaderExtras}>
+		<Layout navType={NavType.FILLED} extras={<HeaderExtraRight />}>
 			<div className="h-full w-full items-center justify-center p-12">
 				<CustomCard
 					header={

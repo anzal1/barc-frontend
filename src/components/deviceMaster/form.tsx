@@ -164,14 +164,6 @@ const DeviceMasterForm: FC<DeviceMasterFormProps> = (props) => {
 					name="Location"
 					label="Device Location"
 				/>
-				{/* <TextInput
-          type="number"
-          disabled={isPending}
-          value={props.editData?.BranchID}
-          required
-          name="BranchID"
-          label="Branch ID"
-        /> */}
 				<TextInput
 					disabled={isPending}
 					defaultValue={props.editData?.DeviceIp}
@@ -202,13 +194,6 @@ const DeviceMasterForm: FC<DeviceMasterFormProps> = (props) => {
 					name="MacID"
 					label="Mac ID"
 				/>
-				{/* <TextInput
-          disabled={isPending}
-          value={props.editData?.UserID}
-          required
-          name="UserID"
-          label="User ID"
-        /> */}
 				<TextInput
 					type="text"
 					disabled={isPending}
@@ -262,14 +247,14 @@ const DeviceMasterForm: FC<DeviceMasterFormProps> = (props) => {
 				/>
 
 				<div className="flex flex-col gap-1">
-					<label htmlFor="deviceCategory">
+					<label htmlFor="deviceType">
 						Device Category <span className="text-red-500">*</span>
 					</label>
 					<select
 						required
-						id="deviceCategory"
-						name="deviceCategory"
-						defaultValue={props.editData?.deviceCategory}
+						id="deviceType"
+						name="deviceType"
+						defaultValue={props.editData?.deviceType}
 						className="h-12 rounded-lg border border-none bg-[#e8e8e8] p-2 shadow-md shadow-[#00000061]"
 					>
 						<option value="">Select Device Category</option>
