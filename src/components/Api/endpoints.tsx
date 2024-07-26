@@ -65,10 +65,12 @@ export const deleteDeviceMaster = (props: {
 		body: JSON.stringify({ DeviceID: props.deviceId, UserID: props.userID })
 	})
 
-export const getDeviceMasterList = (UserID: string): Promise<any[]> =>
-	apiClient(`/api/Device/GetDeviceDetails?branchid=1&UserID=${UserID}`, {
+export const getDeviceMasterList = (UserID: string): Promise<any[]> => {
+	if (!UserID) return Promise.resolve([])
+	return apiClient(`/api/Device/GetDeviceDetails?branchid=1&UserID=${UserID}`, {
 		method: 'GET'
 	})
+}
 
 export const getEmployeeMasterList = (UserID: string): Promise<unknown> =>
 	apiClient(`/api/Employee/GetEmployeeDeatils?UserID=${UserID}`, {

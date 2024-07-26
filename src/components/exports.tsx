@@ -10,6 +10,7 @@ export type LogType = {
 	activity: string
 	user_name: string
 	entryDate: string
+	DeviceId: string
 
 	log_Discription: string
 }
@@ -19,8 +20,8 @@ export const handleCsvExport = (data: LogType[]) => {
 		`data:text/csv;charset=utf-8,${encodeURIComponent(
 			data.reduce(
 				(acc, curr, idx) =>
-					`${acc}${idx + 1},${curr.device_Name},${curr.device_Location},${curr.activity},${curr.user_name},${dayjs(curr.entryDate).format('DD/MM/YYYY HH:mm:ss A')}\n`,
-				'sl.No,Device Name,Location,Activity,by whom,Activity Date\n'
+					`${acc}${idx + 1},${curr.DeviceId || ''},${curr.device_Name},${curr.device_Location},${curr.activity},${curr.user_name},${dayjs(curr.entryDate).format('DD/MM/YYYY HH:mm:ss A')}\n`,
+				'sl.No,Device Id,Device Name,Location,Activity,by whom,Activity Date\n'
 			)
 		)}`,
 		'_blank'
@@ -33,6 +34,7 @@ export const handleExcelExport = async (data: LogType[]) => {
 
 	const newData = data.map((d, idx) => ({
 		slNo: idx + 1,
+		'Device ID': d.DeviceId || '',
 		'Device Name': d.device_Name,
 		'Device Location': d.device_Location,
 		Activity: d.activity,
@@ -64,6 +66,7 @@ export const pdfExport = (data: LogType[], heading: string) => {
 
 	const tableColumn = [
 		'Sl. No.',
+		'Device ID',
 		'Device Name',
 		'Device Location',
 		'Activity',
@@ -75,11 +78,12 @@ export const pdfExport = (data: LogType[], heading: string) => {
 	data.forEach((item, idx) => {
 		tableRows.push([
 			idx + 1,
+			item.DeviceId || '',
 			item.device_Name,
 			item.device_Location,
 			item.activity,
 			item.user_name,
-			dayjs(item.entryDate).format('DD/MM/YYYY HH:mm:ss A')
+			dayjs(item.entryDate).format('DD/MM/YYYY HH:mm-A')
 		])
 	})
 
@@ -101,9 +105,10 @@ export const pdfExport = (data: LogType[], heading: string) => {
 			0: { cellWidth: 15 },
 			1: { cellWidth: columnWidth },
 			2: { cellWidth: columnWidth },
-			3: { cellWidth: columnWidth + (2 * columnWidth - 37) },
-			4: { cellWidth: 22 },
-			5: { cellWidth: columnWidth }
+			3: { cellWidth: columnWidth },
+			4: { cellWidth: columnWidth + (2 * columnWidth - 40) },
+			5: { cellWidth: 22 },
+			6: { cellWidth: columnWidth + 2 }
 		},
 		margin: { left: margin, right: margin, top: margin, bottom: margin }
 	})

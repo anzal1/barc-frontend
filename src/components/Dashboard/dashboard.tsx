@@ -49,6 +49,7 @@ type ReducerState = {
 }
 
 export const Dashboard = () => {
+	const user: any = useRecoilValue(userState)
 	const [state, dispatch] = useReducer(
 		(state: ReducerState, action: any): any => {
 			switch (action.type) {
@@ -108,16 +109,16 @@ export const Dashboard = () => {
 	const { mutate: insertAcknowledgementFn, isPending: isInsertAcknowledgementPending } =
 		useInsertAcknowledgementMutation()
 
-	const user: any = useRecoilValue(userState)
-
 	const handleShowLiveActivity = () => {
 		if (!state.currentPoint || !state.currentPoint.rtsp) return
 		dispatch({ type: 'ADD_ACTIVE_POINT' })
 	}
 
-	const { data: deviceList }: { data: any; isLoading: boolean } = useGetDeviceMasterListQuery(
-		user?.role?.roleID || '1234'
-	)
+	const { data: deviceList, refetch } = useGetDeviceMasterListQuery(user?.role?.roleID || '1234')
+
+	useEffect(() => {
+		refetch()
+	}, [user?.role])
 
 	useEffect(() => {
 		if (!deviceList) return
@@ -164,6 +165,8 @@ export const Dashboard = () => {
 			}
 		})
 	}
+
+	console.log(state.currentPoint)
 
 	return (
 		<div className="flex h-full w-full items-start justify-start gap-4 bg-white px-3 py-2">
@@ -294,21 +297,27 @@ export const Dashboard = () => {
 							<p>Device Name: {state.currentPoint?.deviceName}</p>
 							<p>Location: {state.currentPoint?.location}</p>
 						</div>
-						<div className="flex w-full flex-col gap-2">
-							<button
-								disabled={isInsertAcknowledgementPending || !state.currentPoint?.deviceNumber}
-								onClick={handleInsertAcknowledgement}
-								className="h-10 w-full rounded-[10px] border-2 border-[#1C9FF6] bg-white text-xl text-[#1C9FF6]"
-							>
-								Acknowledge
-							</button>
-							<button
-								className="h-10 w-full rounded-[10px] bg-[#1C9FF6] text-xl text-white"
-								onClick={handleShowLiveActivity}
-							>
-								Show Live Activity
-							</button>
-						</div>
+
+						{user.role?.role_Name === 'BranchAdmin' ||
+						(user.role?.role_Name === 'Security' &&
+							(state.currentPoint?.status === 'offline' ||
+								state.currentPoint?.status === 'panic')) ? (
+							<div className="flex w-full flex-col gap-2">
+								<button
+									disabled={isInsertAcknowledgementPending || !state.currentPoint?.deviceNumber}
+									onClick={handleInsertAcknowledgement}
+									className="h-10 w-full rounded-[10px] border-2 border-[#1C9FF6] bg-white text-xl text-[#1C9FF6]"
+								>
+									Acknowledge
+								</button>
+								<button
+									className="h-10 w-full rounded-[10px] bg-[#1C9FF6] text-xl text-white"
+									onClick={handleShowLiveActivity}
+								>
+									Show Live Activity
+								</button>
+							</div>
+						) : null}
 					</div>
 				</Modal>
 

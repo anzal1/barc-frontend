@@ -139,6 +139,7 @@ export const DeviceReports = () => {
 										title: 'Sr. No.',
 										render: (_, __, index) => (pageNumber - 1) * 100 + index + 1
 									},
+									{ key: 'DeviceId', title: 'Device ID' },
 									{ key: 'device_Name', title: 'Device Name' },
 									{ key: 'device_Location', title: 'Device Location' },
 									{
