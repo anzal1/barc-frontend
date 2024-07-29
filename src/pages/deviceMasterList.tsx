@@ -176,8 +176,8 @@ const DeviceMasterList = () => {
 										title: 'Device Status',
 										render: (currentRow) => currentRow.status || 'NA'
 									},
-									{ key: 'x_value', title: 'X Value' },
-									{ key: 'y_value', title: 'Y Value' },
+									{ key: 'x_value', title: 'X Value', render: (d) => d.x_value?.toFixed(2) || '' },
+									{ key: 'y_value', title: 'Y Value', render: (d) => d.y_value?.toFixed(2) || '' },
 									{
 										key: 'actions',
 										title: 'Action',

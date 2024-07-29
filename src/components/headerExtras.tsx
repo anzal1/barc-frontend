@@ -48,10 +48,10 @@ const ShowCamera = () => {
 						data={data as any}
 						rootClassName="p-0 px-0 py-0 min-h-64"
 						columns={[
-							{ key: 'deviceName', title: 'deviceName' },
-							{ key: 'location', title: 'location' },
-							{ key: 'camereIp', title: 'camereIp' },
-							{ key: 'status', title: 'status' }
+							{ key: 'deviceName', title: 'Device Name' },
+							{ key: 'location', title: 'Location' },
+							{ key: 'camereIp', title: 'Camera IP' },
+							{ key: 'status', title: 'Status' }
 						]}
 					/>
 				)}
