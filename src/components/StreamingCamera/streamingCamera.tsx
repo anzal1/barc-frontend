@@ -1,43 +1,37 @@
 import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon'
-import { loadPlayer } from 'rtsp-relay/browser'
 import { useEffect, useRef, useState } from 'react'
+import { loadPlayer } from 'rtsp-relay/browser'
 
-const StreamingCamera = ({
-  url,
-  onRemove
-}: {
-  url: string
-  onRemove: () => void
-}) => {
-  const canvas = useRef<HTMLCanvasElement>(null)
-  const [loading, setLoading] = useState(true)
+const StreamingCamera = ({ url, onRemove }: { url: string; onRemove: () => void }) => {
+	const canvas = useRef<HTMLCanvasElement>(null)
+	const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    if (!url) return
-    if (!canvas?.current) throw new Error('Ref is null')
-    setLoading(true)
-    loadPlayer({
-      // sample_url: 'ws://localhost:2000/api/stream?url=rtsp://admin:Dsspl@123@103.97.243.100:554/1/1',
-      url: 'ws://localhost:2000/api/stream?url=' + url,
-      canvas: canvas.current
-    })
-    setLoading(false)
-  }, [])
+	useEffect(() => {
+		if (!url) return
+		if (!canvas?.current) throw new Error('Ref is null')
+		setLoading(true)
+		const maskedURL = url?.replace(/\?/g, '/question')?.replace(/&/g, '/and')
 
-  console.log('url:', url)
+		loadPlayer({
+			// sample_url: 'ws://localhost:2000/api/stream?url=rtsp://admin:Dsspl@123@103.97.243.100:554/1/1',
+			url: `ws://localhost:2000/api/stream/?url=${maskedURL}`,
+			canvas: canvas.current
+		})
+		setLoading(false)
+	}, [])
 
-  return (
-    <div className="relative">
-      {loading && <div>Loading...</div>}
+	return (
+		<div className="relative">
+			{loading && <div>Loading...</div>}
 
-      <XMarkIcon
-        onClick={onRemove}
-        className="cursor-pointer w-8 h-8 fill-current bg-[#1C9FF6] p-1 rounded-full absolute -top-2 -right-2"
-      />
+			<XMarkIcon
+				onClick={onRemove}
+				className="absolute -right-2 -top-2 h-8 w-8 cursor-pointer rounded-full bg-[#1C9FF6] fill-current p-1"
+			/>
 
-      <canvas className="h-[291px] w-[485px]" ref={canvas} />
-    </div>
-  )
+			<canvas className="h-[291px] w-[485px]" ref={canvas} />
+		</div>
+	)
 }
 
 export default StreamingCamera
