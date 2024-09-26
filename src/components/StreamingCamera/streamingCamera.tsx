@@ -15,7 +15,7 @@ const StreamingCamera = ({ url, onRemove }: { url: string; onRemove: () => void 
 		loadPlayer({
 			// sample_url: 'ws://localhost:2000/api/stream?url=rtsp://admin:Dsspl@123@103.97.243.100:554/1/1',
 			// rtsp://admin:dsspl@123@103.97.243.100:554/cam/realmonitor?channel=1&subtype=1
-			url: `ws://localhost:4000/api/stream/?url=${getMaskedUrl('rtsp://admin:dsspl@123@103.97.243.100:554/cam/realmonitor?channel=1&subtype=1')}`,
+			url: `ws://localhost:4000/api/stream/?url=${getMaskedUrl(url)}`,
 			canvas: canvas.current
 		})
 		setLoading(false)
