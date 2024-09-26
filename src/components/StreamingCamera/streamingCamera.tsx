@@ -2,6 +2,8 @@ import XMarkIcon from '@heroicons/react/24/outline/XMarkIcon'
 import { useEffect, useRef, useState } from 'react'
 import { loadPlayer } from 'rtsp-relay/browser'
 
+const getMaskedUrl = (url?: string) => url?.replace(/\?/g, '/question')?.replace(/&/g, '/and')
+
 const StreamingCamera = ({ url, onRemove }: { url: string; onRemove: () => void }) => {
 	const canvas = useRef<HTMLCanvasElement>(null)
 	const [loading, setLoading] = useState(true)
@@ -10,11 +12,10 @@ const StreamingCamera = ({ url, onRemove }: { url: string; onRemove: () => void 
 		if (!url) return
 		if (!canvas?.current) throw new Error('Ref is null')
 		setLoading(true)
-		const maskedURL = url?.replace(/\?/g, '/question')?.replace(/&/g, '/and')
-
 		loadPlayer({
 			// sample_url: 'ws://localhost:2000/api/stream?url=rtsp://admin:Dsspl@123@103.97.243.100:554/1/1',
-			url: `ws://localhost:2000/api/stream/?url=${maskedURL}`,
+			// rtsp://admin:dsspl@123@103.97.243.100:554/cam/realmonitor?channel=1&subtype=1
+			url: `ws://localhost:4000/api/stream/?url=${getMaskedUrl('rtsp://admin:dsspl@123@103.97.243.100:554/cam/realmonitor?channel=1&subtype=1')}`,
 			canvas: canvas.current
 		})
 		setLoading(false)
